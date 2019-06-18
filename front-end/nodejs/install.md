@@ -48,7 +48,7 @@ nvm use v6       # 切换到某个版本
 
 ```bash
 cd /opt
-wget http://cdn.npm.taobao.org/dist/node/v8.9.0/node-v10.0.0-linux-x64.tar.gz
+wget http://cdn.npm.taobao.org/dist/node/v10.0.0/node-v10.0.0-linux-x64.tar.gz
 tar xzvf node-v10.0.0-linux-x64.tar.gz
 echo 'export PATH="/opt/node-v10.0.0-linux-x64/bin:$PATH"' >> ~/.bashrc
 source ~/.bashrc
