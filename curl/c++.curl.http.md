@@ -126,12 +126,12 @@ CURLOPT_CONNECTIONTIMEOUT 设置连接等待时间
 
 断点续传相关设置。
 
-CURLOPT_RANGE 指定char *参数传递给libcurl，用于指明http域的RANGE头域，例如：
-  表示头500个字节：bytes=0-499
-  表示第二个500字节：bytes=500-999
-  表示最后500个字节：bytes=-500
-  表示500字节以后的范围：bytes=500-
-  第一个和最后一个字节：bytes=0-0,-1
+CURLOPT_RANGE 指定char *参数传递给libcurl，用于指明http域的RANGE头域，例如：  
+  表示头500个字节：bytes=0-499  
+  表示第二个500字节：bytes=500-999  
+  表示最后500个字节：bytes=-500  
+  表示500字节以后的范围：bytes=500-  
+  第一个和最后一个字节：bytes=0-0,-1  
   同时指定几个范围：bytes=500-600,601-999
 
 CURLOPT_RESUME_FROM 传递一个long参数给libcurl，指定你希望开始传递的 偏移量。
