@@ -208,8 +208,7 @@ headers = curl_slist_append(headers, "Accept:");
 
 ## 6. 获取http应答头信息
 
-发出http请求后，服务器会返回应答头信息和应答数据，如果仅仅是打印应答头的所有内容，则直接可以通过`curl_easy_setopt(curl, CURLOPT_HEADERFUNCTION, 打印函数)` 的方式来完成，这里需要获取的是应答头中特定的信息，比如应答码、cookies列表等，则需要通过下面这个函数：
-
+发出http请求后，服务器会返回应答头信息和应答数据，如果仅仅是打印应答头的所有内容，则直接可以通过`curl_easy_setopt(curl, CURLOPT_HEADERFUNCTION, 打印函数)` 的方式来完成，这里需要获取的是应答头中特定的信息，比如应答码、cookies列表等，则需要通过下面这个函数：  
 `CURLcode curl_easy_getinfo(CURL *curl, CURLINFO info, ... )`;
 
 info参数就是我们需要获取的内容，下面是一些参数值:
@@ -235,23 +234,33 @@ libcurl是线程安全的，但有两点例外：信号(signals)和SSL/TLS handl
 
 NSS: 宣称是多线程安全的。
 
-八、什么时候libcurl无法正常工作
-    传输失败总是有原因的。你可能错误的设置了一些libcurl的属性或者没有正确的理解某些属性的含义，或者是远程主机返回一些无法被正确解析的内容。
-    这里有一个黄金法则来处理这些问题：将CURLOPT_VERBOSE属性设置为1，libcurl会输出通信过程中的一些细节。如果使用的是http协 议，请求头/响应头也会被输出。将CURLOPT_HEADER设为1，这些头信息将出现在消息的内容中。
-    当然不可否认的是，libcurl还存在bug。
-    如果你对相关的协议了解越多，在使用libcurl时，就越不容易犯错。
+## 8. 什么时候libcurl无法正常工作
 
-九、关于密码
-    客户端向服务器发送请求时，许多协议都要求提供用户名与密码。libcurl提供了多种方式来设置它们。
-    一些协议支持在URL中直接指定用户名和密码，类似于： protocol://user:password@example.com/path/。libcurl能正确的识别这种URL中的用户名与密码并执行 相应的操作。如果你提供的用户名和密码中有特殊字符，首先应该对其进行URL编码。
-    也可以通过CURLOPT_USERPWD属性来设置用户名与密码。参数是格式如 “user:password ”的字符串：
-    curl_easy_setopt(easy_handle, CURLOPT_USERPWD, "user_name:password"); 
-    有时候在访问代理服务器的时候，可能时时要求提供用户名和密码进行用户身份验证。这种情况下，libcurl提供了另 一个属性CURLOPT_PROXYUSERPWD：
-    curl_easy_setopt(easy_handle, CURLOPT_PROXYUSERPWD, "user_name:password"); 
-    在UNIX平台下，访问FTP的用户名和密码可能会被保存在$HOME/.netrc文件中。libcurl支持直接从这个文件中获取用户名与密码：
-    curl_easy_setopt(easy_handle, CURLOPT_NETRC, 1L); 
-    在使用SSL时，可能需要提供一个私钥用于数据安全传输，通过CURLOPT_KEYPASSWD来设置私钥：
-    curl_easy_setopt(easy_handle, CURLOPT_KEYPASSWD, "keypassword");
+传输失败总是有原因的。你可能错误的设置了一些libcurl的属性或者没有正确的理解某些属性的含义，或者是远程主机返回一些无法被正确解析的内容。
+
+这里有一个黄金法则来处理这些问题：将CURLOPT_VERBOSE属性设置为1，libcurl会输出通信过程中的一些细节。如果使用的是http协议，请求头/响应头也会被输出。将CURLOPT_HEADER设为1，这些头信息将出现在消息的内容中。
+
+当然不可否认的是，libcurl还存在bug。
+
+## 9. 关于密码
+
+客户端向服务器发送请求时，许多协议都要求提供用户名与密码。libcurl提供了多种方式来设置它们。
+
+一些协议支持在URL中直接指定用户名和密码，类似于： `protocol://user:password@example.com/path/`。
+
+libcurl能正确的识别这种URL中的用户名与密码并执行相应的操作。如果你提供的用户名和密码中有特殊字符，首先应该对其进行URL编码。
+
+也可以通过CURLOPT_USERPWD属性来设置用户名与密码。参数是格式如 “user:password ”的字符串：  
+`curl_easy_setopt(easy_handle, CURLOPT_USERPWD, "user_name:password")`
+
+有时候在访问代理服务器的时候，可能时时要求提供用户名和密码进行用户身份验证。这种情况下，libcurl提供了另一个属性CURLOPT_PROXYUSERPWD：  
+`curl_easy_setopt(easy_handle, CURLOPT_PROXYUSERPWD, "user_name:password")`;
+
+在UNIX平台下，访问FTP的用户名和密码可能会被保存在$HOME/.netrc文件中。libcurl支持直接从这个文件中获取用户名与密码：  
+`curl_easy_setopt(easy_handle, CURLOPT_NETRC, 1L)`;
+
+在使用SSL时，可能需要提供一个私钥用于数据安全传输，通过CURLOPT_KEYPASSWD来设置私钥：  
+`curl_easy_setopt(easy_handle, CURLOPT_KEYPASSWD, "keypassword")`;
 
 十、HTTP验证
     在使用HTTP协议时，客户端有很多种方式向服务器提供验证信息。默认的 HTTP验证方法是"Basic”，它将用户名与密码以明文的方式、经Base64编码后保存在HTTP请求头中，发往服务器。当然这不太安全。
