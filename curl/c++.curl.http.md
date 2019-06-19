@@ -19,11 +19,11 @@ libcurl是一个跨平台的网络协议库，支持http, https, ftp, gopher, te
 
 ## 2. 一些基本的函数
 
-### 2.1 CURLcode curl_global_init(long flags);
+### 2.1 CURLcode curl_global_init(long flags)
 
 * 描述  
 这个函数只能用一次。(其实在调用curl_global_cleanup 函数后仍然可再用)
-如果这个函数在curl_easy_init函数调用时还没调用，它讲由libcurl库自动调用，所以多线程下最好主动调用该函数以防止在线程中curl_easy_init时多次调用。
+如果这个函数在curl_easy_init函数调用时还没调用，它将由libcurl库自动调用，所以多线程下最好主动调用该函数以防止在线程中curl_easy_init时多次调用。
 
 > 虽然libcurl是线程安全的，但curl_global_init是不能保证线程安全的，所以不要在每个线程中都调用curl_global_init，应该将该函数的调用放在主线程中。
 
@@ -33,42 +33,58 @@ CURL_GLOBAL_SSL     //初始化支持 安全套接字层。
 CURL_GLOBAL_WIN32   //初始化win32套接字库。
 CURL_GLOBAL_NOTHING //没有额外的初始化。
 
-2 void curl_global_cleanup(void);
-描述：在结束libcurl使用的时候，用来对curl_global_init做的工作清理。类似于close的函数。
-注意：虽然libcurl是线程安全的，但curl_global_cleanup是不能保证线程安全的，所以不要在每个线程中都调用curl_global_init，应该将该函数的调用放在主线程中。
+### 2.2 void curl_global_cleanup(void)
 
-3 char *curl_version( );
-描述: 打印当前libcurl库的版本。
+* 描述：  
+在结束libcurl使用的时候，用来对curl_global_init做的工作清理。类似于close的函数。
 
-4 CURL *curl_easy_init( );
-描述:
-curl_easy_init用来初始化一个CURL的指针(有些像返回FILE类型的指针一样). 相应的在调用结束时要用curl_easy_cleanup函数清理.
+### 2.3 char *curl_version()
+
+* 描述:  
+打印当前libcurl库的版本。
+
+### 2.4 CURL *curl_easy_init()
+
+* 描述:  
+curl_easy_init用来初始化一个CURL的指针(有些像返回FILE类型的指针一样). 相应的在调用结束时要用curl_easy_cleanup函数清理.  
 一般curl_easy_init意味着一个会话的开始. 它会返回一个easy_handle(CURL*对象), 一般都用在easy系列的函数中.
 
-5 void curl_easy_cleanup(CURL *handle);
-描述:
+### 2.5 void curl_easy_cleanup(CURL *handle)
+
+* 描述:  
 这个调用用来结束一个会话.与curl_easy_init配合着用. 
-参数:
+
+* 参数:  
 CURL类型的指针.
 
-6 CURLcode curl_easy_setopt(CURL *handle, CURLoption option, parameter);
-描述: 这个函数最重要了.几乎所有的curl 程序都要频繁的使用它.它告诉curl库.程序将有如何的行为. 比如要查看一个网页的html代码等.(这个函数有些像ioctl函数)参数:
-1 CURL类型的指针
-2 各种CURLoption类型的选项.(都在curl.h库里有定义,man 也可以查看到)
-3 parameter 这个参数 既可以是个函数的指针,也可以是某个对象的指针,也可以是个long型的变量.它用什么这取决于第二个参数.
-CURLoption 这个参数的取值很多.具体的可以查看man手册.
+### 2.6 CURLcode curl_easy_setopt(CURL *handle, CURLoption option, parameter)
 
-7 CURLcode curl_easy_perform(CURL *handle);
-描述:这个函数在初始化CURL类型的指针 以及curl_easy_setopt完成后调用. 就像字面的意思所说perform就像是个舞台.让我们设置的
-option 运作起来.参数:
+* 描述:  
+这个函数最重要了.几乎所有的curl 程序都要频繁的使用它.它告诉curl库.程序将有如何的行为. 比如要查看一个网页的html代码等. (这个函数有些像ioctl函数)
+
+* 参数:  
+handle CURL类型的指针
+option 各种CURLoption类型的选项.(都在curl.h库里有定义,man 也可以查看到)
+parameter 这个参数,既可以是个函数的指针,也可以是某个对象的指针,也可以是个long型的变量.它用什么这取决于第二个参数.
+
+### 2.7 CURLcode curl_easy_perform(CURL *handle)
+
+* 描述:  
+这个函数在初始化CURL类型的指针,以及curl_easy_setopt完成后调用. 就像字面的意思所说perform就像是个舞台.让我们设置的option运作起来.
+
+* 参数:  
 CURL类型的指针.
 
-三、 curl_easy_setopt函数部分选项介绍
+## 3. curl_easy_setopt函数部分选项介绍
+
 本节主要介绍curl_easy_setopt中跟http相关的参数。该函数是curl中非常重要的函数，curl所有设置都是在该函数中完成的，该函数的设置选项众多，注意本节的阐述的只是部分常见选项。
-1.     CURLOPT_URL 
+
+### 3.1 CURLOPT_URL
+
 设置访问URL
 
-2.       CURLOPT_WRITEFUNCTION，CURLOPT_WRITEDATA
+### 3.2 CURLOPT_WRITEFUNCTION，CURLOPT_WRITEDATA
+
 回调函数原型为：size_t function( void *ptr, size_t size, size_t nmemb, void *stream); 函数将在libcurl接收到数据后被调用，因此函数多做数据保存的功能，如处理下载文件。CURLOPT_WRITEDATA 用于表明CURLOPT_WRITEFUNCTION函数中的stream指针的来源。
 如果你没有通过CURLOPT_WRITEFUNCTION属性给easy handle设置回调函数，libcurl会提供一个默认的回调函数，它只是简单的将接收到的数据打印到标准输出。你也可以通过 CURLOPT_WRITEDATA属性给默认回调函数传递一个已经打开的文件指针，用于将数据输出到文件里。
 
