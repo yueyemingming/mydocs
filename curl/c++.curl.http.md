@@ -126,54 +126,63 @@ CURLOPT_CONNECTIONTIMEOUT 设置连接等待时间
 
 断点续传相关设置。
 
-CURLOPT_RANGE 指定char *参数传递给libcurl，用于指明http域的RANGE头域，例如：  
-  表示头500个字节：bytes=0-499  
-  表示第二个500字节：bytes=500-999  
-  表示最后500个字节：bytes=-500  
-  表示500字节以后的范围：bytes=500-  
-  第一个和最后一个字节：bytes=0-0,-1  
-  同时指定几个范围：bytes=500-600,601-999
+CURLOPT_RANGE 指定char *参数传递给libcurl，用于指明http域的RANGE头域，例如：
+
+* 表示头500个字节：bytes=0-499
+* 表示第二个500字节：bytes=500-999
+* 表示最后500个字节：bytes=-500
+* 表示500字节以后的范围：bytes=500-
+* 第一个和最后一个字节：bytes=0-0,-1
+* 同时指定几个范围：bytes=500-600,601-999
 
 CURLOPT_RESUME_FROM 传递一个long参数给libcurl，指定你希望开始传递的 偏移量。
 
 ## 4. curl_easy_perform 函数说明（error 状态码）
 
-该函数是完成curl_easy_setopt指定的所有选项，本节重点介绍curl_easy_perform的返回值。返回0意味一切ok，非0代表错误发生。主要错误码说明：
-1.    CURLE_OK 
-    任务完成一切都好
-2     CURLE_UNSUPPORTED_PROTOCOL
-    不支持的协议，由URL的头部指定
-3     CURLE_COULDNT_CONNECT
-    不能连接到remote 主机或者代理
-4     CURLE_REMOTE_ACCESS_DENIED
-    访问被拒绝
-5     CURLE_HTTP_RETURNED_ERROR
-    Http返回错误
-6     CURLE_READ_ERROR
-读本地文件错误
-要获取详细的错误描述字符串，可以通过const char *curl_easy_strerror(CURLcode errornum ) 这个函数取得.
- 
-五、libcurl使用的HTTP消息头
-    当使用libcurl发送http请求时，它会自动添加一些http头。我们可以通过CURLOPT_HTTPHEADER属性手动替换、添加或删除相应 的HTTP消息头。
-    Host
-    http1.1（大部分http1.0)版本都要求客户端请求提供这个信息头。
-    Pragma
-    "no-cache"。表示不要缓冲数据。
-    Accept
-    "*/*"。表示允许接收任何类型的数据。
-    Expect
-    以POST的方式向HTTP服务器提交请求时，libcurl会设置该消息头为"100-continue"，它要求服务器在正式处理该请求之前，返回一 个"OK"消息。如果POST的数据很小，libcurl可能不会设置该消息头。
-自定义选项
-    当前越来越多的协议都构建在HTTP协议之上（如：soap），这主要归功于HTTP的可靠性，以及被广泛使用的代理支持（可以穿透大部分防火墙）。 这些协议的使用方式与传统HTTP可能有很大的不同。对此，libcurl作了很好的支持。
-    自定义请求方式(CustomRequest)
-    HTTP支持GET, HEAD或者POST提交请求。可以设置CURLOPT_CUSTOMREQUEST来设置自定义的请求方式，libcurl默认以GET方式提交请求：
-    curl_easy_setopt(easy_handle, CURLOPT_CUSTOMREQUEST, "MYOWNREQUEST"); 
+该函数是完成curl_easy_setopt指定的所有选项，本节重点介绍curl_easy_perform的返回值。
 
-修改消息头
-    HTTP协议提供了消息头，请求消息头用于告诉服务器如何处理请求；响应消息头则告诉浏览器如何处理接收到的数据。在libcurl中，你可以自由的添加 这些消息头：
+返回0意味一切ok，非0代表错误发生。主要错误码说明：
 
-复制代码
-复制代码
+代码 | 含义
+:--- | :---
+CURLE_OK | 任务完成一切都好
+CURLE_UNSUPPORTED_PROTOCOL | 不支持的协议，由URL的头部指定
+CURLE_COULDNT_CONNECT | 不能连接到remote 主机或者代理
+CURLE_REMOTE_ACCESS_DENIED | 访问被拒绝
+CURLE_HTTP_RETURNED_ERROR | Http返回错误
+CURLE_READ_ERROR | 读本地文件错误
+
+要获取详细的错误描述字符串，可以通过 `const char *curl_easy_strerror(CURLcode errornum)` 这个函数取得.
+
+## 5. libcurl使用的HTTP消息头
+
+当使用libcurl发送http请求时，它会自动添加一些http头。
+
+我们可以通过CURLOPT_HTTPHEADER属性手动替换、添加或删除相应的HTTP消息头。
+
+消息 | 含义
+:--- | :---
+Host | -
+http1.1 | （大部分http1.0)版本都要求客户端请求提供这个信息头。
+Pragma | -
+"no-cache" | 表示不要缓冲数据。
+Accept | -
+"*/*" | 表示允许接收任何类型的数据。
+Expect | -
+
+以POST的方式向HTTP服务器提交请求时，libcurl会设置该消息头为"100-continue"，它要求服务器在正式处理该请求之前，返回一个"OK"消息。如果POST的数据很小，libcurl可能不会设置该消息头。
+
+* 自定义选项  
+当前越来越多的协议都构建在HTTP协议之上（如：soap），这主要归功于HTTP的可靠性，以及被广泛使用的代理支持（可以穿透大部分防火墙）。这些协议的使用方式与传统HTTP可能有很大的不同。对此，libcurl作了很好的支持。
+  * 自定义请求方式(CustomRequest)  
+    HTTP支持GET, HEAD或者POST提交请求。  
+    可以设置CURLOPT_CUSTOMREQUEST来设置自定义的请求方式，libcurl默认以GET方式提交请求：
+    `curl_easy_setopt(easy_handle, CURLOPT_CUSTOMREQUEST, "MYOWNREQUEST")`;
+
+* 修改消息头  
+HTTP协议提供了消息头，请求消息头用于告诉服务器如何处理请求；响应消息头则告诉浏览器如何处理接收到的数据。在libcurl中，你可以自由的添加 这些消息头：
+
+```c
 struct curl_slist *headers=NULL; /* init to NULL is important */
 headers = curl_slist_append(headers, "Hey-server-hey: how are you?");
 headers = curl_slist_append(headers, "X-silly-content: yes");
@@ -181,21 +190,25 @@ headers = curl_slist_append(headers, "X-silly-content: yes");
 curl_easy_setopt(easyhandle, CURLOPT_HTTPHEADER, headers);
 curl_easy_perform(easyhandle); /* transfer http */
 curl_slist_free_all(headers); /* free the header list */
-复制代码
-复制代码
+```
+
 对于已经存在的消息头，可以重新设置它的值：
 
+```c
 headers = curl_slist_append(headers, "Accept: Agent-007"); 
 headers = curl_slist_append(headers, "Host: munged.host.line"); 
-删除消息头
+```
+
+* 删除消息头  
 对于一个已经存在的消息头，设置它的内容为空，libcurl在发送请求时就不会同时提交该消息头：
 
+```c
 headers = curl_slist_append(headers, "Accept:");
- 
+```
 
-六、获取http应答头信息
+## 6. 获取http应答头信息
 
-    发出http请求后，服务器会返回应答头信息和应答数据，如果仅仅是打印应答头的所有内容，则直接可以通过curl_easy_setopt(curl, CURLOPT_HEADERFUNCTION, 打印函数)的方式来完成，这里需要获取的是应答头中特定的信息，比如应答码、cookies列表等，则需要通过下面这个函数：
+发出http请求后，服务器会返回应答头信息和应答数据，如果仅仅是打印应答头的所有内容，则直接可以通过curl_easy_setopt(curl, CURLOPT_HEADERFUNCTION, 打印函数)的方式来完成，这里需要获取的是应答头中特定的信息，比如应答码、cookies列表等，则需要通过下面这个函数：
     CURLcode curl_easy_getinfo(CURL *curl, CURLINFO info, ... ); 
     info参数就是我们需要获取的内容，下面是一些参数值:
     1.CURLINFO_RESPONSE_CODE
