@@ -10,7 +10,7 @@
 * [c](c/readme.md)
 * [c++](c++/readme.md)
 * 开源库
-  * [curl](curl/readme.md)
+  * [curl](lib/curl/readme.md)
 * [设计模式](design.patten/readme.md)
 * [linux系统编程](apue/readme.md)
 * 消息
