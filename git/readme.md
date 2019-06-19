@@ -10,8 +10,8 @@ apt -y install git
 
 * [git使用](git.md)
 * [git中文支持](git.chinese.md)
-* [github使用](github.md)
-* [git push 传文件时出错505的原因之一](git.push.error.505.md)
+* [github使用](github/github.use.md)
+* [git push 传文件时出错505的原因之一](github/git.push.error.505.md)
 * [gitlab安装使用](gitlab.install/readme.md)
 
 ## books
