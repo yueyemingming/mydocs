@@ -85,17 +85,19 @@ CURL类型的指针.
 
 ### 3.2 CURLOPT_WRITEFUNCTION，CURLOPT_WRITEDATA
 
-回调函数原型为：**size_t function( void *ptr, size_t size, size_t nmemb, void *stream);**
+回调函数原型为：**size_t function( void *ptr, size_t size, size_t nmemb, void *stream)**
 
 函数将在libcurl接收到数据后被调用，因此函数多做数据保存的功能，如处理下载文件。
 
 CURLOPT_WRITEDATA 用于表明CURLOPT_WRITEFUNCTION函数中的stream指针的来源。
 
-如果你没有通过CURLOPT_WRITEFUNCTION属性给easy handle设置回调函数，libcurl会提供一个默认的回调函数，它只是简单的将接收到的数据打印到标准输出。你也可以通过CURLOPT_WRITEDATA属性给默认回调函数传递一个已经打开的文件指针，用于将数据输出到文件里。
+如果你没有通过CURLOPT_WRITEFUNCTION属性给easy handle设置回调函数，libcurl会提供一个默认的回调函数，它只是简单的将接收到的数据打印到标准输出。
+
+你也可以通过CURLOPT_WRITEDATA属性给默认回调函数传递一个已经打开的文件指针，用于将数据输出到文件里。
 
 ### 3.3 CURLOPT_HEADERFUNCTION，CURLOPT_HEADERDATA
 
-回调函数原型为: **size_t function( void *ptr, size_t size,size_t nmemb, void *stream);**
+回调函数原型为: **size_t function( void *ptr, size_t size,size_t nmemb, void *stream)**
 
 libcurl一旦接收到http 头部数据后将调用该函数。CURLOPT_WRITEDATA 传递指针给libcurl，该指针表明CURLOPT_HEADERFUNCTION 函数的stream指针的来源。
 
