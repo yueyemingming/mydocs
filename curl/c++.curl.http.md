@@ -85,35 +85,57 @@ CURL类型的指针.
 
 ### 3.2 CURLOPT_WRITEFUNCTION，CURLOPT_WRITEDATA
 
-回调函数原型为：size_t function( void *ptr, size_t size, size_t nmemb, void *stream); 函数将在libcurl接收到数据后被调用，因此函数多做数据保存的功能，如处理下载文件。CURLOPT_WRITEDATA 用于表明CURLOPT_WRITEFUNCTION函数中的stream指针的来源。
-如果你没有通过CURLOPT_WRITEFUNCTION属性给easy handle设置回调函数，libcurl会提供一个默认的回调函数，它只是简单的将接收到的数据打印到标准输出。你也可以通过 CURLOPT_WRITEDATA属性给默认回调函数传递一个已经打开的文件指针，用于将数据输出到文件里。
+回调函数原型为：**size_t function( void *ptr, size_t size, size_t nmemb, void *stream);**
 
-3.      CURLOPT_HEADERFUNCTION，CURLOPT_HEADERDATA
-回调函数原型为 size_t function( void *ptr, size_t size,size_t nmemb, void *stream); libcurl一旦接收到http 头部数据后将调用该函数。CURLOPT_WRITEDATA 传递指针给libcurl，该指针表明CURLOPT_HEADERFUNCTION 函数的stream指针的来源。
+函数将在libcurl接收到数据后被调用，因此函数多做数据保存的功能，如处理下载文件。
 
-4.       CURLOPT_READFUNCTION CURLOPT_READDATA
-libcurl需要读取数据传递给远程主机时将调用CURLOPT_READFUNCTION指定的函数，函数原型是：size_t function(void *ptr, size_t size, size_t nmemb,void *stream). CURLOPT_READDATA 表明CURLOPT_READFUNCTION函数原型中的stream指针来源。
+CURLOPT_WRITEDATA 用于表明CURLOPT_WRITEFUNCTION函数中的stream指针的来源。
 
-5.       CURLOPT_NOPROGRESS，CURLOPT_PROGRESSFUNCTION，CURLOPT_PROGRESSDATA
-跟数据传输进度相关的参数。CURLOPT_PROGRESSFUNCTION 指定的函数正常情况下每秒被libcurl调用一次，为了使CURLOPT_PROGRESSFUNCTION被调用，CURLOPT_NOPROGRESS必须被设置为false，CURLOPT_PROGRESSDATA指定的参数将作为CURLOPT_PROGRESSFUNCTION指定函数的第一个参数
+如果你没有通过CURLOPT_WRITEFUNCTION属性给easy handle设置回调函数，libcurl会提供一个默认的回调函数，它只是简单的将接收到的数据打印到标准输出。你也可以通过CURLOPT_WRITEDATA属性给默认回调函数传递一个已经打开的文件指针，用于将数据输出到文件里。
 
-6.       CURLOPT_TIMEOUT，CURLOPT_CONNECTIONTIMEOUT:
-CURLOPT_TIMEOUT 由于设置传输时间，CURLOPT_CONNECTIONTIMEOUT 设置连接等待时间
+### 3.3 CURLOPT_HEADERFUNCTION，CURLOPT_HEADERDATA
 
-7.       CURLOPT_FOLLOWLOCATION
+回调函数原型为: **size_t function( void *ptr, size_t size,size_t nmemb, void *stream);**
+
+libcurl一旦接收到http 头部数据后将调用该函数。CURLOPT_WRITEDATA 传递指针给libcurl，该指针表明CURLOPT_HEADERFUNCTION 函数的stream指针的来源。
+
+### 3.4 CURLOPT_READFUNCTION CURLOPT_READDATA
+
+libcurl需要读取数据传递给远程主机时将调用CURLOPT_READFUNCTION指定的函数，函数原型是：**size_t function(void *ptr, size_t size, size_t nmemb,void *stream)**.
+
+CURLOPT_READDATA 表明CURLOPT_READFUNCTION函数原型中的stream指针来源。
+
+### 3.5 CURLOPT_NOPROGRESS，CURLOPT_PROGRESSFUNCTION，CURLOPT_PROGRESSDATA
+
+跟数据传输进度相关的参数。
+
+CURLOPT_PROGRESSFUNCTION 指定的函数正常情况下每秒被libcurl调用一次，为了使CURLOPT_PROGRESSFUNCTION被调用，CURLOPT_NOPROGRESS必须被设置为false，CURLOPT_PROGRESSDATA指定的参数将作为CURLOPT_PROGRESSFUNCTION指定函数的第一个参数
+
+### 3.6 CURLOPT_TIMEOUT，CURLOPT_CONNECTIONTIMEOUT
+
+CURLOPT_TIMEOUT 由于设置传输时间  
+CURLOPT_CONNECTIONTIMEOUT 设置连接等待时间
+
+### 3.7 CURLOPT_FOLLOWLOCATION
+
 设置重定位URL
 
-8.       CURLOPT_RANGE: CURLOPT_RESUME_FROM:
-断点续传相关设置。CURLOPT_RANGE 指定char *参数传递给libcurl，用于指明http域的RANGE头域，例如：
-表示头500个字节：bytes=0-499
-表示第二个500字节：bytes=500-999
-表示最后500个字节：bytes=-500
-表示500字节以后的范围：bytes=500-
-第一个和最后一个字节：bytes=0-0,-1
-同时指定几个范围：bytes=500-600,601-999
+### 3.8  CURLOPT_RANGE: CURLOPT_RESUME_FROM
+
+断点续传相关设置。
+
+CURLOPT_RANGE 指定char *参数传递给libcurl，用于指明http域的RANGE头域，例如：
+  表示头500个字节：bytes=0-499
+  表示第二个500字节：bytes=500-999
+  表示最后500个字节：bytes=-500
+  表示500字节以后的范围：bytes=500-
+  第一个和最后一个字节：bytes=0-0,-1
+  同时指定几个范围：bytes=500-600,601-999
+
 CURLOPT_RESUME_FROM 传递一个long参数给libcurl，指定你希望开始传递的 偏移量。
 
-四、 curl_easy_perform 函数说明（error 状态码）
+## 4. curl_easy_perform 函数说明（error 状态码）
+
 该函数是完成curl_easy_setopt指定的所有选项，本节重点介绍curl_easy_perform的返回值。返回0意味一切ok，非0代表错误发生。主要错误码说明：
 1.    CURLE_OK 
     任务完成一切都好
