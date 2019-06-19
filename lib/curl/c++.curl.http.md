@@ -368,7 +368,7 @@ gcc get_post.c  -o get_post –lcurl
 int main(int argc, char *argv[])
 {
     CURL *curl;             //定义CURL类型的指针
-CURLcode res;           //定义CURLcode类型的变量，保存返回状态码
+    CURLcode res;           //定义CURLcode类型的变量，保存返回状态码
     if(argc!=2)
     {
         printf("Usage : file <url>;\n");
@@ -430,7 +430,8 @@ int main(int argc, char *argv[])
         curl_easy_cleanup(curl);
         exit(1);
     }
-////CURLOPT_WRITEFUNCTION 将后继的动作交给write_data函数处理
+
+    //CURLOPT_WRITEFUNCTION 将后继的动作交给write_data函数处理
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_data);  
     curl_easy_perform(curl);
     curl_easy_cleanup(curl);
@@ -441,7 +442,7 @@ int main(int argc, char *argv[])
 编译运行
 
 ```bash
-gcc  save_http.c  -o save_http –lcurl
+gcc save_http.c -o save_http –lcurl
 ./save_http www.baidu.com
 /tmp/baidu
 ```
@@ -459,7 +460,7 @@ gcc  save_http.c  -o save_http –lcurl
 #include <curl/easy.h> /* new for v7 */
 
 GtkWidget *Bar;
-////这个函数是为了符合CURLOPT_WRITEFUNCTION而构造的
+//这个函数是为了符合CURLOPT_WRITEFUNCTION而构造的
 //完成数据保存功能
 size_t my_write_func(void *ptr, size_t size, size_t nmemb, FILE *stream)
 {
