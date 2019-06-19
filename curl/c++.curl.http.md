@@ -85,7 +85,7 @@ CURL类型的指针.
 
 ### 3.2 CURLOPT_WRITEFUNCTION，CURLOPT_WRITEDATA
 
-回调函数原型为：**size_t function( void *ptr, size_t size, size_t nmemb, void *stream)**
+回调函数原型为：**size_t function( void \*ptr, size_t size, size_t nmemb, void \*stream)**
 
 函数将在libcurl接收到数据后被调用，因此函数多做数据保存的功能，如处理下载文件。
 
@@ -97,7 +97,7 @@ CURLOPT_WRITEDATA 用于表明CURLOPT_WRITEFUNCTION函数中的stream指针的�
 
 ### 3.3 CURLOPT_HEADERFUNCTION，CURLOPT_HEADERDATA
 
-回调函数原型为: **size_t function( void *ptr, size_t size,size_t nmemb, void *stream)**
+回调函数原型为: **size_t function( void \*ptr, size_t size,size_t nmemb, void \*stream)**
 
 libcurl一旦接收到http 头部数据后将调用该函数。CURLOPT_WRITEDATA 传递指针给libcurl，该指针表明CURLOPT_HEADERFUNCTION 函数的stream指针的来源。
 
