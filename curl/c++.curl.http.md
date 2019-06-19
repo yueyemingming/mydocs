@@ -135,7 +135,7 @@ CURLOPT_RANGE 指定char *参数传递给libcurl，用于指明http域的RANGE�
 * 第一个和最后一个字节：bytes=0-0,-1
 * 同时指定几个范围：bytes=500-600,601-999
 
-CURLOPT_RESUME_FROM 传递一个long参数给libcurl，指定你希望开始传递的 偏移量。
+CURLOPT_RESUME_FROM 传递一个long参数给libcurl，指定你希望开始传递的偏移量。
 
 ## 4. curl_easy_perform 函数说明（error 状态码）
 
@@ -160,7 +160,7 @@ CURLE_READ_ERROR | 读本地文件错误
 
 我们可以通过CURLOPT_HTTPHEADER属性手动替换、添加或删除相应的HTTP消息头。
 
-消息 | 含义
+参数 | 含义
 :--- | :---
 Host | -
 http1.1 | （大部分http1.0)版本都要求客户端请求提供这个信息头。
@@ -208,30 +208,32 @@ headers = curl_slist_append(headers, "Accept:");
 
 ## 6. 获取http应答头信息
 
-发出http请求后，服务器会返回应答头信息和应答数据，如果仅仅是打印应答头的所有内容，则直接可以通过curl_easy_setopt(curl, CURLOPT_HEADERFUNCTION, 打印函数)的方式来完成，这里需要获取的是应答头中特定的信息，比如应答码、cookies列表等，则需要通过下面这个函数：
-    CURLcode curl_easy_getinfo(CURL *curl, CURLINFO info, ... ); 
-    info参数就是我们需要获取的内容，下面是一些参数值:
-    1.CURLINFO_RESPONSE_CODE
-    获取应答码
-    2.CURLINFO_HEADER_SIZE
-    头大小
-    3.CURLINFO_COOKIELIST
-    cookies列表
+发出http请求后，服务器会返回应答头信息和应答数据，如果仅仅是打印应答头的所有内容，则直接可以通过`curl_easy_setopt(curl, CURLOPT_HEADERFUNCTION, 打印函数)` 的方式来完成，这里需要获取的是应答头中特定的信息，比如应答码、cookies列表等，则需要通过下面这个函数：
 
-    除了获取应答信息外，这个函数还能获取curl的一些内部信息，如请求时间、连接时间等等。
+`CURLcode curl_easy_getinfo(CURL *curl, CURLINFO info, ... )`;
 
-    更多的参数可以参考API文档。
+info参数就是我们需要获取的内容，下面是一些参数值:
 
- 
+参数 | 含义
+:--- | :---
+CURLINFO_RESPONSE_CODE | 获取应答码
+CURLINFO_HEADER_SIZE | 头大小
+CURLINFO_COOKIELIST | cookies列表
 
-七、多线程问题
-    首先一个基本原则就是：绝对不应该在线程之间共享同一个libcurl handle(CURL *对象)，不管是easy handle还是multi handle（本文只介绍easy_handle）。一个线程每次只能使用一个handle。
-    libcurl是线程安全的，但有两点例外：信号(signals)和SSL/TLS handler。 信号用于超时失效名字解析(timing out name resolves)。libcurl依赖其他的库来支持SSL/STL，所以用多线程的方式访问HTTPS或FTPS的URL时，应该满足这些库对多线程 操作的一些要求。详细可以参考：
-    OpenSSL: http://www.openssl.org/docs/crypto/threads.html#DESCRIPTION
+除了获取应答信息外，这个函数还能获取curl的一些内部信息，如请求时间、连接时间等等。更多的参数可以参考API文档。
 
-    GnuTLS: http://www.gnu.org/software/gnutls/manual/html_node/Multi_002dthreaded-applications.html
+## 7. 多线程问题
 
-    NSS: 宣称是多线程安全的。
+首先一个基本原则就是：绝对不应该在线程之间共享同一个libcurl handle(CURL *对象)，不管是easy handle还是multi handle（本文只介绍easy_handle）。一个线程每次只能使用一个handle。
+
+libcurl是线程安全的，但有两点例外：信号(signals)和SSL/TLS handler。
+
+* 信号用于超时失效名字解析(timing out name resolves)。
+* libcurl依赖其他的库来支持SSL/STL，所以用多线程的方式访问HTTPS或FTPS的URL时，应该满足这些库对多线程 操作的一些要求。详细可以参考：  
+    OpenSSL: <http://www.openssl.org/docs/crypto/threads.html#DESCRIPTION>  
+    GnuTLS: <http://www.gnu.org/software/gnutls/manual/html_node/Multi_002dthreaded-applications.html>
+
+NSS: 宣称是多线程安全的。
 
 八、什么时候libcurl无法正常工作
     传输失败总是有原因的。你可能错误的设置了一些libcurl的属性或者没有正确的理解某些属性的含义，或者是远程主机返回一些无法被正确解析的内容。
