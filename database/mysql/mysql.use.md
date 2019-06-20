@@ -36,7 +36,8 @@ delete from user where User='test' and Host='localhost';
 drop user 'test'@'%';
 ```
 
-```字符集
+```t
+#字符集
 latin1 -- cp1252 West European
 latin1_swedish_ci
 ```
