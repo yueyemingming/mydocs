@@ -1,5 +1,7 @@
 # mysql 主动触发器发送http消息 mysql-udf-http
 
+## 1. 安装
+
 ```bash
 apt -y install libcurl4-openssl-dev
 apt -y install mysql-server
@@ -18,6 +20,8 @@ make -j4 && make install
 cp -rf /usr/local/lib/mysql-udf-http.* /usr/lib/mysql/plugin
 ```
 
+## 2. 在数据库中执行此脚本，用于注册sql函数
+
 ```sql
 create function http_get returns string soname 'mysql-udf-http.so';
 create function http_post returns string soname 'mysql-udf-http.so';
@@ -25,7 +29,7 @@ create function http_put returns string soname 'mysql-udf-http.so';
 create function http_delete returns string soname 'mysql-udf-http.so';
 ```
 
-创建表test。
+## 2. 在数据库中执行此脚本，创建表test
 
 ```sql
 CREATE TABLE `test` (
@@ -35,12 +39,12 @@ CREATE TABLE `test` (
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8
 ```
 
-创建触发器 test_update;
+## 3. 在数据库中执行此脚本，创建触发器 test_update_triger
 
 ```sql
 DELIMITER |  
-DROP TRIGGER IF EXISTS test_update;  
-CREATE TRIGGER test_update  
+DROP TRIGGER IF EXISTS test_update_triger;  
+CREATE TRIGGER test_update_triger  
 AFTER UPDATE ON test  
 FOR EACH ROW BEGIN  
     SET @tt_re = (SELECT http_get(CONCAT('http://10.10.10.240:9000/my.do?id=', OLD.id)));  
@@ -48,6 +52,10 @@ END |
 DELIMITER ;
 ```
 
+## 4. 启动web服务器，查看接收的数据
+
 ```bash
 python -m SimpleHTTPServer 9000
 ```
+
+此时可以修改test表中的数据，可以看到web服务端终端上接收到消息。
