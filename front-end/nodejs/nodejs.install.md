@@ -6,7 +6,7 @@
 
 ```bash
 wget http://cdn.npm.taobao.org/dist/node/v10.0.0/node-v10.0.0-linux-x64.tar.gz
-tar xzvf node-v10.0.0-linux-x64.tar.gz -c /opt
+tar xzvf node-v10.0.0-linux-x64.tar.gz -C /opt
 echo 'export PATH="/opt/node-v10.0.0-linux-x64/bin:$PATH"' >> ~/.bashrc
 source ~/.bashrc
 ```

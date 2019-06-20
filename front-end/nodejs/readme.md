@@ -1,3 +1,3 @@
 # nodejs
 
-* [安装](install.md)
+* [安装](nodejs.install.md)
