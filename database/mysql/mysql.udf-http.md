@@ -1,4 +1,4 @@
-# mysql 主动触发器发送http消息 mysql-udf-http
+# mysql 使用 `mysql-udf-http` 组件，可以注册触发器，主动发送http消息。
 
 ## 1. 安装
 
