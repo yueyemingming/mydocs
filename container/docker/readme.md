@@ -1,6 +1,6 @@
 # docker
 
-* [安装](install.md)
+* [安装](docker.install.md)
 * [基本使用](docker.use.md)
 * [仓库操作](docker.registry.md)
   * docker 官方仓库 —— **[https://hub.docker.com/](https://hub.docker.com/)**

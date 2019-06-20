@@ -21,7 +21,7 @@ cat <<EOF > /etc/apt/sources.list.d/kubernetes.list
 deb http://apt.kubernetes.io/ kubernetes-xenial main
 EOF
 apt update
-apt install -y kubelet kubeadm kubectl kubernetes-cni
+apt -y install kubelet kubeadm kubectl kubernetes-cni
 ```
 
 ## 初始化master

@@ -1,5 +1,10 @@
 # linux 命令行程序使用
 
+```bash
+#查看文件被哪个进程占用
+fuser filename
+```
+
 * [ssh](ssh.md)
 * [find](cmd/find.md)
 * [netstat](cmd/netstat.md)

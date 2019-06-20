@@ -7,7 +7,10 @@
 * [mysql 使用 `mysql-udf-http` 组件，可以注册触发器，主动发送http消息。](mysql.udf-http.md)
 
 ```bash
-apt install -y mysql-server libmysqlclient-dev libreadline-dev
+apt -y install mysql-server libmysqlclient-dev libreadline-dev
+
+mysql -udbuser -ppasswd dbname < run.sql
+
 mysql -u root -p
 
 use mysql;
