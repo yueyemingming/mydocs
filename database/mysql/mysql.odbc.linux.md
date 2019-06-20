@@ -26,9 +26,9 @@ cp -rvf odbcinst.ini /etc/
 cp -rvf odbc.ini /etc/
 ```
 
-> 此处大家注意下5a 5s 5w之间的区别（根据数据库的不同编码格式选择动态库，否则会出现中文乱码）:
-> libmyodbc5a.so 是ASCII编码格式
-> libmyodbc5w.so 是UNICODE编码格式
+> 此处大家注意下5a 5s 5w之间的区别（根据数据库的不同编码格式选择动态库，否则会出现中文乱码）:  
+> libmyodbc5a.so 是ASCII编码格式  
+> libmyodbc5w.so 是UNICODE编码格式  
 > libmyodbc5s.so 是程序开发中配置数据源提供界面的动态链接库
 
 ### 2.1 odbcinst.ini
