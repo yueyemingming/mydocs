@@ -1,5 +1,16 @@
 # git
 
+<!-- TOC -->
+- [git](#git)
+  - [1. git配置](#1-git配置)
+  - [2. 仓库](#2-仓库)
+  - [3. 暂存区](#3-暂存区)
+  - [4. 提取与提交](#4-提取与提交)
+  - [5. 比较](#5-比较)
+  - [6. 分支](#6-分支)
+  - [7. 标签tag](#7-标签tag)
+<!-- /TOC -->
+
 ## 1. git配置
 
 ```bash
@@ -70,19 +81,4 @@ git reset --hard <commit_id>               #重置到某提交
 
 ## 5. 比较
 
-```bash
-git diff                 #比较暂存区和本地仓库，即查看修改内容（没有提交的）
-```
-
-## 6. 分支
-
-```bash
-git branch test          #创建一个本地分支
-git checkout test        #切换到此分支
-git branch -b test       #创建同时切换到此分支
-git branch -d test       #删除分支
-git branch -r            #查看远端分支
-
-git merge test           #将分支test合并到当前分支
-git merge master test    #将分支test合并到master分支
-```
+``
