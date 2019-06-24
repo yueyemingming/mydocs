@@ -8,15 +8,10 @@
   * [k8s](container/k8s/readme.md)
 * [算法](algorithm/readme.md)
 * [c系](c系/readme.md)
-* 开源库
-  * [curl](lib/curl/readme.md)
 * [设计模式](design.patten/readme.md)
-* [linux系统编程](apue/readme.md)
 * 消息
   * [json](message/json/readme.md)
   * [protobuf](message/protobuf/readme.md)
-* [编译](compile/readme.md)
-* [debug](debug/readme.md)
 * [嵌入式](embedded/readme.md)
 * [java](java/readme.md)
 * [golang](golang/readme.md)

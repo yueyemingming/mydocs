@@ -1,8 +1,7 @@
 # static ip
 
-- [static ip](#static-ip)
-  - [ubuntu](#ubuntu)
-  - [centos](#centos)
+- [ubuntu配置文件`/etc/network/interfaces`](#ubuntu配置文件etcnetworkinterfaces)
+- [centos配置文件`/etc/sysconfig/network-scripts/ifcfg-eth0`](#centos配置文件etcsysconfignetwork-scriptsifcfg-eth0)
 
 ## ubuntu配置文件`/etc/network/interfaces`
 
