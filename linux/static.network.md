@@ -1,12 +1,12 @@
 # static ip
 
-## ubuntu
+- [static ip](#static-ip)
+  - [ubuntu](#ubuntu)
+  - [centos](#centos)
 
-```bash
-vim /etc/network/interfaces
-```
+## ubuntu配置文件`/etc/network/interfaces`
 
-```text
+```c
 auto ens33
 iface ens33 inet static
 address 192.168.1.112
@@ -15,20 +15,11 @@ gateway 192.168.1.1
 dns-nameserver 114.114.114.114
 ```
 
-重启网络
+> 重启服务：/etc/init.d/networking restart
 
-```bash
-/etc/init.d/networking restart
-```
+## centos配置文件`/etc/sysconfig/network-scripts/ifcfg-eth0`
 
-## centos
-
-```bash
-vim /etc/sysconfig/network-scripts/ifcfg-eth0
-```
-
-```text
-# Intel Corporation 82545EM Gigabit Ethernet Controller (Copper)
+```ini
 TYPE=Ethernet
 DEVICE=eth0
 ONBOOT=yes
@@ -41,8 +32,4 @@ HWADDR=00:0C:29:13:5D:74
 BROADCAST=192.168.1.255
 ```
 
-重新导入ifcfg-eth0 网络配置文件
-
-```bash
-/etc/init.d/network reload
-```
+> 重启服务：/etc/init.d/networking reload

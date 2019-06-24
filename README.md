@@ -1,6 +1,6 @@
 # 个人知识结构总结
 
-* [it英语单词](englist/it.words.md)
+* [it英语单词](english/it.words.md)
 * [翻墙-shadowsocks](shadowsocks/readme.md)
 * [区块链](blockchain/readme.md)
 * 容器
