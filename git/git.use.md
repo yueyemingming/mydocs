@@ -1,14 +1,12 @@
 # git
 
 <!-- TOC -->
-
 - [git](#git)
-    - [1. git配置](#1-git配置)
-    - [2. 仓库](#2-仓库)
-    - [3. 暂存区](#3-暂存区)
-    - [4. 提取与提交](#4-提取与提交)
-    - [5. 比较](#5-比较)
-
+  - [1. git配置](#1-git配置)
+  - [2. 仓库](#2-仓库)
+  - [3. 暂存区](#3-暂存区)
+  - [4. 提取与提交](#4-提取与提交)
+  - [5. git中文支持](#5-git中文支持)
 <!-- /TOC -->
 
 ## 1. git配置
@@ -79,6 +77,16 @@ git reset --hard                           #重置到HEAD
 git reset --hard <commit_id>               #重置到某提交
 ```
 
-## 5. 比较
+## 5. git中文支持
 
-``
+```bash
+git config --global gui.encotding utf-8
+git config --global i18n.commitencoding utf-8
+git config --global i18n.logoutputencoding gbk
+git config --global core.quotepath false
+
+vim /etc/inputrc
+
+set output-meta on
+set convert-meta off
+```
