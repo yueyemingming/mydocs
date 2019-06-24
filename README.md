@@ -8,6 +8,7 @@
   * [k8s](container/k8s/readme.md)
 * [算法](algorithm/readme.md)
 * [c系](c系/readme.md)
+* [linux](linux/readme.md)
 * [设计模式](design.patten/readme.md)
 * 消息
   * [json](message/json/readme.md)

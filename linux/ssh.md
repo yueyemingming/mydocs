@@ -1,19 +1,23 @@
 # openssh
 
-```bash
-#安装
-apt -y install openssh-server
+- [安装运行](#安装运行)
+- [ssh无密登陆](#ssh无密登陆)
 
+## 安装运行
+
+> 安装  
+> apt -y install openssh-server
+
+```bash
 vim /etc/ssh/sshd_config
------------------------
+
 PermitRootLogin yes         #允许root登录
 PasswordAuthentication yes  #运行通过密码登录
------------------------
 
-# 启动服务
-/etc/init.d/ssh start
-/etc/init.d/ssh restart
 ```
+
+> 启动服务  
+> /etc/init.d/ssh start
 
 ## ssh无密登陆
 
