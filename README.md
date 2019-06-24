@@ -7,8 +7,7 @@
   * [docker](container/docker/readme.md)
   * [k8s](container/k8s/readme.md)
 * [算法](algorithm/readme.md)
-* [c](c/readme.md)
-* [c++](c++/readme.md)
+* [c系](c系/readme.md)
 * 开源库
   * [curl](lib/curl/readme.md)
 * [设计模式](design.patten/readme.md)
