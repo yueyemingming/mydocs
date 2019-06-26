@@ -22,9 +22,7 @@
 * 数据库
   * [mongodb](database/mongodb/readme.md)
   * [mysql](database/mysql/readme.md)
-
 * 清华大学开源软件镜像站  
   <https://mirrors.tuna.tsinghua.edu.cn/>
-
 * 阿里云开源软件镜像站  
   <https://mirrors.aliyun.com/>
