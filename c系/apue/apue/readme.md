@@ -4348,6 +4348,8 @@ pid_t gettid( void )
   arg    传递给线程执行函数的参数  
   返回值    成功返回0. 尽管每个线程都存在errno副本,可以用perror,但实际中线程函数返回值更有意义.
 
+eg. 线程创建
+
 ```c++
 void*    func( void* arg )
 {
@@ -4366,7 +4368,7 @@ int    main( void )
 }
 ```
 
-pthread_create , 主线程和新线程调用同一函数.
+eg. 主线程和新线程调用同一函数.
 
 ```c++
 void*    func( void* arg )
