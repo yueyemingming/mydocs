@@ -2664,67 +2664,63 @@ execl( "/bin/sh", "sh", "-c", "echo aaa", NULL ) ;
 
 ### 7.7. system
 
-int system(const char \*command);  = /bin/sh -c command
-    system函数是由 fork, exec, waitpid实现的.
-    system返回值情况:
-        成功的情况：
-            子进程正常退出,waipid直接返回子进程的退回状态.
-        不成功的情况：
-            a) fork函数失败, 返回-1;
-            b) exec函数失败,代表shell命令使用错误,如使用了不存在的命令,返回exit(127) ;
-            c) 子进程运行失败,返回-1.
-            d) 子进程运行被中断,waitpid返回除EINTR之外的出错,则system返回-1,设置errno.
+* **int system(const char \*command);**
+= /bin/sh -c command
+system函数是由 fork, exec, waitpid实现的.
+system返回值情况:
+  成功：子进程正常退出,waipid直接返回子进程的退回状态.
+  不成功的情况：
+    a) fork函数失败, 返回-1;
+    b) exec函数失败,代表shell命令使用错误,如使用了不存在的命令,返回exit(127) ;
+    c) 子进程运行失败,返回-1.
+    d) 子进程运行被中断,waitpid返回除EINTR之外的出错,则system返回-1,设置errno.
 
 ```c++ 实现自己的system函数
 void    print( int status )
 {
-if ( WIFEXITED( status ) )
-    cout << "normal exit : " << WEXITSTATUS(status) << endl ;
-else if ( WIFSIGNALED( status ) )
-    cout << "abnormal exit : " << WTERMSIG(status) << endl ;
-else if ( WIFSTOPPED( status ) )
-    cout << "stoped : " << WSTOPSIG(status) << endl ;
-else    cout << "error" << endl ;
+    if ( WIFEXITED( status ) )
+        cout << "normal exit : " << WEXITSTATUS(status) << endl ;
+    else if ( WIFSIGNALED( status ) )
+        cout << "abnormal exit : " << WTERMSIG(status) << endl ;
+    else if ( WIFSTOPPED( status ) )
+        cout << "stoped : " << WSTOPSIG(status) << endl ;
+    else    cout << "error" << endl ;
 }
 
-int    my_system( const char* command )
-{
-pid_t    pid ;
-int    status ;
+int    my_system( const char* command ) {
+    pid_t    pid ;
+    int    status ;
 
-if ( command == NULL )    return    1 ;
-if ( (pid=fork()) < 0 )    status = -1 ;
-else if ( pid == 0 )
-{
-    execl( "/bin/sh", "sh", "-c", command, (char*)0 ) ;
-    _exit(127) ;
-}
-else
-{
-    while( waitpid( pid, &status, 0 ) < 0 )
-    {
-        if ( errno != EINTR )
-        {
-            status = -1 ;
-            break ;
+    if ( command == NULL )    return    1 ;
+    if ( (pid=fork()) < 0 )    status = -1 ;
+    else if ( pid == 0 ) {
+        execl( "/bin/sh", "sh", "-c", command, (char*)0 ) ;
+        _exit(127) ;
+    }
+    else {
+        while( waitpid( pid, &status, 0 ) < 0 ) {
+            if ( errno != EINTR ) {
+                status = -1 ;
+                break ;
+            }
         }
     }
-}
 
-return    status ;
+    return    status ;
 }
 
 int    main( void )
 {
-int    status ;
-if ( ( status = my_system( "date" ) ) < 0 )    print_exit( status ) ;
-if ( ( status = my_system( "nosuchcommand" ) ) < 0 )    print_exit( status ) ;
-if ( ( status = my_system( "who; exit 44" ) ) < 0 )    print_exit( status ) ;
+    int    status ;
+    if ( ( status = my_system( "date" ) ) < 0 )    print_exit( status ) ;
+    if ( ( status = my_system( "nosuchcommand" ) ) < 0 )    print_exit( status ) ;
+    if ( ( status = my_system( "who; exit 44" ) ) < 0 )    print_exit( status ) ;
 
-return    0 ;
+    return    0 ;
 }
+```
 
-/*
+```text
 ./apue
 Sat Feb  1 23:02:50 CST 2014
 sh: nosuchcommand: command not found
@@ -2734,7 +2730,6 @@ root     :1           2014-02-01 10:38 (:1)
 root     pts/3        2014-02-01 17:11 (:1.0)
 root     pts/4        2014-02-01 21:24 (:1.0)
 root     pts/5        2014-02-01 22:58 (:1.0)
-*/
 ```
 
 学生作业 ： 通过多进程调用system的ping命令,将所有局域网ip获取出来.
