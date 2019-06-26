@@ -1,8 +1,17 @@
 # linux
 
-- [静态ip](static.network.md)
-- [系统服务命令](service.md)
-- [防火墙](#防火墙)
+- [ubuntu](ubuntu/readme.md)
+  - [root登陆](ubuntu/root.login.md)
+  - [apt](ubuntu/apt.md)
+  - [配置系统包](ubuntu/ubuntu.package.md)
+  
+- [redhat](redhat/readme.md)
+  
+- [系统配置](readme.md)
+  - [静态ip](static.network.md)
+  - [系统服务命令](service.md)
+  - [防火墙](#防火墙)
+
 - [命令使用](cmd/readme.md)
   - [vim](cmd/vim/readme.md)
   - [ssh](cmd/ssh.md)
@@ -11,16 +20,10 @@
   - [netcat](cmd/netcat.md)
   - [tcpdump](cmd/tcpdump/readme.md)
   - [wget](cmd/wget/readme.md)
-- [ubuntu](ubuntu/readme.md)
-- [redhat](redhat/readme.md)
-- [source, sh, exec, .号的区别](#source-sh-exec-号的区别)
-- [解决sudo时的“sudo: unable to resolve host xxxx”的问题](#解决sudo时的sudo-unable-to-resolve-host-xxxx的问题)
 
-```bash
-fuser filename  #查看文件被哪个进程占用
-program >/dev/null 2>/dev/null  #输出重定向到null
-program >nohup.out 2>nohup.out  #输出重定向到某个文件
-```
+- [系统配置](readme.md)
+  - [source, sh, exec, .号的区别](#source-sh-exec-号的区别)
+  - [解决sudo时的“sudo: unable to resolve host xxxx”的问题](#解决sudo时的sudo-unable-to-resolve-host-xxxx的问题)
 
 ## 防火墙
 
