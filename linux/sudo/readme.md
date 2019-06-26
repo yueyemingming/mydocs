@@ -1,7 +1,0 @@
-# 解决sudo时的“sudo: unable to resolve host xxxx”的问题
-
-```bash
-vim /etc/hosts
-
-127.0.0.1       localhost xxxx   #这后面添上这个主机名就行
-```

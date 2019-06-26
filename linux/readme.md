@@ -1,31 +1,32 @@
 # linux
 
 ```bash
-#查看文件被哪个进程占用
-fuser filename
+fuser filename  #查看文件被哪个进程占用
+program >/dev/null 2>/dev/null  #输出重定向到null
+program >nohup.out 2>nohup.out  #输出重定向到某个文件
 ```
 
 * [ssh](ssh.md)
 * [find](cmd/find.md)
 * [netstat](cmd/netstat.md)
 * [netcat](cmd/netcat.md)
-
-* [shell中 source, sh, exec, .号的区别](sh-source-exec区别.md)
-
-## 网络相关
-
+* [tcpdump](tcpdump/readme.md)
 * [静态ip](static.network.md)
-
-### tcpdump
-
-* [tcpdump 静态编译](tcpdump/static.compile.md)
-* [tcpdump 使用](tcpdump/use.md)
-
-## 系统服务相关
-
 * [系统服务命令](service.md)
-* [加入系统启动服务](system.onboot.md)
-
-## 防火墙相关
-
 * [防火墙](firewall.md)
+
+## source, sh, exec, .号的区别
+
+命令 | 含义
+:--- | :---
+source和.号 | shell中使用source run.sh，是直接运行run.sh的命令，不创建子shell，类似与html中include。  .号跟source基本相同，用来引用其他文件(一般定义了一些function，和变量)，跟source基本相同。
+sh | sh是则创建子shell，子shell里面 的变量父shell无法使用，对环境变量的修改也不影响父shell。父shell中的局部变量，子shell也无法使用，只有父shell的环境变量， 子shell能够使用。
+exec | 还有一个exec run.sh，这个与source类似，区别是exec执行完，不再执行后面的语句。
+
+## 解决sudo时的“sudo: unable to resolve host xxxx”的问题
+
+```bash
+vim /etc/hosts
+
+127.0.0.1       localhost xxxx   #这后面添上这个主机名就行
+```
