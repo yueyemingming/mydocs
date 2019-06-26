@@ -4325,7 +4325,7 @@ return    0 ;
 
 编译链接需要添加-lpthread选项
 
-pthread_t    只是一种数据类型.非负整数,unsigned int.
+pthread_t    只是一种数据类型.非负整数,unsigned int.是一个很大的数字.
 
 ps -T    可以用来查看内核线程的运行情况,spid是线程.
 
@@ -4386,26 +4386,19 @@ int    main( void )
 }
 ```
 
-### 12.3 获取当前线程id
+### 12.3 获取当前线程 `pthread_t pthread_self(void);`
 
-> pthread_t pthread_self(void);
+### 12.4 线程比较 `int pthread_equal(pthread_t t1, pthread_t t2);`
 
-此函数用来返回poxis的pthread_t类型的数值,是一个很大的数字.
+### 12.5 线程终止
 
-比较两个线程是否是同一线程.
-> int pthread_equal(pthread_t t1, pthread_t t2);
+1. return 语句,返回值即为但前线程退出值.
+2. 线程调用pthread_exit
 
-线程终止
+> void pthread_exit(void \*retval); //retval    为当前线程退出值
 
-    1) return 语句,返回值即为但前线程退出值.
-
-    2) 线程调用pthread_exit
-        void pthread_exit(void \*retval);
-            retval    为当前线程退出值
-
-    3) 被同进程中的其他线程 pthread_cancel
-
-    4) 如果进程中的任一线程调用了exit,_Exit, _exit,那么整个进程就终止了.那所有线程也就终止了.
+3. 被同进程中的其他线程 pthread_cancel
+4. 如果进程中的任一线程调用了exit,_Exit, _exit,那么整个进程就终止了.那所有线程也就终止了.
 
 线程等待
 
