@@ -46,8 +46,8 @@ exec | 还有一个exec run.sh，这个与source类似，区别是exec执行完�
 
 ## 解决sudo时的“sudo: unable to resolve host xxxx”的问题
 
-```bash
-vim /etc/hosts
+> vim /etc/hosts
 
+```bash
 127.0.0.1       localhost xxxx   #这后面添上这个主机名就行
 ```
