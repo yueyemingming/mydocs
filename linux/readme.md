@@ -4,9 +4,7 @@
   - [root登陆](ubuntu/root.login.md)
   - [apt](ubuntu/apt.md)
   - [配置系统包](ubuntu/ubuntu.package.md)
-
 - [redhat](redhat/readme.md)
-
 - [系统配置](readme.md)  
   - [静态ip](static.network.md)
   - [系统服务命令](service.md)
