@@ -4342,10 +4342,10 @@ pid_t gettid( void )
 
 - `int pthread_create( pthread_t *thread, const pthread_attr_t *attr, void \*(*start_routine) (void \*), void \*arg);`
 
-  thread    新创建的线程id通过此参数传出.
-  attr    线程属性,NULL空即可,代表默认属性
-  start_routine    线程执行函数
-  arg    传递给线程执行函数的参数
+  thread    新创建的线程id通过此参数传出.  
+  attr    线程属性,NULL空即可,代表默认属性  
+  start_routine    线程执行函数  
+  arg    传递给线程执行函数的参数  
   返回值    成功返回0. 尽管每个线程都存在errno副本,可以用perror,但实际中线程函数返回值更有意义.
 
 ```c++
