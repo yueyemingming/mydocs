@@ -4231,20 +4231,20 @@ return    0 ;
 ```c++ 广播示例,发送端
 int    main(int argc,char \**argv)
 {
-int    fd=socket(AF_INET,SOCK_DGRAM,0);
+    int    fd=socket(AF_INET,SOCK_DGRAM,0);
 
-int    on = 1 ;
-setsockopt(fd,SOL_SOCKET,SO_BROADCAST,&on,sizeof(int));
+    int    on = 1 ;
+    setsockopt(fd,SOL_SOCKET,SO_BROADCAST,&on,sizeof(int));
 
-struct sockaddr_in    server_address = { 0x00 } ;
-server_address.sin_family    = AF_INET;
-server_address.sin_port        = htons( 5000 );
-inet_pton( AF_INET,"192.168.1.255", &server_address.sin_addr ) ;
-//inet_pton( AF_INET,"192.168.1.233", &server_address.sin_addr ) ;
+    struct sockaddr_in    server_address = { 0x00 } ;
+    server_address.sin_family    = AF_INET;
+    server_address.sin_port        = htons( 5000 );
+    inet_pton( AF_INET,"192.168.1.255", &server_address.sin_addr ) ;
+    //inet_pton( AF_INET,"192.168.1.233", &server_address.sin_addr ) ;
 
-sendto(fd,"aaaaaa",6,0,(struct sockaddr *)&server_address,sizeof(struct sockaddr_in)) ;
+    sendto(fd,"aaaaaa",6,0,(struct sockaddr *)&server_address,sizeof(struct sockaddr_in)) ;
 
-return    0 ;
+    return    0 ;
 }
 ```
 
@@ -4328,64 +4328,70 @@ return    0 ;
 pthread_t    只是一种数据类型.非负整数,unsigned int.
 
 ps -T    可以用来查看内核线程的运行情况,spid是线程.
+
 spid是通过gettid函数获取到的数值,这个函数man手册可以查看到,但实际上可能系统中不存在.自己去造一个.
-pid_t    gettid( void )
+
+```c++
+pid_t gettid( void )
 {
-return syscall( SYS_gettid ) ;
+    return syscall( SYS_gettid ) ;
 }
+```
 
-创建线程
-int pthread_create( pthread_t *thread, const pthread_attr_t *attr, void \*(*start_routine) (void \*), void \*arg);
-    thread    新创建的线程id通过此参数传出.
-    attr    线程属性,NULL空即可,代表默认属性
-    start_routine    线程执行函数
-    arg    传递给线程执行函数的参数
-    返回值    成功返回0. 尽管每个线程都存在errno副本,可以用perror,但实际中线程函数返回值更有意义.
+### 12.2 创建线程
 
-```c++ pthread_create
+- `int pthread_create( pthread_t *thread, const pthread_attr_t *attr, void \*(*start_routine) (void \*), void \*arg);`
+
+  thread    新创建的线程id通过此参数传出.
+  attr    线程属性,NULL空即可,代表默认属性
+  start_routine    线程执行函数
+  arg    传递给线程执行函数的参数
+  返回值    成功返回0. 尽管每个线程都存在errno副本,可以用perror,但实际中线程函数返回值更有意义.
+
+```c++
 void*    func( void* arg )
 {
-printf( "the new thread .\n" ) ;
-return    NULL ;
+    printf( "the new thread .\n" ) ;
+    return    NULL ;
 }
 
 int    main( void )
 {
-pthread_t    tid ;
-pthread_create( &tid , NULL, func, NULL ) ;
+    pthread_t    tid ;
+    pthread_create( &tid , NULL, func, NULL ) ;
 
-sleep(1) ;
+    sleep(1) ;
 
-return    0 ;
+    return    0 ;
 }
 ```
 
-```c++ pthread_create , 主线程和新线程调用同一函数.
+pthread_create , 主线程和新线程调用同一函数.
+
+```c++
 void*    func( void* arg )
 {
-printf( "%s\n", (char*)arg ) ;
-return    NULL ;
+    printf( "%s\n", (char*)arg ) ;
+    return    NULL ;
 }
 
 int    main( void )
 {
-pthread_create( &g_tid, NULL, func, (void*)"the new thread ." ) ;
-
-func( "the main thread ." ) ;
-
-sleep(1) ;
-
-return    0 ;
+    pthread_create( &g_tid, NULL, func, (void*)"the new thread ." ) ;
+    func( "the main thread ." ) ;
+    sleep(1) ;
+    return    0 ;
 }
-
 ```
 
-获取当前线程id
-pthread_t pthread_self(void);
-    此函数用来返回poxis的pthread_t类型的数值,是一个很大的数字.
+### 12.3 获取当前线程id
+
+> pthread_t pthread_self(void);
+
+此函数用来返回poxis的pthread_t类型的数值,是一个很大的数字.
 
 比较两个线程是否是同一线程.
-int pthread_equal(pthread_t t1, pthread_t t2);
+> int pthread_equal(pthread_t t1, pthread_t t2);
 
 线程终止
 
@@ -4406,69 +4412,73 @@ int pthread_join(pthread_t thread, void \**retval);
     retval    从thread线程返回的数据.
     如果thread线程是被pthread_cancel,则retval==PTHREAD_CANCELED.
 
-```c++ 线程退出,线程状态接收,传参,以及获取返回值
+线程退出,线程状态接收,传参,以及获取返回值
+
+```c++
 static void*    func( void* arg )
 {
-cout << "thread print int " << (int)( *(int*)arg ) << endl ;
+    cout << "thread print int " << (int)( *(int*)arg ) << endl ;
 
-static int    a = 1 ;
-return    (void*)&a ;
+    static int    a = 1 ;
+    return    (void*)&a ;
 }
 
 int    main( void )
 {
-pthread_t    tid ;
-int    arg = 3 ;
-if ( pthread_create( &tid, NULL, func, (void*)&arg ) != 0 )
-{
-    perror( "pthread_create" ) ;
-    return    -1 ;
-}
+    pthread_t    tid ;
+    int    arg = 3 ;
+    if ( pthread_create( &tid, NULL, func, (void*)&arg ) != 0 )
+    {
+        perror( "pthread_create" ) ;
+        return    -1 ;
+    }
 
-int*    ret = 0 ;
-pthread_join( tid, (void**)&ret ) ;
-cout << "get the return value " << *ret << " from thread" << endl ;
+    int*    ret = 0 ;
+    pthread_join( tid, (void**)&ret ) ;
+    cout << "get the return value " << *ret << " from thread" << endl ;
 
-return    0 ;
+    return    0 ;
 }
 ```
 
-```c++ 线程退出,线程状态接收,传参,以及获取返回值,针对结构体,这个例子可以作为学生自己写的代码
+线程退出,线程状态接收,传参,以及获取返回值,针对结构体,这个例子可以作为学生自己写的代码
+
+```c++
 typedef    struct
 {
-int    a ;
-char    str[20] ;
+    int    a ;
+    char    str[20] ;
 } Test ;
 
 static void*    func( void* arg )
 {
-cout << "thread print struct a : " << ( *(Test*)arg ).a << endl ;
-cout << "thread print struct str : " << ( *(Test*)arg ).str << endl << endl ;
+    cout << "thread print struct a : " << ( *(Test*)arg ).a << endl ;
+    cout << "thread print struct str : " << ( *(Test*)arg ).str << endl << endl ;
 
-( (Test*)arg )->a = 2 ;
-strcpy( ( (Test*)arg )->str, "after change" ) ;
+    ( (Test*)arg )->a = 2 ;
+    strcpy( ( (Test*)arg )->str, "after change" ) ;
 
-return    arg ;
+    return    arg ;
 }
 
 int    main( void )
 {
-pthread_t    tid ;
-Test    arg = { 1, "before change" } ;
-if ( pthread_create( &tid, NULL, func, (void*)&arg ) != 0 )
-{
-    perror( "pthread_create" ) ;
-    return    -1 ;
-}
+    pthread_t    tid ;
+    Test    arg = { 1, "before change" } ;
+    if ( pthread_create( &tid, NULL, func, (void*)&arg ) != 0 )
+    {
+        perror( "pthread_create" ) ;
+        return    -1 ;
+    }
 
-Test*    ret = NULL ;
-pthread_join( tid, (void**)&ret ) ;
+    Test*    ret = NULL ;
+    pthread_join( tid, (void**)&ret ) ;
 
-cout << "get the return value " << endl ;
-cout << "a : " << ret->a << endl ;
-cout << "str : " << ret->str << endl ;
+    cout << "get the return value " << endl ;
+    cout << "a : " << ret->a << endl ;
+    cout << "str : " << ret->str << endl ;
 
-return    0 ;
+    return    0 ;
 }
 ```
 
@@ -4547,72 +4557,71 @@ return    0 ;
 static int    i = 0 ;
 static void*    func( void* arg )
 {
-while( true )
-{
-    char    str[100] = { 0x00 } ;
-    sprintf( str, "echo \"thread %d : %d\" >> a.txt", *(int*)arg, i++ ) ;
-    // 读写i值,读写期间如果两个线程同时进来,那就会出现重复i值.
-    system( str ) ;
-}
-return    NULL ;
+    while( true ) {
+        char    str[100] = { 0x00 } ;
+        sprintf( str, "echo \"thread %d : %d\" >> a.txt", *(int*)arg, i++ ) ;
+        // 读写i值,读写期间如果两个线程同时进来,那就会出现重复i值.
+        system( str ) ;
+    }
+    return    NULL ;
 }
 
 int    main( void )
 {
-pthread_t    tid1 ;
-pthread_create( &tid1, NULL, func, (void*)1 ) ;
+    pthread_t    tid1 ;
+    pthread_create( &tid1, NULL, func, (void*)1 ) ;
 
-pthread_t    tid2 ;
-pthread_create( &tid2, NULL, func, (void*)2 ) ;
+    pthread_t    tid2 ;
+    pthread_create( &tid2, NULL, func, (void*)2 ) ;
 
-cout << "main thread in sleeping ..." << endl ;
-sleep(20) ;
+    cout << "main thread in sleeping ..." << endl ;
+    sleep(20) ;
 
-return    0 ;
+    return    0 ;
 }
-
 ```
 
-```c++ 访问临界区加上互斥代码
+访问临界区加上互斥代码
+
+```c++
 // 全局互斥锁
 pthread_mutex_t    mutex = PTHREAD_MUTEX_INITIALIZER ;
 static int    i = 0 ;    // 全局变量i
 
 static void*    func( void* arg )
 {
-while( true )
-{
-    // 加锁
-    pthread_mutex_lock( &mutex ) ;
+    while( true ) {
+        // 加锁
+        pthread_mutex_lock( &mutex ) ;
 
-    char    str[100] = { 0x00 } ;
-    sprintf( str, "echo \"thread %d : %d\" >> a.txt", *(int*)arg, i++ ) ;
-    system( str ) ;
+        char    str[100] = { 0x00 } ;
+        sprintf( str, "echo \"thread %d : %d\" >> a.txt", *(int*)arg, i++ ) ;
+        system( str ) ;
 
-    // 解锁
-    pthread_mutex_unlock( &mutex ) ;
-}
-return    NULL ;
+        // 解锁
+        pthread_mutex_unlock( &mutex ) ;
+    }
+    return    NULL ;
 }
 
 int    main( void )
 {
-// 初始化互斥锁
-pthread_mutex_init( &mutex, NULL ) ;
+    // 初始化互斥锁
+    pthread_mutex_init( &mutex, NULL ) ;
 
-pthread_t    tid1 ;
-pthread_create( &tid1, NULL, func, (void*)1 ) ;
+    pthread_t    tid1 ;
+    pthread_create( &tid1, NULL, func, (void*)1 ) ;
 
-pthread_t    tid2 ;
-pthread_create( &tid2, NULL, func, (void*)2 ) ;
+    pthread_t    tid2 ;
+    pthread_create( &tid2, NULL, func, (void*)2 ) ;
 
-cout << "main thread in sleeping ..." << endl ;
-sleep(20) ;
+    cout << "main thread in sleeping ..." << endl ;
+    sleep(20) ;
 
-销毁互斥锁
-pthread_mutex_destroy( &mutex ) ;
+    销毁互斥锁
+    pthread_mutex_destroy( &mutex ) ;
 
-return    0 ;
+    return    0 ;
 }
 ```
 
@@ -4684,7 +4693,6 @@ sleep(10) ;
 ------------------------------------------------------------------
 pthread_cancel(tid) ;
 
-#if    0/////////////////////
 int   pthread_setcanceltype(int   type,   int   *oldtype)
 设置本线程取消动作的执行时机
     type    仅当Cancel状态为Enable时有效
@@ -4694,7 +4702,6 @@ int   pthread_setcanceltype(int   type,   int   *oldtype)
 
 void   pthread_testcancel(void)
 在Canceld状态下用于设置取消点.如果是Canceld状态,则进行取消动作,否则直接返回.
-```
 
 ## 13. 信号
 
