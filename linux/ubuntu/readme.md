@@ -10,8 +10,5 @@ apt remove -y libreoffice-avmedia-backend-gstreamer libreoffice-base-core libreo
 
 apt autoremove
 
-apt -y install vim git net-tools wget unzip
-apt -y install autoconf automake libtool curl make g++ build-essential
-apt -y install mysql-server libmysqlclient-dev libreadline-dev git curl bzip2 make build-essential  openssl libreadline-dev autoconf libtool doxygen libc++-dev cmake  g++ libssl-dev pkg-config
-
+apt -y install vim git net-tools wget unzip automake mysql-server libmysqlclient-dev curl bzip2 make build-essential openssl libreadline-dev autoconf libtool doxygen libc++-dev cmake g++ libssl-dev pkg-config
 ```
