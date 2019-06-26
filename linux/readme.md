@@ -1,19 +1,21 @@
 # linux
 
+- [source, sh, exec, .号的区别](#source-sh-exec-号的区别)
+- [解决sudo时的“sudo: unable to resolve host xxxx”的问题](#解决sudo时的sudo-unable-to-resolve-host-xxxx的问题)
+- [ssh](ssh.md)
+- [find](cmd/find.md)
+- [netstat](cmd/netstat.md)
+- [netcat](cmd/netcat.md)
+- [tcpdump](tcpdump/readme.md)
+- [静态ip](static.network.md)
+- [系统服务命令](service.md)
+- [防火墙](firewall.md)
+
 ```bash
 fuser filename  #查看文件被哪个进程占用
 program >/dev/null 2>/dev/null  #输出重定向到null
 program >nohup.out 2>nohup.out  #输出重定向到某个文件
 ```
-
-* [ssh](ssh.md)
-* [find](cmd/find.md)
-* [netstat](cmd/netstat.md)
-* [netcat](cmd/netcat.md)
-* [tcpdump](tcpdump/readme.md)
-* [静态ip](static.network.md)
-* [系统服务命令](service.md)
-* [防火墙](firewall.md)
 
 ## source, sh, exec, .号的区别
 
