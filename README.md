@@ -3,9 +3,9 @@
 * [it英语单词](english/it.words.md)
 * [翻墙-shadowsocks](shadowsocks/readme.md)
 * [区块链](blockchain/readme.md)
-* 容器
-  * [docker](container/docker/readme.md)
-  * [k8s](container/k8s/readme.md)
+* [运维](ops/readme.md)
+  * [docker](ops/docker/readme.md)
+  * [k8s](ops/k8s/readme.md)
 * [算法](algorithm/readme.md)
 * [c系](c系/readme.md)
 * [linux](linux/readme.md)
