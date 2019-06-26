@@ -1,20 +1,37 @@
 # linux
 
-- [source, sh, exec, .号的区别](#source-sh-exec-号的区别)
-- [解决sudo时的“sudo: unable to resolve host xxxx”的问题](#解决sudo时的sudo-unable-to-resolve-host-xxxx的问题)
+- [静态ip](static.network.md)
+- [系统服务命令](service.md)
+- [防火墙](#防火墙)
+- [vim](vim/readme.md)
 - [ssh](ssh.md)
 - [find](cmd/find.md)
 - [netstat](cmd/netstat.md)
 - [netcat](cmd/netcat.md)
 - [tcpdump](tcpdump/readme.md)
-- [静态ip](static.network.md)
-- [系统服务命令](service.md)
-- [防火墙](firewall.md)
+- [wget](wget/readme.md)
+- [source, sh, exec, .号的区别](#source-sh-exec-号的区别)
+- [解决sudo时的“sudo: unable to resolve host xxxx”的问题](#解决sudo时的sudo-unable-to-resolve-host-xxxx的问题)
 
 ```bash
 fuser filename  #查看文件被哪个进程占用
 program >/dev/null 2>/dev/null  #输出重定向到null
 program >nohup.out 2>nohup.out  #输出重定向到某个文件
+```
+
+## 防火墙
+
+```bash
+## 关闭防火墙
+/etc/init.d/iptables stop
+service iptables stop
+setenforce 0
+
+## 永久禁止
+vim /etc/sysconfig/selinux
+
+SELINUX=disabled
+SELINUXTYPE=disabled
 ```
 
 ## source, sh, exec, .号的区别

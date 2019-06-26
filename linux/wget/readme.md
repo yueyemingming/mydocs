@@ -4,9 +4,7 @@
 
 wget下载全站
 
-```bash
-wget -r -p -np -k -P ~/tmp/ http://java-er.com
-```
+> wget -r -p -np -k -P ~/tmp/ http://java-er.com
 
 * -P  表示下载到哪个目录
 * -r  表示递归下载
@@ -21,17 +19,13 @@ wget -r -p -np -k -P ~/tmp/ http://java-er.com
 
 ## 使用代理下载
 
-```bash
-wget -Y on -p -k https://sourceforge.net/projects/wvware/
-```
+> wget -Y on -p -k https://sourceforge.net/projects/wvware/
 
 代理可以在环境变量或wgetrc文件中设定
 
 * 在环境变量中设定代理
 
-```bash
-export PROXY=http://211.90.168.94:8080/
-```
+> export PROXY=http://211.90.168.94:8080/
 
 * 在~/.wgetrc中设定代理
 

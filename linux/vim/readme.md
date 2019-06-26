@@ -1,6 +1,7 @@
 # vim
 
 * [vim命令快速参考.PDF](vim命令快速参考.PDF)
+* [vim手册.PDF](Vim手册.PDF)
 
 ## 常用
 
