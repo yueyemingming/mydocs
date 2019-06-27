@@ -5,3 +5,4 @@
 * [hyperledger超级账本](hyperledger/readme.md)
 * [Steem 社交媒体平台](steem/readme.md)
 * [my-graphene](my-graphene/readme.md)
+* [eos](eos/readme.md)
