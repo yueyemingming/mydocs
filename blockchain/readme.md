@@ -11,3 +11,5 @@
 - [Steem 社交媒体平台](steem/readme.md)
 - [my-graphene](my-graphene/readme.md)
 - [ipfs](ipfs/readme.md)
+
+![石墨烯架构图](graphene.png)
