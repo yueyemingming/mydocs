@@ -67,6 +67,14 @@ case "$1" in
 esac
 ```
 
+```bash
+#启动服务方式1
+/etc/init.d/xxx start
+
+#启动服务方式2
+service xxx start
+```
+
 ## 2. /etc/rc.local
 
 ```bash
