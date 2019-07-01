@@ -20,6 +20,7 @@
 - [系统配置](readme.md)  
   - [source, sh, exec, .号的区别](#source-sh-exec-号的区别)
   - [解决sudo时的“sudo: unable to resolve host xxxx”的问题](#解决sudo时的sudo-unable-to-resolve-host-xxxx的问题)
+  - [随系统启动](linux.autostart.md)
 
 ## 防火墙
 
