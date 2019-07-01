@@ -11,36 +11,44 @@
 
 ### ubuntu配置文件`/etc/network/interfaces`
 
-```c
-auto ens33
-iface ens33 inet static
-address 192.168.1.112
-netmask 255.255.255.0
-gateway 192.168.1.1
-dns-nameserver 114.114.114.114
-```
+1. 配置
 
-```bash
-/etc/init.d/networking restart
-/etc/init.d/network-manager restart #桌面版时要加这个
-```
+    ```c
+    auto ens33
+    iface ens33 inet static
+    address 192.168.1.112
+    netmask 255.255.255.0
+    gateway 192.168.1.1
+    dns-nameserver 114.114.114.114
+    ```
+
+2. 重启服务
+
+    ```bash
+    /etc/init.d/networking restart
+    /etc/init.d/network-manager restart #桌面版时要加这个
+    ```
 
 ### centos配置文件`/etc/sysconfig/network-scripts/ifcfg-eth0`
 
-```ini
-TYPE=Ethernet
-DEVICE=eth0
-ONBOOT=yes
-BOOTPROTO=static
-IPADDR=192.168.1.11
-NETMASK=255.255.255.0
-GATEWAY=192.168.1.1
-DNS1=10.203.104.41
-HWADDR=00:0C:29:13:5D:74
-BROADCAST=192.168.1.255
-```
+1. 配置
 
-> 重启服务：/etc/init.d/networking reload
+    ```ini
+    TYPE=Ethernet
+    DEVICE=eth0
+    ONBOOT=yes
+    BOOTPROTO=static
+    IPADDR=192.168.1.11
+    NETMASK=255.255.255.0
+    GATEWAY=192.168.1.1
+    DNS1=10.203.104.41
+    HWADDR=00:0C:29:13:5D:74
+    BROADCAST=192.168.1.255
+    ```
+
+2. 重启服务
+
+    /etc/init.d/networking reload
 
 ## 2. 配置dns
 
