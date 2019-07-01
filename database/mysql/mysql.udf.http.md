@@ -17,7 +17,7 @@ cd mysql-udf-http
 chmod +x configure
 ./configure --with-mysql=/usr/bin/mysql_config
 make -j4 && make install
-cp -rf /usr/local/lib/mysql-udf-http.* /usr/lib/mysql/plugin
+cp -rvf src/.libs/* /usr/lib/mysql/plugin
 ```
 
 ## 2. 在数据库中执行此脚本，用于注册sql函数
