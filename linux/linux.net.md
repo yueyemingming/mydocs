@@ -4,8 +4,6 @@
   - [ubuntu配置文件`/etc/network/interfaces`](#ubuntu配置文件etcnetworkinterfaces)
   - [centos配置文件`/etc/sysconfig/network-scripts/ifcfg-eth0`](#centos配置文件etcsysconfignetwork-scriptsifcfg-eth0)
 - [2. 配置dns](#2-配置dns)
-  - [配置文件](#配置文件)
-  - [重启服务](#重启服务)
 
 ## 1. 配置静态ip
 
@@ -51,8 +49,6 @@
     /etc/init.d/networking reload
 
 ## 2. 配置dns
-
-### 配置文件
 
 1. 临时修改 /etc/resolv.conf
 2. 永久修改 /etc/resolvconf/resolv.conf.d/base
