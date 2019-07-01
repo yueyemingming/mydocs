@@ -1,5 +1,11 @@
 # linux 网络配置
 
+```bash
+ifconfig eth0 192.168.1.31 netmask 255.255.255.0
+route add default gw 192.168.1.1
+echo "nameserver 192.168.1.1" >> /etc/resolv.conf
+```
+
 - [1. 配置静态ip](#1-配置静态ip)
   - [ubuntu配置文件`/etc/network/interfaces`](#ubuntu配置文件etcnetworkinterfaces)
   - [centos配置文件`/etc/sysconfig/network-scripts/ifcfg-eth0`](#centos配置文件etcsysconfignetwork-scriptsifcfg-eth0)
