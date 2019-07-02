@@ -16,17 +16,7 @@ vim /etc/docker/daemon.json
 
 #查看信息
 docker info
-  Kernel Version: 4.4.0-142-generic
-  Operating System: Ubuntu 16.04.6 LTS
-  OSType: linux
-  Architecture: x86_64
-  CPUs: 8
-  Total Memory: 1.936GiB
-  Name: us16046
-  ID: RD4X:2DMA:IEV2:QFF2:V37E:5SDF:N6MM:KNBX:GCGG:CRU6:VFEL:ER2E
-  Docker Root Dir: /var/lib/docker
-  Debug Mode (client): false
-  Debug Mode (server): false
+  ... ...
   Registry: https://index.docker.io/v1/
   Labels:
   Experimental: false
