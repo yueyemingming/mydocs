@@ -6,9 +6,11 @@ docker-cn
 
 1. 加速器配置文件    /etc/docker/daemon.json
 
+    ```json
     {
         "registry-mirrors":["https://registry.docker-cn.com"]
     }
+    ```
 
 2. 重启服务
 
