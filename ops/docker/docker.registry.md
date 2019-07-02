@@ -2,23 +2,18 @@
 
 ## 登录 login
 
+`docker login -u <user>`
+
 ## 拉取镜像 pull
 
-```bash
-docker pull <registry>[:<port>]/[<namespace>/]<name>:<tag>
-```
-
-* 默认latest最新
+`docker pull <registry>[:<port>]/[<namespace>/]<name>:<tag>`
 
 ```bash
-# 二者等价
+#默认拉取最新latest，以下二者相同
 docker pull quay.io/coreos/flannel
 docker pull quay.io/coreos/flannel:latest
-```
 
-* 具体某个版本tag
-
-```bash
+#具体某个版本tag
 docker pull quay.io/coreos/flannel:v0.9.1
 ```
 
