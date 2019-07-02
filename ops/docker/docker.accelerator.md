@@ -1,7 +1,7 @@
 # 国内的镜像加速器
 
-docker-cn
-阿里云加速器
+docker-cn  
+阿里云加速器  
 中国科技大学
 
 ```bash
@@ -11,8 +11,10 @@ vim /etc/docker/daemon.json
       "registry-mirrors":["https://registry.docker-cn.com"]
   }
 
+#重启服务
 /etc/init.d/docker restart
 
+#查看信息
 docker info
   Kernel Version: 4.4.0-142-generic
   Operating System: Ubuntu 16.04.6 LTS
