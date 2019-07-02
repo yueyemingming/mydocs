@@ -1,5 +1,10 @@
 # docker
 
+```bash
+docker run -itd --name u16 ubuntu:16.04 /bin/bash
+docker exec -it u16 /bin/bash
+```
+
 * [安装](docker.install.md)
 * [基本使用](docker.use.md)
 * [仓库操作](docker.registry.md)
