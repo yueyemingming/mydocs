@@ -29,71 +29,46 @@ docker commit -m="has update" -a="runoob" [image-id] runoob/ubuntu:v2
 
 ### 镜像使用大例子 -- web服务 -- 基于容器做镜像
 
+#### 打标签
+
+```bash
+docker images
+  CONTAINER ID    IMAGE           COMMAND  CREATED          STATUS         PORTS     NAMES
+  855440a99c63    busybox:latest  "sh"     35 minutes ago   Up 35 minutes            h1
+
+docker tag 855440a99c63 ruitest/httpd:v0.1-1              #通过镜像id
+docker tag 855440a99c63 ruitest/httpd:v0.1-1              #通过镜像名称
+
+docker images
+  CONTAINER ID    IMAGE           COMMAND  CREATED          STATUS         PORTS     NAMES
+  855440a99c63    busybox:latest  "sh"     35 minutes ago   Up 35 minutes            h1
+
+docker tag ruitest/httpd:v0.1-1 ruitest/httpd:latest      #通过容器名称
+docker tag ruitest/httpd:v0.1-1 ruitest/httpd:v0.1-2
+docker image rm xxxregistiry/httpd:v0.1-2                 #删除某个标签
+```
+
+#### 提交
+
 ```bash
 docker commit -h
-docker commit -p h1
-docker ls
-docker tag 750d9e3dbc63 xxxregistry/httpd:v0.1-1
-docker ls
-docker tag xxxregistry/httpd:v0.1-1 xxxregistry/httpd:latest
-docker tag xxxregistry/httpd:v0.1-1 xxxregistry/httpd:v0.1-2
-docker image rm xxxregistiry/httpd:v0.1-2
-docker commit -m="has update" -a="runoob" [image-id] runoob/ubuntu:v2
+docker commit -a "user<user@email.com>" -c 'CMD ["/bin/httpd","-f","-h","/data/html"]' -p h1 ruitest/httpd:v0.2
+  -p h1   #提交时暂停h1
+```
 
-docker commit -a "user<user@email.com>" -c 'CMD ["/bin/httpd","-f","-h","/data/html"]' -p h1 xxxregistry/httpd:v0.2
-docker run --name http2 xxxregistry/httpd:v0.2
-root@us:~# docker container ls -a
-CONTAINER ID        IMAGE                    COMMAND                  CREATED             STATUS                         PORTS               NAMES
-4125dc74cc94        xxxregistry/httpd:v0.2   "/bin/httpd -f -h /d…"   19 seconds ago      Up 18 seconds                                      h2
-e9ce0b2a26ad        nginx:1.14-alpine        "nginx -g 'daemon of…"   About an hour ago   Up About an hour               80/tcp              web1
-750d9e3dbc63        busybox                  "sh"                     About an hour ago   Exited (0) About an hour ago                       http1
-
-root@us:~# docker inspect h2
-[
-    ......
-    {
-            "EndpointID": "9b99d1975148cf6066526854879706e4efa974a40576c4bb3ab67b66178c8cde",
-            "Gateway": "172.17.0.1",
-            "GlobalIPv6Address": "",
-            "GlobalIPv6PrefixLen": 0,
-            "IPAddress": "172.17.0.3",
-            "IPPrefixLen": 16,
-            "IPv6Gateway": "",
-            "MacAddress": "02:42:ac:11:00:03",
-            "Networks": {
-                "bridge": {
-                    "IPAMConfig": null,
-                    "Links": null,
-                    "Aliases": null,
-                    "NetworkID": "faa550c2be6d4f7352f0a86f11b78692c91566c4f8fea16d82f7d3dfb4bee150",
-                    "EndpointID": "9b99d1975148cf6066526854879706e4efa974a40576c4bb3ab67b66178c8cde",
-                    "Gateway": "172.17.0.1",
-                    "IPAddress": "172.17.0.3",
-                    "IPPrefixLen": 16,
-                    "IPv6Gateway": "",
-                    "GlobalIPv6Address": "",
-                    "GlobalIPv6PrefixLen": 0,
-                    "MacAddress": "02:42:ac:11:00:03",
-                    "DriverOpts": null
-                }
-            }
-        }
-    }
-]
-root@us:~# curl 172.17.0.3
-<h1>busybox is running .</h1>
-
-推送镜像
+#### 推送镜像
 
 本地的镜像标签，一定要与远程仓库的标签保持一致，否则推送不上去。
 
+```bash
 docker login -u yueyemingming
-  Password: 
+  Password:
   ...
   Login Succeeded
 
-docker push xxxregistry/httpd  #将当前系统中的所有标签是httpd的都推送上去。
-docker push xxxregistry/httpd:v0.2  #推送0.2tag上去。
+docker push ruitest/httpd       #将当前系统中的所有标签是httpd的都推送上去
+
+docker push ruitest/httpd:v0.2  #推送0.2tag上去。
 
 对于默认的docker.io官方仓库，在对镜像打标签时，不需要带上仓库地址，其它所有仓库打标签时，必须带上仓库地址。
 ```
@@ -133,20 +108,26 @@ docker container prune          #删除所有停止的容器
 
 ### 容器使用大例子 -- web服务
 
+#### 运行容器
+
 ```bash
-docker run --name h1 -it busybox:latest   #运行busybox容器。
+docker run --name h1 -it busybox:latest
 ```
+
+#### 启动web服务
 
 容器中运行
 
 ```bash
 mkdir -p /data/html/
 vi /data/html/index.html
-  <h1>busybox is running .</h1>
+  busybox is running .
 
 #启动web服务
 httpd -f -h /data/html/
 ```
+
+#### 查看状态
 
 ```bash
 docker ps
@@ -191,15 +172,64 @@ docker container ls -a  #查看所有容器状态
   CONTAINER ID    IMAGE       COMMAND     CREATED         STATUS                     PORTS      NAMES
   750d9e3dbc63    busybox     "sh"        8 minutes ago   Exited (0) 7 seconds ago              h1
 
-docker start -i h1   #再次启动
-docker kill h1       #强制终止
-docker start -i h1   #再次启动
+docker start -i h1  #再次启动
+docker kill h1      #强制终止
+docker start -i h1  #再次启动
 
 curl 172.17.0.2
-  <h1>busybox is running .</h1>
+  busybox is running .
 
-docker logs h1      #日志来自于哪里没有弄明白呀???
-  172.17.0.1 - - [01/Jul/2019:12:27:19 +0000] "GET / HTTP/1.1" 200 612 "-" "curl/7.47.0" "-"
+docker logs h1      #日志来自于哪里没有弄明白呀???  
+  / \# mkdir -p /data/html
+  / \# vi /data/html/index.html
+  / \# httpd -f -h /data/html/
+```
+
+#### 启动另外一个容器及查看状态
+
+```bash
+docker run --name h2 h1                  #启动另外一个容器，通过某个容器
+
+docker container ls -a
+  CONTAINER ID    IMAGE                    COMMAND                  CREATED             STATUS                         PORTS               NAMES
+  4125dc74cc94    ruitest/httpd:v0.2   "/bin/httpd -f -h /d…"   19 seconds ago      Up 18 seconds                                      h2
+  750d9e3dbc63    busybox                  "sh"                     About an hour ago   Exited (0) About an hour ago                       h1
+
+docker inspect h2
+  [
+      ......
+      {
+              "EndpointID": "9b99d1975148cf6066526854879706e4efa974a40576c4bb3ab67b66178c8cde",
+              "Gateway": "172.17.0.1",
+              "GlobalIPv6Address": "",
+              "GlobalIPv6PrefixLen": 0,
+              "IPAddress": "172.17.0.3",
+              "IPPrefixLen": 16,
+              "IPv6Gateway": "",
+              "MacAddress": "02:42:ac:11:00:03",
+              "Networks": {
+                  "bridge": {
+                      "IPAMConfig": null,
+                      "Links": null,
+                      "Aliases": null,
+                      "NetworkID": "faa550c2be6d4f7352f0a86f11b78692c91566c4f8fea16d82f7d3dfb4bee150",
+                      "EndpointID": "9b99d1975148cf6066526854879706e4efa974a40576c4bb3ab67b66178c8cde",
+                      "Gateway": "172.17.0.1",
+                      "IPAddress": "172.17.0.3",    #新容器的ip
+                      "IPPrefixLen": 16,
+                      "IPv6Gateway": "",
+                      "GlobalIPv6Address": "",
+                      "GlobalIPv6PrefixLen": 0,
+                      "MacAddress": "02:42:ac:11:00:03",
+                      "DriverOpts": null
+                  }
+              }
+          }
+      }
+  ]
+
+curl 172.17.0.3
+  busybox is running .
 ```
 
 ## 4. 创建新容器

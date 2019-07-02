@@ -12,7 +12,7 @@ docker exec -it u16 /bin/bash
 - [仓库]
   - docker官方仓库 —— **[https://hub.docker.com/](https://hub.docker.com/)**
   - 阿里云docker官方仓库 —— **[https://dev.aliyun.com/search.html](https://dev.aliyun.com/search.html)**
-  - [国内镜像加速器](docker.accelerator.md)
+  - [配置国内镜像加速器](docker.accelerator.md)
 - [我的仓库]
   - [阿里云仓库](aliyun.registry.md)
   - [dockerhub官方仓库](aliyun.registry.md)
