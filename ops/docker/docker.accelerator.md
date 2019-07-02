@@ -4,15 +4,18 @@ docker-cn
 阿里云加速器  
 中国科技大学
 
-1. 加速器配置文件    /etc/docker/daemon.json  
+1. 加速器配置文件    /etc/docker/daemon.json
+
     {
         "registry-mirrors":["https://registry.docker-cn.com"]
     }
 
-2. 重启服务  
+2. 重启服务
+
     /etc/init.d/docker restart
 
-3. 查看信息  
+3. 查看信息
+
     ```bash
     docker info
     ... ...
