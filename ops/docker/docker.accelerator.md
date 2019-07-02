@@ -13,6 +13,7 @@ docker-cn
     /etc/init.d/docker restart
 
 3. 查看信息  
+    ```bash
     docker info
     ... ...
     Registry: https://index.docker.io/v1/
@@ -24,3 +25,4 @@ docker-cn
     https://registry.docker-cn.com/      #这里标识加速器已经配置成功
     Live Restore Enabled: false
     Product License: Community Engine
+    ```
