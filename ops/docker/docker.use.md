@@ -101,7 +101,7 @@ docker build -t myfuck:16.04 .
 * rm
 * pause/unpause
 * create
-* exec
+* exec 在容器中执行某个命令，使用shell时，必须要加 -it，即带终端交互式
 
 ### 容器操作
 
