@@ -12,5 +12,5 @@ ln -sfT /opt/cmake/bin/cmake /usr/local/bin/cmake
 ```
 
 - **cmake官网** —— **[https://cmake.org](https://cmake.org/)**
-- [CMakeLists.txt范例](eg/readme.md)
+- [CMakeLists.txt范例 —— QMake的 .pro 文件 转成CMake的 CMakeLists.txt 文件](eg/readme.md)
 - [CMake之CMakeLists.txt编写入门](cmake01.md)

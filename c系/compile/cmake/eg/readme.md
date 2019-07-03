@@ -1,4 +1,6 @@
-# CMakeLists.txt范例 —— QMake的 .pro 文件 转成CMake的 CMakeLists.txt 文件
+# CMakeLists.txt范例
+
+- **QMake的 .pro 文件 转成CMake的 CMakeLists.txt 文件**
 
 ## 环境
 
