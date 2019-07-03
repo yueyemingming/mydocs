@@ -6,18 +6,18 @@
 
 常见参数 | 含义
 :--- | :---
--A/--user-agent <string> | 设置用户代理发送给服务器
--b/--cookie <name=string/file> | cookie字符串或文件读取位置
--c/--cookie-jar <file> | 操作结束后把cookie写入到这个文件中
--C/--continue-at <offset> | 断点续转
--D/--dump-header <file> | 把header信息写入到该文件中
+-A/--user-agent \<string\> | 设置用户代理发送给服务器
+-b/--cookie \<name=string/file\> | cookie字符串或文件读取位置
+-c/--cookie-jar \<file\> | 操作结束后把cookie写入到这个文件中
+-C/--continue-at \<offset\> | 断点续转
+-D/--dump-header \<file\> | 把header信息写入到该文件中
 -e/--referer | 来源网址
 -f/--fail | 连接失败时不显示http错误
 -o/--output | 把输出写到该文件中
 -O/--remote-name | 把输出写到该文件中，保留远程文件的文件名
--r/--range <range> | 检索来自HTTP/1.1或FTP服务器字节范围
+-r/--range \<range\> | 检索来自HTTP/1.1或FTP服务器字节范围
 -s/--silent | 静音模式。不输出任何东西
--T/--upload-file <file> | 上传文件
+-T/--upload-file \<file\> | 上传文件
 -u/--user <user[:password]> | 设置服务器的用户和密码
 -w/--write-out [format] | 什么输出完成后
 -x/--proxy <host[:port]> | 在给定的端口上使用HTTP代理
@@ -31,7 +31,9 @@ curl是一种命令行工具，作用是发出网络请求，然后得到和提�
 
 直接在curl命令后加上网址，就可以看到网页源码。我们以网址www.sina.com为例（选择该网址，主要因为它的网页代码较短）：
 
-> curl www.sina.com
+```bash
+curl www.sina.com
+```
 
 ```html
 <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
@@ -45,13 +47,17 @@ curl是一种命令行工具，作用是发出网络请求，然后得到和提�
 
 如果要把这个网页保存下来，可以使用`-o`参数，这就相当于使用wget命令了。
 
-> curl -o [文件名] www.sina.com
+```bash
+curl -o [文件名] www.sina.com
+```
 
 ## 2. 自动跳转
 
 有的网址是自动跳转的。使用`-L`参数，curl就会跳转到新的网址。
 
-> curl -L www.sina.com
+```bash
+curl -L www.sina.com
+```
 
 键入上面的命令，结果就自动跳转为www.sina.com.cn。
 
@@ -59,7 +65,9 @@ curl是一种命令行工具，作用是发出网络请求，然后得到和提�
 
 `-i`参数可以显示http response的头信息，连同网页代码一起。
 
-> curl -i www.sina.com
+```bash
+curl -i www.sina.com
+```
 
 ```html
 HTTP/1.0 301 Moved Permanently
@@ -90,7 +98,9 @@ Connection: close
 
 `-v`参数可以显示一次http通信的整个过程，包括端口连接和http request头信息。
 
-> curl -v www.sina.com
+```bash
+curl -v www.sina.com
+```
 
 ```text
 * About to connect() to www.sina.com port 80 (#0)
@@ -100,7 +110,7 @@ Connection: close
 > User-Agent: curl/7.21.3 (i686-pc-linux-gnu) libcurl/7.21.3 OpenSSL/0.9.8o zlib/1.2.3.4 libidn/1.18
 > Host: www.sina.com
 > Accept: */*
-> 
+>
 * HTTP 1.0, assume close after body
 < HTTP/1.0 301 Moved Permanently
 < Date: Sun, 04 Sep 2011 00:42:39 GMT
@@ -113,7 +123,7 @@ Connection: close
 < Content-Type: text/html; charset=iso-8859-1
 < X-Cache: MISS from sh201-19.sina.com.cn
 < Connection: close
-< 
+<
 <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
 <html><head>
 <title>301 Moved Permanently</title>
@@ -126,11 +136,11 @@ Connection: close
 
 如果你觉得上面的信息还不够，那么下面的命令可以查看更详细的通信过程。
 
-> curl --trace output.txt www.sina.com
-
+```bash
+curl --trace output.txt www.sina.com
 或者
-
-> curl --trace-ascii output.txt www.sina.com
+curl --trace-ascii output.txt www.sina.com
+```
 
 运行后，请打开output.txt文件查看。
 
@@ -138,22 +148,30 @@ Connection: close
 
 发送表单信息有GET和POST两种方法。GET方法相对简单，只要把数据附在网址后面就行。
 
-> curl example.com/form.cgi?data=xxx
+```bash
+curl example.com/form.cgi?data=xxx
+```
 
 POST方法必须把数据和网址分开，curl就要用到--data参数。
 
-> curl -X POST --data "data=xxx" example.com/form.cgi
+```bash
+curl -X POST --data "data=xxx" example.com/form.cgi
+```
 
 如果你的数据没有经过表单编码，还可以让curl为你编码，参数是`--data-urlencode`。
 
-> curl -X POST--data-urlencode "date=April 1" example.com/form.cgi
+```bash
+curl -X POST--data-urlencode "date=April 1" example.com/form.cgi
+```
 
 ## 6. HTTP动词
 
 curl默认的HTTP动词是GET，使用`-X`参数可以支持其他动词。
 
-> curl -X POST www.example.com
-> curl -X DELETE www.example.com
+```bash
+curl -X POST www.example.com
+curl -X DELETE www.example.com
+```
 
 ## 7. 文件上传
 
@@ -168,13 +186,17 @@ curl默认的HTTP动词是GET，使用`-X`参数可以支持其他动词。
 
 你可以用curl这样上传文件：
 
-> curl --form upload=@localfilename --form press=OK [URL]
+```bash
+curl --form upload=@localfilename --form press=OK [URL]
+```
 
 ## 8. Referer字段
 
 有时你需要在http request头信息中，提供一个referer字段，表示你是从哪里跳转过来的。
 
-> curl --referer http://www.example.com http://www.example.com
+```bash
+curl --referer http://www.example.com http://www.example.com
+```
 
 ## 9. User Agent字段
 
@@ -188,29 +210,39 @@ Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_0 like Mac OS X; en-us) AppleWebKit/532.
 
 curl可以这样模拟：
 
-> curl --user-agent "[User Agent]" [URL]
+```bash
+curl --user-agent "[User Agent]" [URL]
+```
 
 ## 10. cookie
 
 使用`--cookie`参数，可以让curl发送cookie。
 
-> curl --cookie "name=xxx" www.example.com
+```bash
+curl --cookie "name=xxx" www.example.com
+```
 
 至于具体的cookie的值，可以从http response头信息的`Set-Cookie`字段中得到。
 
 `-c cookie-file`可以保存服务器返回的cookie到文件，`-b cookie-file`可以使用这个文件作为cookie信息，进行后续的请求。
 
-> curl -c cookies http://example.com
-> curl -b cookies http://example.com
+```bash
+curl -c cookies http://example.com
+curl -b cookies http://example.com
+```
 
 ## 11. 增加头信息
 
 有时需要在http request之中，自行增加一个头信息。`--header`参数就可以起到这个作用。
 
-> curl --header "Content-Type:application/json" http://example.com
+```bash
+curl --header "Content-Type:application/json" http://example.com
+```
 
 ## 12. HTTP认证
 
 有些网域需要HTTP认证，这时curl需要用到`--user`参数。
 
-> curl --user name:password example.com
+```bash
+curl --user name:password example.com
+```
