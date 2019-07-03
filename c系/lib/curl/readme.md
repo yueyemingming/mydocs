@@ -6,6 +6,7 @@ apt -y install libcurl4-openssl-dev
 
 - **curl官网** —— **[https://curl.haxx.se/](https://curl.haxx.se/)**
 - **curl官网代码示例** —— **[https://curl.haxx.se/libcurl/c/example.html](https://curl.haxx.se/libcurl/c/example.html)**
+- [用curl开发过的工程——弗锐思数据库同步软件](https://github.com/myfrs/dbsync)
 - [curl基本使用](curl.use/readme.md)
   - [curl使用01](curl.use/01.md)
   - [curl使用02](curl.use/02.md)
