@@ -18,8 +18,8 @@ Expect: 100-continue
 解决办法如下：
 
 ```c++
-    struct curl_slist * headers = 0;
-    headers = curl_slist_append(headers, "Expect:");    // Disable "Expect: 100-continue"
-    curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
-    curl_slist_free_all(headers);
+struct curl_slist * headers = 0;
+headers = curl_slist_append(headers, "Expect:");    // Disable "Expect: 100-continue"
+curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+curl_slist_free_all(headers);
 ```
