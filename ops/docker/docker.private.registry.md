@@ -2,10 +2,9 @@
 
 ## 1. 安装
 
-- centos  `yum -y install docker-registry`
-- ubuntu  `apt -y install docker-registry`
+- centos系统安装方法  **yum -y install docker-registry**
+- ubuntu系统安装方法  **apt -y install docker-registry**
 - docker仓库下载安装
-
     > 私有仓库服务本身也是运行在docker中
 
     ```bash
