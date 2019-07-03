@@ -1,24 +1,6 @@
 # 通过asio库读写串口
 
-Asio 是一个跨平台的 C++ 库，常用于网络编程、底层的 I/O 编程等 (low-level I/O)，其结构框架如下：
-
-## 1. 使用 Asio
-
-### 1.1 下载
-
-Asio 库分为 Boost 版和 non-Boost 版，后者的下载地址为： http://think-async.com/ ，下载完成后，直接解压到合适位置即可。
-
-### 1.2 安装
-
-```bash
-./configure --prefix=/usr/local/
-make -j4
-make
-```
-
-## 2. 使用
-
-### 2.1 Qt工程配置
+## 1. Qt工程配置
 
 使用 Qt 5.9.1，其 .pro 工程文件中，添加如下配置：
 
@@ -27,7 +9,7 @@ INCLUDEPATH += /usr/local/include
 DEFINES += ASIO_STANDALONE
 ```
 
-### 2.2 代码示例
+## 2. 代码示例
 
 下面是一个简单的串口通讯例子，主要步骤为： 创建串口 --> 配置参数 --> 读写数据 --> 开启事件循环
 
