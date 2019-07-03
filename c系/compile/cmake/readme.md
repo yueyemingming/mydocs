@@ -11,6 +11,6 @@ bash cmake-3.11.0-Linux-x86_64.sh --prefix=/opt/cmake --skip-license
 ln -sfT /opt/cmake/bin/cmake /usr/local/bin/cmake
 ```
 
-- [cmake官网 —— https://cmake.org](https://cmake.org/)
+- **cmake官网** —— **[https://cmake.org](https://cmake.org/)**
 - [CMakeLists.txt范例](eg/readme.md)
 - [CMake之CMakeLists.txt编写入门](cmake01.md)

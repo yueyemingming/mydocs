@@ -2,12 +2,12 @@
 
 ## 环境
 
-* Ubuntu 16.04
-* Qt5.12.3
+- Ubuntu 16.04
+- Qt5.12.3
 
 ## 范例
 
-* 具体源码请查看 [源码压缩包](halloffame.tar.gz)
+- 具体源码请查看 [源码压缩包](halloffame.tar.gz)
 
 ```bash
 #设置cmake版本号
