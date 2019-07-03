@@ -9,7 +9,7 @@
 
 ## 范例
 
-- 具体源码请查看 [源码压缩包](halloffame.tar.gz)
+- 具体源码请查看 [弗锐思名人堂软件(私有仓库需rui-space登录)](https://github.com/rui-space/myfrs.halloffame/)
 
 ```bash
 #设置cmake版本号

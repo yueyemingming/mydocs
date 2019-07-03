@@ -2,7 +2,7 @@
 
 - **protobuf github 源码**  
   <https://github.com/protocolbuffers/protobuf>
-- [用protobuf开发过的软件——弗锐思名人堂软件](https://github.com/myfrs/halloffame)
+- [用protobuf开发过的软件——弗锐思名人堂软件(私有仓库需rui-space登录)](https://github.com/rui-space/myfrs.halloffame/)
 - [protobuf安装](protobuf.install.md)
 - [在C++中使用protobuf](protobuf.example.md)
 - [protobuf+socket](protobuf.socket.md)
