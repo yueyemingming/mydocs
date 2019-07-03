@@ -2,9 +2,10 @@
 
 ## 1. 安装
 
-- centos系统安装方法  **yum -y install docker-registry**
-- ubuntu系统安装方法  **apt -y install docker-registry**
+- centos安装  `yum -y install docker-registry`
+- ubuntu安装  `apt -y install docker-registry`
 - docker仓库下载安装
+
     > 私有仓库服务本身也是运行在docker中
 
     ```bash
@@ -16,7 +17,9 @@
 
     > 防止仓库数据丢失，加了卷标
 
-## 2. 基本测试 —— 修改docker hub官网nginx容器，提交到本地仓库
+## 2. 基本测试
+
+修改docker hub官网nginx容器，提交到本地仓库
 
 ### 2.1 从docker hub官网下载nginx，及修改
 
