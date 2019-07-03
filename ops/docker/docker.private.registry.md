@@ -2,30 +2,20 @@
 
 ## 1. 安装
 
-### centos
+- centos  `yum -y install docker-registry`
+- ubuntu  `apt -y install docker-registry`
+- docker仓库下载安装
 
-```bash
-yum -y install docker-registry
-```
+    > 私有仓库服务本身也是运行在docker中
 
-### ubuntu
+    ```bash
+    docker pull registry
+    docker inspect registry
+    docker run -d --name docker_registry -p 5000:5000 -v /opt/registry:/var/lib/registry docker.io/registry
+    docker exec -it docker_registry /bin/sh
+    ```
 
-```bash
-apt -y install docker-registry
-```
-
-### docker仓库下载安装
-
-> 私有仓库服务本身也是运行在docker中
-
-```bash
-docker pull registry
-docker inspect registry
-docker run -d --name docker_registry -p 5000:5000 -v /opt/registry:/var/lib/registry docker.io/registry
-docker exec -it docker_registry /bin/sh
-```
-
-> 防止仓库数据丢失，加了卷标
+    > 防止仓库数据丢失，加了卷标
 
 ## 2. 基本测试 —— 修改docker hub官网nginx容器，提交到本地仓库
 
@@ -35,8 +25,8 @@ docker exec -it docker_registry /bin/sh
 docker pull nginx
 docker run -d --name nginx nginx
 docker exec -it nginx /bin/sh
-echo "fuck" > a.txt
-exit
+  echo "fuck" > a.txt
+  exit
 ```
 
 ### 2.2 提交本地

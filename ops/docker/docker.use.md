@@ -52,8 +52,18 @@ docker image rm xxxregistiry/httpd:v0.1-2                 #删除某个标签
 
 ```bash
 docker commit -h
+
 docker commit -a "user<user@email.com>" -c 'CMD ["/bin/httpd","-f","-h","/data/html"]' -p h1 ruitest/httpd:v0.2
   -p h1   #提交时暂停h1
+
+对于默认的docker.io官方仓库，在对镜像打标签时，不需要带上仓库地址，其它所有仓库打标签时，必须带上仓库地址。
+
+docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+ruitest/httpd       v0.2                988a144e6316        4 seconds ago       1.22MB
+busybox             latest              e4db68de4ff2        2 weeks ago         1.22MB
+ruitest/httpd       latest              e4db68de4ff2        2 weeks ago         1.22MB
+ruitest/httpd       v0.1-1              e4db68de4ff2        2 weeks ago         1.22MB
 ```
 
 #### 推送镜像
@@ -61,16 +71,24 @@ docker commit -a "user<user@email.com>" -c 'CMD ["/bin/httpd","-f","-h","/data/h
 本地的镜像标签，一定要与远程仓库的标签保持一致，否则推送不上去。
 
 ```bash
+#登录
 docker login -u yueyemingming
   Password:
   ...
   Login Succeeded
 
-docker push ruitest/httpd       #将当前系统中的所有标签是httpd的都推送上去
+#将当前系统中的所有标签是httpd的都推送上去
+docker push ruitest/httpd
+  The push refers to repository [docker.io/ruitest/httpd]
+  6194458b07fc: Mounted from library/busybox
+  v0.1-1: digest: sha256:bf510723d2cd2d4e3f5ce7e93bf1e52c8fd76831995ac3bd3f90ecc866643aff size: 527
 
-docker push ruitest/httpd:v0.2  #推送0.2tag上去。
-
-对于默认的docker.io官方仓库，在对镜像打标签时，不需要带上仓库地址，其它所有仓库打标签时，必须带上仓库地址。
+#推送0.2tag上去
+docker push ruitest/httpd:v0.2
+  The push refers to repository [docker.io/ruitest/httpd]
+  3567e20cd636: Pushed
+  6194458b07fc: Layer already exists
+  v0.2: digest: sha256:d37bf36ed7fc3a5c0b5ac9de4e37d12c2ab4eff6ac9791374acbcd804fd492b6 size: 734
 ```
 
 ## 3. 容器
@@ -252,10 +270,34 @@ docker build -t rui-ubuntu:16.04 .              #此处镜像名称rui-ubuntu
 docker build -t myfuck:16.04 .                  #此处镜像名称myfuck
 ```
 
-## 5. 命令一览
+## 4. 启动
 
-### 容器rootfs命令
+以busybox为例子，它的默认动作就是运行shell。
 
-- commit
-- cp
-- diff
+### 4.1 从镜像启动容器
+
+```bash
+docker run --name h1 -it busybox:latest
+```
+
+`exit`或Ctrl-D退出
+
+### 4.2 从停止容器启动容器
+
+```bash
+docker start h1
+```
+
+#### 4.2.1 从默认shell进入容器
+
+```bash
+docker attach h1
+```
+
+由于默认操作就是运行shell，因此从这个shell退出时，会导致容器停止运行。
+
+#### 4.2.2 从新的shell进入容器
+
+```bash
+docker exec -it h1 /bin/sh
+```
