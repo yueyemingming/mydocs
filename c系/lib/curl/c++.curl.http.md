@@ -1,5 +1,31 @@
 # c++用libcurl库进行http通讯网络编程
 
+- [1. libcurl基本编程框架](#1-libcurl基本编程框架)
+- [2. 一些基本的函数](#2-一些基本的函数)
+  - [2.1 CURLcode curl_global_init(long flags)](#21-curlcode-curl_global_initlong-flags)
+  - [2.2 void curl_global_cleanup(void)](#22-void-curl_global_cleanupvoid)
+  - [2.3 char *curl_version()](#23-char-curl_version)
+  - [2.4 CURL *curl_easy_init()](#24-curl-curl_easy_init)
+  - [2.5 void curl_easy_cleanup(CURL *handle)](#25-void-curl_easy_cleanupcurl-handle)
+  - [2.6 CURLcode curl_easy_setopt(CURL *handle, CURLoption option, parameter)](#26-curlcode-curl_easy_setoptcurl-handle-curloption-option-parameter)
+  - [2.7 CURLcode curl_easy_perform(CURL *handle)](#27-curlcode-curl_easy_performcurl-handle)
+- [3. curl_easy_setopt函数部分选项介绍](#3-curl_easy_setopt函数部分选项介绍)
+  - [3.1 CURLOPT_URL](#31-curlopt_url)
+  - [3.2 CURLOPT_WRITEFUNCTION，CURLOPT_WRITEDATA](#32-curlopt_writefunctioncurlopt_writedata)
+  - [3.3 CURLOPT_HEADERFUNCTION，CURLOPT_HEADERDATA](#33-curlopt_headerfunctioncurlopt_headerdata)
+  - [3.4 CURLOPT_READFUNCTION CURLOPT_READDATA](#34-curlopt_readfunction-curlopt_readdata)
+  - [3.5 CURLOPT_NOPROGRESS，CURLOPT_PROGRESSFUNCTION，CURLOPT_PROGRESSDATA](#35-curlopt_noprogresscurlopt_progressfunctioncurlopt_progressdata)
+  - [3.6 CURLOPT_TIMEOUT，CURLOPT_CONNECTIONTIMEOUT](#36-curlopt_timeoutcurlopt_connectiontimeout)
+  - [3.7 CURLOPT_FOLLOWLOCATION](#37-curlopt_followlocation)
+  - [3.8  CURLOPT_RANGE: CURLOPT_RESUME_FROM](#38--curlopt_range-curlopt_resume_from)
+- [4. curl_easy_perform 函数说明（error 状态码）](#4-curl_easy_perform-函数说明error-状态码)
+- [5. libcurl使用的HTTP消息头](#5-libcurl使用的http消息头)
+- [6. 获取http应答头信息](#6-获取http应答头信息)
+- [7. 多线程问题](#7-多线程问题)
+- [8. 什么时候libcurl无法正常工作](#8-什么时候libcurl无法正常工作)
+- [9. 关于密码](#9-关于密码)
+- [10. HTTP验证](#10-http验证)
+
 ## 1. libcurl基本编程框架
 
 libcurl是一个跨平台的网络协议库，支持http, https, ftp, gopher, telnet, dict, file, 和ldap 协议。libcurl同样支持HTTPS证书授权，HTTP POST, HTTP PUT, FTP 上传, HTTP基本表单上传，代理，cookies,和用户认证。
