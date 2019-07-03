@@ -1,16 +1,42 @@
 # Linux IO模式及 select、poll、epoll详解
 
+- [1. 概念说明](#1-概念说明)
+  - [1.1 用户空间与内核空间](#11-用户空间与内核空间)
+  - [1.2. 进程切换](#12-进程切换)
+  - [1.3. 进程的阻塞](#13-进程的阻塞)
+  - [1.4. 文件描述符fd](#14-文件描述符fd)
+  - [1.5. 缓存 I/O](#15-缓存-io)
+- [2. IO模式](#2-io模式)
+  - [2.1. 阻塞 I/O（blocking IO）](#21-阻塞-ioblocking-io)
+  - [2.2. 非阻塞 I/O（nonblocking IO）](#22-非阻塞-iononblocking-io)
+  - [2.3. I/O 多路复用（ IO multiplexing）](#23-io-多路复用-io-multiplexing)
+  - [2.4. 异步 I/O（asynchronous IO）](#24-异步-ioasynchronous-io)
+  - [2.5. 总结](#25-总结)
+    - [2.5.1 blocking和non-blocking的区别](#251-blocking和non-blocking的区别)
+    - [2.5.2 synchronous IO和asynchronous IO的区别](#252-synchronous-io和asynchronous-io的区别)
+- [3. I/O 多路复用之select、poll、epoll详解](#3-io-多路复用之selectpollepoll详解)
+  - [3.1. select](#31-select)
+  - [3.2. poll](#32-poll)
+  - [3.3. epoll](#33-epoll)
+    - [3.3.1 epoll操作过程](#331-epoll操作过程)
+    - [3.3.2 工作模式](#332-工作模式)
+      - [3.3.2.1 LT模式](#3321-lt模式)
+      - [3.3.2.2 ET模式](#3322-et模式)
+  - [3.4 总结](#34-总结)
+    - [3.3.3 代码演示](#333-代码演示)
+- [4. epoll总结](#4-epoll总结)
+
 同步IO和异步IO, 阻塞IO和非阻塞IO分别是什么, 到底有什么区别？不同的人在不同的上下文下给出的答案是不同的。所以先限定一下本文的上下文。
 
 ## 1. 概念说明
 
 在进行解释之前, 首先要说明几个概念:
 
-* 用户空间和内核空间
-* 进程切换
-* 进程的阻塞
-* 文件描述符
-* 缓存 I/O
+- 用户空间和内核空间
+- 进程切换
+- 进程的阻塞
+- 文件描述符
+- 缓存 I/O
 
 ### 1.1 用户空间与内核空间
 
@@ -26,12 +52,12 @@
 
 从一个进程的运行转到另一个进程上运行, 这个过程中经过下面这些变化:
 
-* 保存处理机上下文, 包括程序计数器和其他寄存器。
-* 更新PCB信息。
-* 把进程的PCB移入相应的队列, 如就绪、在某事件阻塞等队列。
-* 选择另一个进程执行, 并更新其PCB。
-* 更新内存管理的数据结构。
-* 恢复处理机上下文。
+- 保存处理机上下文, 包括程序计数器和其他寄存器。
+- 更新PCB信息。
+- 把进程的PCB移入相应的队列, 如就绪、在某事件阻塞等队列。
+- 选择另一个进程执行, 并更新其PCB。
+- 更新内存管理的数据结构。
+- 恢复处理机上下文。
 
 > 总而言之就是很耗资源
 
@@ -53,22 +79,22 @@
 
 在 Linux 的缓存 I/O 机制中, 操作系统会将 I/O 的数据缓存在文件系统的页缓存（ page cache ）中, 也就是说, 数据会先被拷贝到操作系统内核的缓冲区中, 然后才会从操作系统内核的缓冲区拷贝到应用程序的地址空间。
 
-**缓存 I/O 的缺点** : 数据在传输过程中需要在应用程序地址空间和内核进行多次数据拷贝操作, 这些数据拷贝操作所带来的 CPU 以及内存开销是非常大的。
+**缓存 I/O 的缺点*- : 数据在传输过程中需要在应用程序地址空间和内核进行多次数据拷贝操作, 这些数据拷贝操作所带来的 CPU 以及内存开销是非常大的。
 
 ## 2. IO模式
 
 刚才说了, 对于一次IO访问（以read举例）, 数据会先被拷贝到操作系统内核的缓冲区中, 然后才会从操作系统内核的缓冲区拷贝到应用程序的地址空间。所以说, 当一个read操作发生时, 它会经历两个阶段:
 
-* 等待数据准备 (Waiting for the data to be ready)
-* 将数据从内核拷贝到进程中 (Copying the data from the kernel to the process)
+- 等待数据准备 (Waiting for the data to be ready)
+- 将数据从内核拷贝到进程中 (Copying the data from the kernel to the process)
 
 正式因为这两个阶段, linux系统产生了下面五种网络模式的方案。
 
-* 阻塞 I/O（blocking IO）
-* 非阻塞 I/O（nonblocking IO）
-* I/O 多路复用（ IO multiplexing）
-* 信号驱动 I/O（ signal driven IO）
-* 异步 I/O（asynchronous IO）
+- 阻塞 I/O（blocking IO）
+- 非阻塞 I/O（nonblocking IO）
+- I/O 多路复用（ IO multiplexing）
+- 信号驱动 I/O（ signal driven IO）
+- 异步 I/O（asynchronous IO）
 
 > 由于signal driven IO在实际中并不常用, 所以我这只提及剩下的四种IO Model。
 
@@ -146,7 +172,7 @@ I/O多路复用就是通过一种机制, 一个进程可以监视多个描述符
 
 ### 3.1. select
 
-* **int select (int n, fd_set \*readfds, fd_set \*writefds, fd_set \*exceptfds, struct timeval \*timeout);**
+- **int select (int n, fd_set \*readfds, fd_set \*writefds, fd_set \*exceptfds, struct timeval \*timeout);**
 
 select 函数监视的文件描述符分3类, 分别是writefds、readfds、和exceptfds。调用后select函数会阻塞, 直到有描述副就绪（有数据 可读、可写、或者有except）, 或者超时（timeout指定等待时间, 如果立即返回设为null即可）, 函数返回。当select函数返回后, 可以通过遍历fdset, 来找到就绪的描述符。
 
@@ -156,15 +182,15 @@ select的一个缺点在于单个进程能够监视的文件描述符的数量�
 
 ### 3.2. poll
 
-* **int poll (struct pollfd \*fds, unsigned int nfds, int timeout);**
+- **int poll (struct pollfd \*fds, unsigned int nfds, int timeout);**
 
 不同与select使用三个位图来表示三个fdset的方式, poll使用一个 pollfd的指针实现。
 
 ```c
 struct pollfd {
-    int fd; /* file descriptor */
-    short events; /* requested events to watch */
-    short revents; /* returned events witnessed */
+    int fd; /- file descriptor */
+    short events; /- requested events to watch */
+    short revents; /- returned events witnessed */
 };
 ```
 
@@ -184,18 +210,18 @@ epoll使用一个文件描述符管理多个描述符, 将用户关系的文件�
 
 epoll操作过程需要三个接口, 分别如下:
 
-* **int epoll_create(int size);**
+- **int epoll_create(int size);**
 
 创建一个epoll的句柄, size用来告诉内核这个监听的数目一共有多大, 这个参数不同于select()中的第一个参数, 给出最大监听的fd+1的值, 参数size并不是限制了epoll所能监听的描述符最大个数, 只是对内核初始分配内部数据结构的一个建议。
 
 当创建好epoll句柄后, 它就会占用一个fd值, 在linux下如果查看/proc/进程id/fd/, 是能够看到这个fd的, 所以在使用完epoll后, 必须调用close()关闭, 否则可能导致fd被耗尽。
 
-* **int epoll_ctl(int epfd, int op, int fd, struct epoll_event \*event)；**
+- **int epoll_ctl(int epfd, int op, int fd, struct epoll_event \*event)；**
 
 函数是对指定描述符fd执行op操作。
 
-* **epfd**: 是epoll_create()的返回值。
-* **op**: 表示op操作
+- **epfd**: 是epoll_create()的返回值。
+- **op**: 表示op操作
 
     op | desc
     :--- | :---
@@ -203,13 +229,13 @@ epoll操作过程需要三个接口, 分别如下:
     EPOLL_CTL_DEL | 删除监听事件
     EPOLL_CTL_MOD | 修改监听事件
 
-* **fd**: 是需要监听的fd（文件描述符）
-* **epoll_event**: 是告诉内核需要监听什么事, struct epoll_event结构如下:
+- **fd**: 是需要监听的fd（文件描述符）
+- **epoll_event**: 是告诉内核需要监听什么事, struct epoll_event结构如下:
 
 ```c
 struct epoll_event {
-  __uint32_t events;  /* Epoll events */
-  epoll_data_t data;  /* User data variable */
+  __uint32_t events;  /- Epoll events */
+  epoll_data_t data;  /- User data variable */
 };
 ```
 
@@ -225,13 +251,13 @@ EPOLLHUP | 表示对应的文件描述符被挂断
 EPOLLET | 将EPOLL设为边缘触发(Edge Triggered)模式, 这是相对于水平触发(Level Triggered)来说的.
 EPOLLONESHOT | 只监听一次事件, 当监听完这次事件之后, 如果还需要继续监听这个socket的话, 需要再次把这个socket加入到EPOLL队列里.
 
-* **int epoll_wait(int epfd, struct epoll_event \*events, int maxevents, int timeout);**
+- **int epoll_wait(int epfd, struct epoll_event \*events, int maxevents, int timeout);**
 
 等待epfd上的io事件, 最多返回maxevents个事件。
 
-* **events**用来从内核得到事件的集合。
-* **maxevents**告之产生的内核events大小。这个maxevents的值不能大于创建epoll_create()时的size。
-* **timeout**是超时时间（毫秒, 0会立即返回, -1将不确定, 也有说法说是永久阻塞）。
+- **events**用来从内核得到事件的集合。
+- **maxevents**告之产生的内核events大小。这个maxevents的值不能大于创建epoll_create()时的size。
+- **timeout**是超时时间（毫秒, 0会立即返回, -1将不确定, 也有说法说是永久阻塞）。
   
 该函数返回需要处理的事件数目, 如返回0表示已超时。
 
@@ -241,8 +267,8 @@ epoll对文件描述符的操作有两种模式: LT（level trigger, 水平出�
 
 LT模式与ET模式的区别如下:
 
-* LT模式: 当epoll_wait检测到描述符事件发生并将此事件通知应用程序, 应用程序可以不立即处理该事件。下次调用epoll_wait时, 会再次响应应用程序并通知此事件。
-* ET模式: 当epoll_wait检测到描述符事件发生并将此事件通知应用程序, 应用程序必须立即处理该事件。如果不处理, 下次调用epoll_wait时, 不会再次响应应用程序并通知此事件。
+- LT模式: 当epoll_wait检测到描述符事件发生并将此事件通知应用程序, 应用程序可以不立即处理该事件。下次调用epoll_wait时, 会再次响应应用程序并通知此事件。
+- ET模式: 当epoll_wait检测到描述符事件发生并将此事件通知应用程序, 应用程序必须立即处理该事件。如果不处理, 下次调用epoll_wait时, 不会再次响应应用程序并通知此事件。
 
 ##### 3.3.2.1 LT模式
 
@@ -272,8 +298,8 @@ epoll工作在ET模式的时候, 必须使用非阻塞套接口, 以避免由于
 4. 然后我们读取了1KB的数据
 5. 调用epoll_wait(2)......
 
-* LT模式: 如果是LT模式, 那么在第5步调用epoll_wait(2)之后, 仍然能受到通知。
-* ET模式: 如果我们在第1步将RFD添加到epoll描述符的时候使用了EPOLLET标志, 那么在第5步调用epoll_wait(2)之后将有可能会挂起, 因为剩余的数据还存在于文件的输入缓冲区内, 而且数据发出端还在等待一个针对已经发出数据的反馈信息。只有在监视的文件句柄上发生了某个事件的时候 ET 工作模式才会汇报事件。因此在第5步的时候, 调用者可能会放弃等待仍在存在于文件输入缓冲区内的剩余数据。
+- LT模式: 如果是LT模式, 那么在第5步调用epoll_wait(2)之后, 仍然能受到通知。
+- ET模式: 如果我们在第1步将RFD添加到epoll描述符的时候使用了EPOLLET标志, 那么在第5步调用epoll_wait(2)之后将有可能会挂起, 因为剩余的数据还存在于文件的输入缓冲区内, 而且数据发出端还在等待一个针对已经发出数据的反馈信息。只有在监视的文件句柄上发生了某个事件的时候 ET 工作模式才会汇报事件。因此在第5步的时候, 调用者可能会放弃等待仍在存在于文件输入缓冲区内的剩余数据。
 
 当使用epoll的ET模型来工作时, 当产生了一个EPOLLIN事件后, 读数据的时候需要考虑的是当recv()返回的大小如果等于请求的大小, 那么很有可能是缓冲区还有数据未读完, 也意味着该次事件还没有处理完, 所以还需要再次读取:
 
@@ -303,7 +329,7 @@ while(rs) {
 }
 ```
 
-* Linux中的EAGAIN含义
+- Linux中的EAGAIN含义
 
 Linux环境下开发经常会碰到很多错误(设置errno), 其中EAGAIN是其中比较常见的一个错误(比如用在非阻塞操作中)。从字面上来看, 是提示再试一次。这个错误经常出现在当应用程序进行一些非阻塞(non-blocking)操作(对文件或socket)的时候。
 
