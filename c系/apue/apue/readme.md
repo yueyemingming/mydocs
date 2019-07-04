@@ -136,9 +136,9 @@
 
 ##### 挂载镜像
 
-```bash
-mount -o loop rhel-server-6.5-x86_64-dvd.iso /mnt/cdrom
-```
+    ```bash
+    mount -o loop rhel-server-6.5-x86_64-dvd.iso /mnt/cdrom
+    ```
 
 ##### 修改配置文件
 
@@ -146,28 +146,28 @@ mount -o loop rhel-server-6.5-x86_64-dvd.iso /mnt/cdrom
     vim /etc/yum.repos.d/rhel6.repo
     ```
 
-```ini
-[media]                             # 名称任意
-name=media                          # 名称任意
-baseurl=file:///mnt/cdrom/Server    # yum安装源位置
-enabled=1                           # 使能
-gpgcheck=0                          # 不校验
-```
+    ```ini
+    [media]                             # 名称任意
+    name=media                          # 名称任意
+    baseurl=file:///mnt/cdrom/Server    # yum安装源位置
+    enabled=1                           # 使能
+    gpgcheck=0                          # 不校验
+    ```
 
 #### 1.1.2 编译器安装
 
-```bash
-yum install gcc.x86_64 gcc-c++.x86_64 glibc-static.x86_64
-```
+    ```bash
+    yum install gcc.x86_64 gcc-c++.x86_64 glibc-static.x86_64
+    ```
 
 > 32位上将x86_64换成i386或i686
 
 #### 1.1.3 查看版本
 
-```bash
-gcc -v
-  gcc 版本 4.4.7 20120313 (Red Hat 4.4.7-4) (GCC)        # 安装成功
-```
+    ```bash
+    gcc -v
+    gcc 版本 4.4.7 20120313 (Red Hat 4.4.7-4) (GCC)        # 安装成功
+    ```
 
 ### 1.2 unix历史简介
 
