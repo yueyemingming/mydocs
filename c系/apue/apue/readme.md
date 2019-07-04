@@ -384,7 +384,6 @@ void clearerr(FILE *stream);    //清除某个文件流上的错误  stdio.h
 ```cpp
 int feof(FILE *stream);
     // 判断是否文件尾,配合ferror一起使用.  
-    // eg.
         if ( feof(fp) )    ... ;
         if ( feof(fp) && !ferror(fp) )    ... ;
 ```
@@ -405,8 +404,6 @@ int ungetc(int c, FILE *stream);    // 回写字符到某流中.
 ```
 
 **返回值** : 成功返回读到的字节,出错或者读到文件末尾时返回EOF
-
-eg.
 
 ```cpp
 ungetc( 97, stdin ) ;               // 向标准输入写入字符'a'
@@ -476,6 +473,8 @@ int puts(const char *s);                    // 向标准输出写一样,输出�
 
 #### 2.6.3 直接IO,块操作
 
+- 读入
+
 ```cpp
 size_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream);
 ```
@@ -490,6 +489,8 @@ size_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream);
 :--- | :--- | :--- | :--- | :---
 超过10个字节文件 | fread( buf, 10, 1, fp ) | 循环1次 | 返回值1 | 读文件的次数
 少于10个字节文件(比如3个字节) | fread( buf, 1, 10, fp ) | 循环10次 | 返回值3 | 读文件的次数
+
+- 写出
 
 ```cpp
 size_t fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream);
