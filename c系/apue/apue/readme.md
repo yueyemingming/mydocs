@@ -349,7 +349,9 @@ FILE* fopen(const char *path, const char *mode);
 FILE* freopen(const char *path, const char *mode, FILE *stream);
     // 将指定的文件打开为预定义的流：stdin,stdout,stderr ;
     // eg.
+        ```cpp
         newfp = freopen( "test.txt", "w", stdout ) ;    //向newfp中写入数据,即向stdout中写入数据
+        ```
 
 FILE *fdopen(int fd, const char *mode);
     //将文件描述符fd转换成文件流.
