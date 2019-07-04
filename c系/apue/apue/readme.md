@@ -335,8 +335,7 @@ num | en | chs
 ### 2.2 打开文件
 
 ```cpp
-//以某种方式打开文件
-FILE* fopen(const char *path, const char *mode);
+FILE* fopen(const char *path, const char *mode);        //以某种方式打开文件
     // path    要打开的文件, 绝对路径,相对路径皆可.  
     // mode    打开方式
     //     r   只读,指针定位到文件头  
@@ -346,12 +345,10 @@ FILE* fopen(const char *path, const char *mode);
     //     a   追加,只写,指针定位到文件尾  
     //     a+  追加,读写,指针定位到文件尾  
 
-// 将指定的文件打开为预定义的流：stdin,stdout,stderr ;
-FILE* freopen(const char *path, const char *mode, FILE *stream);
+FILE* freopen(const char *path, const char *mode, FILE *stream);    // 将指定的文件打开为预定义的流：stdin,stdout,stderr ;
     // eg: newfp = freopen( "test.txt", "w", stdout ) ;    //向newfp中写入数据,即向stdout中写入数据
 
-//将文件描述符fd转换成文件流.
-FILE *fdopen(int fd, const char *mode);
+FILE *fdopen(int fd, const char *mode);                 //将文件描述符fd转换成文件流.
 ```
 
 ### 2.3 关闭文件
