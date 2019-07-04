@@ -136,38 +136,38 @@
 
 ##### 挂载镜像
 
-    ```bash
-    mount -o loop rhel-server-6.5-x86_64-dvd.iso /mnt/cdrom
-    ```
+```bash
+mount -o loop rhel-server-6.5-x86_64-dvd.iso /mnt/cdrom
+```
 
 ##### 修改配置文件
 
-    ```bash
-    vim /etc/yum.repos.d/rhel6.repo
-    ```
+```bash
+vim /etc/yum.repos.d/rhel6.repo
+```
 
-    ```ini
-    [media]                             # 名称任意
-    name=media                          # 名称任意
-    baseurl=file:///mnt/cdrom/Server    # yum安装源位置
-    enabled=1                           # 使能
-    gpgcheck=0                          # 不校验
-    ```
+```ini
+[media]                             # 名称任意
+name=media                          # 名称任意
+baseurl=file:///mnt/cdrom/Server    # yum安装源位置
+enabled=1                           # 使能
+gpgcheck=0                          # 不校验
+```
 
 #### 1.1.2 编译器安装
 
-    ```bash
-    yum install gcc.x86_64 gcc-c++.x86_64 glibc-static.x86_64
-    ```
+```bash
+yum install gcc.x86_64 gcc-c++.x86_64 glibc-static.x86_64
+```
 
 > 32位上将x86_64换成i386或i686
 
 #### 1.1.3 查看版本
 
-    ```bash
-    gcc -v
-    gcc 版本 4.4.7 20120313 (Red Hat 4.4.7-4) (GCC)        # 安装成功
-    ```
+```bash
+gcc -v
+gcc 版本 4.4.7 20120313 (Red Hat 4.4.7-4) (GCC)        # 安装成功
+```
 
 ### 1.2 unix历史简介
 
@@ -333,27 +333,36 @@ linux       | 杂货铺,linux内核(www.kernel.org)+界面(gnome, kde)的集合
 
 ### 2.2 打开文件
 
-    ```cpp
-    FILE* fopen(const char *path, const char *mode);
-        // 以某种方式打开文件
-        // path    要打开的文件, 绝对路径,相对路径皆可.  
-        // mode    打开方式
-        //     r   只读,指针定位到文件头  
-        //     r+  读写,指针定位到文件头  
-        //     w   只写,创建,指针定位到文件头,文件大小立即变为0  
-        //     w+  读写,创建,指针定位到文件头,文件大小立即变为0  
-        //     a   追加,只写,指针定位到文件尾  
-        //     a+  追加,读写,指针定位到文件尾  
+- open 以某种方式打开文件
 
-    FILE* freopen(const char *path, const char *mode, FILE *stream);
-        // 将指定的文件打开为预定义的流：stdin,stdout,stderr ;
-        // eg.
-            newfp = freopen( "test.txt", "w", stdout ) ;    //向newfp中写入数据,即向stdout中写入数据
+```cpp
+FILE* fopen(const char *path, const char *mode);
+```
 
+- path    要打开的文件, 绝对路径,相对路径皆可.  
+- mode    打开方式
+  - r   只读,指针定位到文件头  
+  - r+  读写,指针定位到文件头  
+  - w   只写,创建,指针定位到文件头,文件大小立即变为0  
+  - w+  读写,创建,指针定位到文件头,文件大小立即变为0  
+  - a   追加,只写,指针定位到文件尾  
+  - a+  追加,读写,指针定位到文件尾  
 
-    FILE *fdopen(int fd, const char *mode);
-        //将文件描述符fd转换成文件流.
-    ```
+- freopen 将指定的文件打开为预定义的流：stdin,stdout,stderr ;
+
+```cpp
+FILE* freopen(const char *path, const char *mode, FILE *stream);
+```
+
+```cpp
+newfp = freopen( "test.txt", "w", stdout ) ;    //向newfp中写入数据,即向stdout中写入数据
+```
+
+- fopen 将文件描述符fd转换成文件流.
+
+```cpp
+FILE *fdopen(int fd, const char *mode);
+```
 
 ### 2.3 关闭文件
 
