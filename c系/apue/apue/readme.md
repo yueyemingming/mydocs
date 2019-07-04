@@ -591,7 +591,7 @@ FILE*指针本身的存放位置 : 因为存在成对函数fclose, 可以断定�
 
     ```cpp
     void setbuf(FILE *stream, char *buf);
-        //= **setvbuf( stream, buf, _IOFBF, BUFSIZ );
+        //= setvbuf( stream, buf, _IOFBF, BUFSIZ );
     ```
 
     ```cpp
@@ -604,32 +604,34 @@ FILE*指针本身的存放位置 : 因为存在成对函数fclose, 可以断定�
 
     ```cpp
     void setbuffer(FILE *stream, char *buf, size_t size);
-        // = **setvbuf( stream, buf, _IOFBF, size );
+        // = setvbuf( stream, buf, _IOFBF, size );
     ```
 
   - 行缓冲
 
     ```cpp
     void setlinebuf(FILE *stream);
-        // = **setvbuf(stream, (char *) NULL, _IOLBF, 0);
+        // = setvbuf(stream, (char *) NULL, _IOLBF, 0);
     ```
 
 ### 2.8 文件内位置指针
 
-int fseek(FILE *stream, long offset, int whence);
-
+    ```cpp
+    int fseek(FILE *stream, long offset, int whence);
+    ```
+    
     定位文件位置指针位置
 
-    `offset`  定位的长度,可以为负数  
-    `whence`
+    offset  定位的长度,可以为负数  
+    whence
 
-    `value` | location
-    :--- | :---
-    SEEK_SET | 文件头
-    SEEK_CUR | 当前位置
-    SEEK_END | 文件尾
+        value | location
+        :--- | :---
+        SEEK_SET | 文件头
+        SEEK_CUR | 当前位置
+        SEEK_END | 文件尾
 
-    `返回值`  定位到比文件头小的位置,函数错误,但可以定位到比文件尾大的位置.
+    返回值  定位到比文件头小的位置,函数错误,但可以定位到比文件尾大的位置.
 
 long ftell(FILE *stream);                    获取文件位置指针距文件头偏移
 void rewind(FILE *stream); = **fseek(steam,0,SEEK_SET) ;   定位到文件头
