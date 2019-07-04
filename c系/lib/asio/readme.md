@@ -14,5 +14,5 @@ Asio 库分为 Boost 版和 non-Boost 版。
     ```
 
 - [asio读写串口示例](asio.com.eg.md)
-- [Boost.Asio C++ 网络编程](https://mmoaay.gitbooks.io/boost-asio-cpp-network-programming-chinese/content/Chapter1.html)
+- [Boost.Asio C++ 网络编程](boost.asio.c++.programming/readme.md)
 - [用asio开发过的软件——弗锐思名人堂测试软件(私有仓库需rui-space登录)](https://github.com/rui-space/myfrs.halloffame/tree/master/halloffame.test)
