@@ -475,32 +475,32 @@ int puts(const char *s);                    // 向标准输出写一样,输出�
 
 - 读入
 
-```cpp
-size_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream);
-```
+    ```cpp
+    size_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream);
+    ```
 
-从文件流stream中读取nmemb*size个字节数据保存ptr中.
+    从文件流stream中读取nmemb*size个字节数据保存ptr中.
 
-成功返回nmemb,即读取文件的正确次数, 而非nmemb*size个字节数;  
-出错或文件末尾,返回0~nmemb的数值;  
-0代表到达文件结尾.
+    成功返回nmemb,即读取文件的正确次数, 而非nmemb*size个字节数;  
+    出错或文件末尾,返回0~nmemb的数值;  
+    0代表到达文件结尾.
 
-文件 | 函数 | desc | return | return_desc
-:--- | :--- | :--- | :--- | :---
-超过10个字节文件 | fread( buf, 10, 1, fp ) | 循环1次 | 返回值1 | 读文件的次数
-少于10个字节文件(比如3个字节) | fread( buf, 1, 10, fp ) | 循环10次 | 返回值3 | 读文件的次数
+    文件 | 函数 | desc | return | return_desc
+    :--- | :--- | :--- | :--- | :---
+    超过10个字节文件 | fread( buf, 10, 1, fp ) | 循环1次 | 返回值1 | 读文件的次数
+    少于10个字节文件(比如3个字节) | fread( buf, 1, 10, fp ) | 循环10次 | 返回值3 | 读文件的次数
 
 - 写出
 
-```cpp
-size_t fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream);
-```
+    ```cpp
+    size_t fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream);
+    ```
 
-向文件流stream中写入从ptr开始的nmemb*size个字节的数据.
+    向文件流stream中写入从ptr开始的nmemb*size个字节的数据.
 
-成功返回nmemb,即写入文件的正确次数, 而非nmemb*size个字节数;  
-出错或文件末尾,返回0~nmemb的数值;  
-0代表到达文件结尾.
+    成功返回nmemb,即写入文件的正确次数, 而非nmemb*size个字节数;  
+    出错或文件末尾,返回0~nmemb的数值;  
+    0代表到达文件结尾.
 
 #### 2.6.4 格式化io
 
