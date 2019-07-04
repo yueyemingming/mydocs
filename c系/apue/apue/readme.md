@@ -296,12 +296,12 @@ num | en | chs
 - man查看错误号  
 `man errno`
 
-fun | desc | header
-:--- | :--- | :---
-**int errno*- | 错误号,全局变量 | errno.h
-**const char \*sys_errlist[]*- | 错误提示字符串数组,下标对应错误号. | errno.h
-**char\- strerror(int errnum)*- | 返回相应的错误号对应的字符串 | string.h
-**void perror(const char \*s)*- | 同时打印错误号errno所对应的字符串 | stdio.h
+```cpp
+int errno   //错误号,全局变量. 头文件errno.h
+const char *sys_errlist[]   //错误提示字符串数组,下标对应错误号. 头文件errno.h
+char* strerror(int errnum)  //返回相应的错误号对应的字符串. 头文件string.h
+void perror(const char *s)  //同时打印错误号errno所对应的字符串. 头文件stdio.h
+```
 
 ## 2. 标准库IO函数
 
@@ -365,14 +365,14 @@ extern struct _IO_FILE \*stderr;     // Standard error output stream.
 
 ### 2.3. 关闭文件
 
-**FILE*指针本身的存放位置*- : 因为存在成对函数fclose, 可以断定此指针是在**堆**上创建的.
+**FILE*指针本身的存放位置** : 因为存在成对函数fclose, 可以断定此指针是在**堆**上创建的.
 
 - **int fclose(FILE \*fp);**     冲刷缓冲区,同时,关闭文件流.  stdio.h
 
 ### 2.4. 判断流错误
 
 - **int ferror(FILE \*stream);**    判断是否文件流产生错误  stdio.h
-- **void clearerr(FILE \*stream);*- 清除某个文件流上的错误  stdio.h
+- **void clearerr(FILE \*stream);** 清除某个文件流上的错误  stdio.h
 
 ### 2.5. 判断流结尾
 
@@ -404,7 +404,7 @@ extern struct _IO_FILE \*stderr;     // Standard error output stream.
 
 - **int fgetc(FILE \*stream);**
 - **int getc(FILE \*stream);**  宏定义实现,用法与fgetc相同
-- **int getchar(void);*- = **getc(stdin);**
+- **int getchar(void);** = **getc(stdin);**
 - **int ungetc(int c, FILE \*stream);**    回写字符到某流中.
 
     `返回值`  成功返回读到的字节,出错或者读到文件末尾时返回EOF
@@ -431,8 +431,8 @@ eg.
 向文件流中写入一个字符
 
 - **int fputc(int c, FILE \*stream);**
-- ***int putc(int c, FILE \*stream);**- 宏定义实现,用法与fputc相同
-- **int putchar(int c);*- = **putc(c, stdout) ;**
+- ***int putc(int c, FILE \*stream);*** 宏定义实现,用法与fputc相同
+- **int putchar(int c);** = **putc(c, stdout) ;**
 
     `返回值`    成功返回写入的字节,出错返回EOF.
 
@@ -450,7 +450,7 @@ eg.
 - **char \*fgets(char \*s, int size, FILE \*stream);**  
 size-1为最大读取个数,数据末尾自动补齐\0.
 
-- **char \*gets(char \*s);*- ~= **fgets( s, BUFSIZ, stdin ) ;**
+- **char \*gets(char \*s);** ~= **fgets( s, BUFSIZ, stdin ) ;**
 
     ```cpp
     stdio.h:128:    #define    BUFSIZ       _IO_BUFSIZ  
@@ -626,7 +626,7 @@ fgets(buf, 20, stdin);
 
 - 全缓冲,长度BUFSIZ
 
-**void setbuf(FILE \*stream, char \*buf);*- = **setvbuf( stream, buf, _IOFBF, BUFSIZ );**
+**void setbuf(FILE \*stream, char \*buf);** = **setvbuf( stream, buf, _IOFBF, BUFSIZ );**
 
 ```cpp
 stdio.h:128:    #define    BUFSIZ        _IO_BUFSIZ
@@ -636,11 +636,11 @@ _G_config.h:85: #define    _G_BUFSIZ    8192
 
 - 全缓冲,长度size
 
-**void setbuffer(FILE \*stream, char \*buf, size_t size);*- = **setvbuf( stream, buf, _IOFBF, size );**
+**void setbuffer(FILE \*stream, char \*buf, size_t size);** = **setvbuf( stream, buf, _IOFBF, size );**
 
 - 行缓冲
 
-**void setlinebuf(FILE \*stream);*- = **setvbuf(stream, (char \*) NULL, _IOLBF, 0);**
+**void setlinebuf(FILE \*stream);** = **setvbuf(stream, (char \*) NULL, _IOLBF, 0);**
 
 ### 2.8. 文件内位置指针
 
@@ -660,7 +660,7 @@ _G_config.h:85: #define    _G_BUFSIZ    8192
     `返回值`  定位到比文件头小的位置,函数错误,但可以定位到比文件尾大的位置.
 
 - **long ftell(FILE \*stream);**                    获取文件位置指针距文件头偏移
-- **void rewind(FILE \*stream);*- = **fseek(steam,0,SEEK_SET) ;**   定位到文件头
+- **void rewind(FILE \*stream);** = **fseek(steam,0,SEEK_SET) ;**   定位到文件头
 - **int fgetpos(FILE \*stream, fpos_t \*pos);**      获取当前位置指针
 - **int fsetpos(FILE \*stream, fpos_t \*pos);**      定位文件指针
 
@@ -668,9 +668,9 @@ _G_config.h:85: #define    _G_BUFSIZ    8192
 
 func | desc
 :--- | :---
-**char \*tmpnam(char \*s);*- | 在/tmp目录下创建唯一的临时文件,若s不为空,返回值为s的拷贝
-**int mkstemp(char \*template);*- | 创建临时文件同时打开,返回文件描述符
-**FILE \*tmpfile(void);*- | 创建临时文件同时打开,返回文件指针
+**char \*tmpnam(char \*s);** | 在/tmp目录下创建唯一的临时文件,若s不为空,返回值为s的拷贝
+**int mkstemp(char \*template);** | 创建临时文件同时打开,返回文件描述符
+**FILE \*tmpfile(void);** | 创建临时文件同时打开,返回文件指针
 
 eg.
 
@@ -1095,7 +1095,7 @@ else if ( S_ISBLK(buf.st_mode) )    printf( "block device\n" ) ;
 else if ( S_ISFIFO(buf.st_mode) )    printf( "fifo\n" ) ;
 else if ( S_ISLNK(buf.st_mode) )    printf( "symbolic link\n" ) ;
 else if ( S_ISSOCK(buf.st_mode) )    printf( "socket\n" ) ;
-else    printf( "*- unknown mode **\n" ) ;
+else    printf( "** unknown mode **\n" ) ;
 return    0 ;
 }
 ```
@@ -1512,7 +1512,7 @@ void    seekdir(DIR *dirp, long offset);    用来设置参数dir目录流目前
 int    closedir(DIR *dirp);        关闭目录流
 
 ```cpp++ readdir示例
-int    main(int argc,char*- argv)
+int    main(int argc,char** argv)
 {
 DIR *dirptr = NULL;
 struct dirent *entry;
@@ -1807,7 +1807,7 @@ struct passwd *getpwuid(uid_t uid);        更具uid获取用户口令信息
 ```
 
 ```cpp++
-int    main( int argc, char*- argv )
+int    main( int argc, char** argv )
 {
     struct passwd - pw = getpwnam( argv[1] );
     if ( pw == NULL) {
@@ -2266,7 +2266,7 @@ ptr = NULL ;
 
 环境变量 environ,二维字符数组,全局变量.
 
-extern char*- environ ;
+extern char** environ ;
 for ( int i = 0 ; environ[i] != NULL ; i++ )
 cout << environ[i] << endl ;
 
@@ -2746,7 +2746,7 @@ e 表示明确要传递给此子进程的环境变量.env即此环境变量.以N
   不带后缀e函数,子进程直接复制父进程说有所有环境.
 
     environ.c    用来打印环境变量
-extern char*- environ ;
+extern char** environ ;
 for ( int i = 0 ; environ[i] != NULL ; i++ )
 cout << environ[i] << endl ;
 
