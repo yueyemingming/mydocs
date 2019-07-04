@@ -616,22 +616,22 @@ FILE*指针本身的存放位置 : 因为存在成对函数fclose, 可以断定�
 
 ### 2.8 文件内位置指针
 
-    ```cpp
-    int fseek(FILE *stream, long offset, int whence);
-    ```
-    
-    定位文件位置指针位置
+```cpp
+int fseek(FILE *stream, long offset, int whence);
+```
 
-    offset  定位的长度,可以为负数  
-    whence
+定位文件位置指针位置
 
-        value | location
-        :--- | :---
-        SEEK_SET | 文件头
-        SEEK_CUR | 当前位置
-        SEEK_END | 文件尾
+- offset  定位的长度,可以为负数  
+- whence
 
-    返回值  定位到比文件头小的位置,函数错误,但可以定位到比文件尾大的位置.
+    value | location
+    :--- | :---
+    SEEK_SET | 文件头
+    SEEK_CUR | 当前位置
+    SEEK_END | 文件尾
+
+返回值  定位到比文件头小的位置,函数错误,但可以定位到比文件尾大的位置.
 
 long ftell(FILE *stream);                    获取文件位置指针距文件头偏移
 void rewind(FILE *stream); = **fseek(steam,0,SEEK_SET) ;   定位到文件头
