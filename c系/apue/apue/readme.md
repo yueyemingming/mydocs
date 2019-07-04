@@ -590,25 +590,25 @@ FILE*指针本身的存放位置 : 因为存在成对函数fclose, 可以断定�
   - 全缓冲,长度BUFSIZ
 
     ```cpp
-    void setbuf(FILE *stream, char *buf); = **setvbuf( stream, buf, _IOFBF, BUFSIZ );
+    void setbuf(FILE *stream, char *buf);   //= **setvbuf( stream, buf, _IOFBF, BUFSIZ );
     ```
 
     ```cpp
     stdio.h:128:    #define    BUFSIZ        _IO_BUFSIZ
     libio.h:46:     #define    _IO_BUFSIZ    _G_BUFSIZ
-    _G_config.h:85: #define    _G_BUFSIZ    8192
+    _G_config.h:85: #define    _G_BUFSIZ     8192
     ```
 
   - 全缓冲,长度size
 
     ```cpp
-    void setbuffer(FILE *stream, char *buf, size_t size); = **setvbuf( stream, buf, _IOFBF, size );
+    void setbuffer(FILE *stream, char *buf, size_t size);   // = **setvbuf( stream, buf, _IOFBF, size );
     ```
 
   - 行缓冲
 
     ```cpp
-    void setlinebuf(FILE *stream); = **setvbuf(stream, (char *) NULL, _IOLBF, 0);
+    void setlinebuf(FILE *stream);      // = **setvbuf(stream, (char *) NULL, _IOLBF, 0);
     ```
 
 ### 2.8 文件内位置指针
