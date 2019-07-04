@@ -623,7 +623,7 @@ int fseek(FILE *stream, long offset, int whence);
 定位文件位置指针位置
 
 - offset  定位的长度,可以为负数  
-- whence
+- whence  
     value | location
     :--- | :---
     SEEK_SET | 文件头
