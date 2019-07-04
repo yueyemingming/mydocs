@@ -581,11 +581,11 @@ FILE*指针本身的存放位置 : 因为存在成对函数fclose, 可以断定�
     int setvbuf(FILE *stream, char *buf, int mode, size_t size);
     ```
 
-    mode | 设置的缓冲方式
-    :--- | :---
-    _IONBF | unbuffered
-    _IOLBF | line buffered
-    _IOFBF | fully buffered
+        mode | 设置的缓冲方式
+        :--- | :---
+        _IONBF | unbuffered
+        _IOLBF | line buffered
+        _IOFBF | fully buffered
 
   - 全缓冲,长度BUFSIZ
 
