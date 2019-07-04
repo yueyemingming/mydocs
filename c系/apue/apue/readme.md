@@ -273,7 +273,8 @@ linux       | 杂货铺,linux内核(www.kernel.org)+界面(gnome, kde)的集合
 
 ### 1.6 man 手册
 
-- `man n xxx`  
+- `man n xxx`
+
 num | en | chs
 :--- | :--- | :---
 1 | Standard commands | 标准命令
@@ -285,6 +286,7 @@ num | en | chs
 7 | Miscellaneous | 杂项
 8 | Administrative Commands | 管理员命令
 9 |  | 其他（Linux特定的）, 用来存放内核例行程序的文档.
+
 - `man xxx`
 - `man string.h`
 - **/usr/share/man/**
