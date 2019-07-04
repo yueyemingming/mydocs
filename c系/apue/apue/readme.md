@@ -297,7 +297,7 @@ num | en | chs
     `man errno`
 
     ```cpp
-    int errno   //错误号,全局变量. 头文件errno.h
+    int errno                   //错误号,全局变量. 头文件errno.h
     const char *sys_errlist[]   //错误提示字符串数组,下标对应错误号. 头文件errno.h
     char* strerror(int errnum)  //返回相应的错误号对应的字符串. 头文件string.h
     void perror(const char *s)  //同时打印错误号errno所对应的字符串. 头文件stdio.h
@@ -305,59 +305,54 @@ num | en | chs
 
 ## 2. 标准库IO函数
 
-### 2.1. 流
+### 2.1 流
 
 - FILE
 
-```cpp
-#include <stdio.h>
-typedef struct _IO_FILE FILE ;
+    ```cpp
+    #include <stdio.h>
+    typedef struct _IO_FILE FILE ;
 
-#include <libio.h>
-struct _IO_FILE {
-    ...
-    int _fileno ;    // 文件描述符
-    ...
-}
-```
+    #include <libio.h>
+    struct _IO_FILE {
+        ...
+        int _fileno ;    // 文件描述符
+        ...
+    }
+    ```
 
 - stdin, stdout, stderr
 
-```cpp
-#include <stdio.h>
-extern struct _IO_FILE \*stdin;      // Standard input stream.
-extern struct _IO_FILE \*stdout;     // Standard output stream.
-extern struct _IO_FILE \*stderr;     // Standard error output stream.
-```
+    ```cpp
+    #include <stdio.h>
+    extern struct _IO_FILE *stdin;      // Standard input stream.
+    extern struct _IO_FILE *stdout;     // Standard output stream.
+    extern struct _IO_FILE *stderr;     // Standard error output stream.
+    ```
 
 > 这三个流在进程中默认是已经打开的.
 
-### 2.2. 打开文件
+### 2.2 打开文件
 
-- **FILE \*fopen(const char \*path, const char \*mode);**
-
+```cpp
+FILE* fopen(const char *path, const char *mode);
     以某种方式打开文件  
+    path    要打开的文件, 绝对路径,相对路径皆可.  
+    mode    打开方式
+        r   只读,指针定位到文件头  
+        r+  读写,指针定位到文件头  
+        w   只写,创建,指针定位到文件头,文件大小立即变为0  
+        w+  读写,创建,指针定位到文件头,文件大小立即变为0  
+        a   追加,只写,指针定位到文件尾  
+        a+  追加,读写,指针定位到文件尾  
 
-    `path`    要打开的文件, 绝对路径,相对路径皆可.  
-    `mode` | 打开方式
-    :--- | :---
-    r | 只读,指针定位到文件头  
-    r+ | 读写,指针定位到文件头  
-    w | 只写,创建,指针定位到文件头,文件大小立即变为0  
-    w+ | 读写,创建,指针定位到文件头,文件大小立即变为0  
-    a | 追加,只写,指针定位到文件尾  
-    a+ | 追加,读写,指针定位到文件尾  
-
-- **FILE \*freopen(const char \*path, const char \*mode, FILE \*stream);**
-
+FILE* freopen(const char *path, const char *mode, FILE *stream);
     将指定的文件打开为预定义的流：stdin,stdout,stderr ;
+    newfp = freopen( "test.txt", "w", stdout ) ;    //向newfp中写入数据,即向stdout中写入数据
 
-    ```cpp
-    newfp = freopen( "test.txt", "w", stdout ) ;    向newfp中写入数据,即向stdout中写入数据
-    ```
-
-- **FILE \*fdopen(int fd, const char \*mode);**  
-将文件描述符fd转换成文件流.
+FILE *fdopen(int fd, const char *mode);
+    将文件描述符fd转换成文件流.
+```
 
 #### 习题 2.2 maxopen.c
 
@@ -367,12 +362,12 @@ extern struct _IO_FILE \*stderr;     // Standard error output stream.
 
 **FILE*指针本身的存放位置** : 因为存在成对函数fclose, 可以断定此指针是在**堆**上创建的.
 
-- **int fclose(FILE \*fp);**     冲刷缓冲区,同时,关闭文件流.  stdio.h
+- **int fclose(FILE *fp);     冲刷缓冲区,同时,关闭文件流.  stdio.h
 
 ### 2.4. 判断流错误
 
-- **int ferror(FILE \*stream);**    判断是否文件流产生错误  stdio.h
-- **void clearerr(FILE \*stream);** 清除某个文件流上的错误  stdio.h
+- **int ferror(FILE *stream);    判断是否文件流产生错误  stdio.h
+- **void clearerr(FILE *stream); 清除某个文件流上的错误  stdio.h
 
 ### 2.5. 判断流结尾
 
@@ -383,7 +378,7 @@ extern struct _IO_FILE \*stderr;     // Standard error output stream.
 #endif
 ```
 
-- **int feof(FILE \*stream);**
+- **int feof(FILE *stream);
 
     判断是否文件尾,配合ferror一起使用.  
 
@@ -402,10 +397,10 @@ extern struct _IO_FILE \*stderr;     // Standard error output stream.
 
 在文件流获取一个字符
 
-- **int fgetc(FILE \*stream);**
-- **int getc(FILE \*stream);**  宏定义实现,用法与fgetc相同
-- **int getchar(void);** = **getc(stdin);**
-- **int ungetc(int c, FILE \*stream);**    回写字符到某流中.
+- **int fgetc(FILE *stream);
+- **int getc(FILE *stream);  宏定义实现,用法与fgetc相同
+- **int getchar(void); = **getc(stdin);
+- **int ungetc(int c, FILE *stream);    回写字符到某流中.
 
     `返回值`  成功返回读到的字节,出错或者读到文件末尾时返回EOF
 
@@ -430,9 +425,9 @@ eg.
 
 向文件流中写入一个字符
 
-- **int fputc(int c, FILE \*stream);**
-- ***int putc(int c, FILE \*stream);*** 宏定义实现,用法与fputc相同
-- **int putchar(int c);** = **putc(c, stdout) ;**
+- **int fputc(int c, FILE *stream);
+- ***int putc(int c, FILE *stream);* 宏定义实现,用法与fputc相同
+- **int putchar(int c); = **putc(c, stdout) ;
 
     `返回值`    成功返回写入的字节,出错返回EOF.
 
@@ -447,10 +442,10 @@ eg.
 
 从文件流中读取一串数据,数据末尾自动补齐\0
 
-- **char \*fgets(char \*s, int size, FILE \*stream);**  
+- **char *fgets(char *s, int size, FILE *stream);  
 size-1为最大读取个数,数据末尾自动补齐\0.
 
-- **char \*gets(char \*s);** ~= **fgets( s, BUFSIZ, stdin ) ;**
+- **char *gets(char *s); ~= **fgets( s, BUFSIZ, stdin ) ;
 
     ```cpp
     stdio.h:128:    #define    BUFSIZ       _IO_BUFSIZ  
@@ -478,11 +473,11 @@ size-1为最大读取个数,数据末尾自动补齐\0.
 
 向文件流中写入一串数据
 
-- **int fputs(const char \*s, FILE \*stream);**
+- **int fputs(const char *s, FILE *stream);
 
     不输出\n
 
-- **int puts(const char \*s);**
+- **int puts(const char *s);
 
     向标准输出写一样,输出最后的\n
 
@@ -502,11 +497,11 @@ size-1为最大读取个数,数据末尾自动补齐\0.
 
 #### c) 直接IO,块操作
 
-- **size_t fread(void \*ptr, size_t size, size_t nmemb, FILE \*stream);**
+- **size_t fread(void \*ptr, size_t size, size_t nmemb, FILE *stream);
 
     从文件流stream中读取nmemb*size个字节数据保存ptr中.
 
-    **成功返回nmemb,即读取文件的正确次数, 而非nmemb*size个字节数;**  
+    **成功返回nmemb,即读取文件的正确次数, 而非nmemb*size个字节数;  
     出错或文件末尾,返回0~nmemb的数值;  
     0代表到达文件结尾.
 
@@ -515,11 +510,11 @@ size-1为最大读取个数,数据末尾自动补齐\0.
     超过10个字节文件 | fread( buf, 10, 1, fp ) | 循环1次 | 返回值1 | 读文件的次数
     少于10个字节文件(比如3个字节) | fread( buf, 1, 10, fp ) | 循环10次 | 返回值3 | 读文件的次数
 
-- **size_t fwrite(const void \*ptr, size_t size, size_t nmemb, FILE \*stream);**
+- **size_t fwrite(const void \*ptr, size_t size, size_t nmemb, FILE *stream);
 
     向文件流stream中写入从ptr开始的nmemb*size个字节的数据.
 
-    **成功返回nmemb,即写入文件的正确次数, 而非nmemb*size个字节数;**  
+    **成功返回nmemb,即写入文件的正确次数, 而非nmemb*size个字节数;  
     出错或文件末尾,返回0~nmemb的数值;  
     0代表到达文件结尾.
 
@@ -546,21 +541,21 @@ read_student student.txt      读出此学生对象,打印
 ##### d.1) 输入
 
 ```cpp
-int scanf(const char \*format, ...);                    输入来自标准输入
-int fscanf(FILE \*stream, const char \*format, ...);    输入来自文件
-int sscanf(const char \*str, const char \*format, ...); 输入来自字符串
+int scanf(const char *format, ...);                    输入来自标准输入
+int fscanf(FILE *stream, const char *format, ...);    输入来自文件
+int sscanf(const char *str, const char *format, ...); 输入来自字符串
 sscanf( "12 abc", "%d%s", i, s ) ;
 ```
 
 ##### d.2) 输出
 
 ```cpp
-int printf(const char \*format, ...);                   格式化到标准输出
-int fprintf(FILE \*stream, const char \*format, ...);   格式化到文件
-int sprintf(char \*str, const char \*format, ...);      格式化到字符串buffer
+int printf(const char *format, ...);                   格式化到标准输出
+int fprintf(FILE *stream, const char *format, ...);   格式化到文件
+int sprintf(char *str, const char *format, ...);      格式化到字符串buffer
 sprintf( str, "%d,%s", i, s ) ;
 puts(str) ;
-int snprintf(char \*str, size_t size, const char \*format, ...);    格式化到字符串buffer
+int snprintf(char *str, size_t size, const char *format, ...);    格式化到字符串buffer
 ```
 
 ### 2.7. 缓冲
@@ -601,7 +596,7 @@ _exit(2)、_Exit(2)函数不会引发缓冲刷新
 
 ##### b) fflush
 
-**int fflush(FILE \*stream);**
+**int fflush(FILE *stream);
 
     `返回值`    成功返回0,出错返回EOF并设置errno
 
@@ -616,7 +611,7 @@ fgets(buf, 20, stdin);
 
 #### 5) 设置缓冲
 
-- **int setvbuf(FILE \*stream, char \*buf, int mode, size_t size);**
+- **int setvbuf(FILE *stream, char *buf, int mode, size_t size);
 
     `mode` | 设置的缓冲方式
     :--- | :---
@@ -626,7 +621,7 @@ fgets(buf, 20, stdin);
 
 - 全缓冲,长度BUFSIZ
 
-**void setbuf(FILE \*stream, char \*buf);** = **setvbuf( stream, buf, _IOFBF, BUFSIZ );**
+**void setbuf(FILE *stream, char *buf); = **setvbuf( stream, buf, _IOFBF, BUFSIZ );
 
 ```cpp
 stdio.h:128:    #define    BUFSIZ        _IO_BUFSIZ
@@ -636,15 +631,15 @@ _G_config.h:85: #define    _G_BUFSIZ    8192
 
 - 全缓冲,长度size
 
-**void setbuffer(FILE \*stream, char \*buf, size_t size);** = **setvbuf( stream, buf, _IOFBF, size );**
+**void setbuffer(FILE *stream, char *buf, size_t size); = **setvbuf( stream, buf, _IOFBF, size );
 
 - 行缓冲
 
-**void setlinebuf(FILE \*stream);** = **setvbuf(stream, (char \*) NULL, _IOLBF, 0);**
+**void setlinebuf(FILE *stream); = **setvbuf(stream, (char *) NULL, _IOLBF, 0);
 
 ### 2.8. 文件内位置指针
 
-- **int fseek(FILE \*stream, long offset, int whence);**
+- **int fseek(FILE *stream, long offset, int whence);
 
     定位文件位置指针位置
 
@@ -659,18 +654,18 @@ _G_config.h:85: #define    _G_BUFSIZ    8192
 
     `返回值`  定位到比文件头小的位置,函数错误,但可以定位到比文件尾大的位置.
 
-- **long ftell(FILE \*stream);**                    获取文件位置指针距文件头偏移
-- **void rewind(FILE \*stream);** = **fseek(steam,0,SEEK_SET) ;**   定位到文件头
-- **int fgetpos(FILE \*stream, fpos_t \*pos);**      获取当前位置指针
-- **int fsetpos(FILE \*stream, fpos_t \*pos);**      定位文件指针
+- **long ftell(FILE *stream);                    获取文件位置指针距文件头偏移
+- **void rewind(FILE *stream); = **fseek(steam,0,SEEK_SET) ;   定位到文件头
+- **int fgetpos(FILE *stream, fpos_t \*pos);      获取当前位置指针
+- **int fsetpos(FILE *stream, fpos_t \*pos);      定位文件指针
 
 ### 2.9. 临时文件
 
 func | desc
 :--- | :---
-**char \*tmpnam(char \*s);** | 在/tmp目录下创建唯一的临时文件,若s不为空,返回值为s的拷贝
-**int mkstemp(char \*template);** | 创建临时文件同时打开,返回文件描述符
-**FILE \*tmpfile(void);** | 创建临时文件同时打开,返回文件指针
+**char *tmpnam(char *s); | 在/tmp目录下创建唯一的临时文件,若s不为空,返回值为s的拷贝
+**int mkstemp(char *template); | 创建临时文件同时打开,返回文件描述符
+**FILE *tmpfile(void); | 创建临时文件同时打开,返回文件指针
 
 eg.
 
@@ -712,7 +707,7 @@ struct _IO_FILE {
 }
 ```
 
-- **int fileno(FILE \*stream);**  
+- **int fileno(FILE *stream);  
 获取打开的文件流对应的文件描述符
 
 ```cpp
@@ -727,8 +722,8 @@ struct _IO_FILE {
 
 ### 3.6. 打开文件
 
-- **int open(const char \*pathname, int flags);**  
-**int open(const char \*pathname, int flags, mode_t mode);**
+- **int open(const char *pathname, int flags);  
+**int open(const char *pathname, int flags, mode_t mode);
 
     `flags`    O_RDONLY,O_WRONLY,O_RDWR此三者必指定其一,不可同时出现. 
 
@@ -751,7 +746,7 @@ struct _IO_FILE {
 
 ### 3.7. 创建
 
-int creat(const char \*pathname, mode_t mode);
+int creat(const char *pathname, mode_t mode);
     =open(path, O_WRONLY|O_CREAT|O_TRUNC, mode) ;    // 没有O_EXCL选项
     =fopen( path, "w" ) ;
     注    creat函数并不判断文件是否存在,直接创建.
@@ -1042,9 +1037,9 @@ b) 属性部分
 
 对于文件系统fat,fat32,ntfs等,通过ls -l,可以看到其文件权限都rwxrwxrwx,这是因为他们本身没有inode和超级块的概念,都是拼凑出来的.
 
-int stat(const char \*path, struct stat *buf);    获取文件的stat信息,不能操作链接文件.
+int stat(const char *path, struct stat *buf);    获取文件的stat信息,不能操作链接文件.
 int fstat(int fd, struct stat *buf);        获取打开的文件描述符stat信息,不能操作链接文件.
-int lstat(const char \*path, struct stat *buf);    获取文件的stat信息,可操作链接文件.
+int lstat(const char *path, struct stat *buf);    获取文件的stat信息,可操作链接文件.
     buf    是需要在内存上开辟的一段空间,stat家族函数会填充此空间内容.
 
 struct stat {
@@ -1126,7 +1121,7 @@ ID        |  exec            |  exec            |  setuid（uid）|  setuid（ui
 （1）超级用户
 （2）uid等于实际用户ID或者保存的设置用户ID,并且设置用户ID位已经打开,意思是在普通用户模式下,有效用户ID设置为实际用户ID或者保存的设置用户ID之一,正是这个条件使得有些程序可以在运行时具有额外权限（超出本身应有的权限）,如man,就在运行时利用这一条件可以访问man用户所拥有的文件,但是在执行过滤时又将权限切换回实际用户权限,这样达到保护系统安全的效果.
 
-char \*getlogin(void);        获取当前实际登录用户名.
+char *getlogin(void);        获取当前实际登录用户名.
 uid_t    getuid( void ) ;    获取进程的实际用户id
 int    setuid(uid_t uid);    设置进程的实际用户id
 
@@ -1150,7 +1145,7 @@ ls -l
 
 ### 4.4. access
 
-int access(const char \*pathname, int mode);
+int access(const char *pathname, int mode);
     判断实际用户（当前用户）对文件访问权限.
     mode    F_OK, R_OK, W_OK, X_OK    可进行或操作
 
@@ -1180,7 +1175,7 @@ umask( old_mask ) ;    // 恢复旧位掩码
 
 ### 4.6.更改文件mode
 
-int chmod(const char \*path, mode_t mode);
+int chmod(const char *path, mode_t mode);
 int fchmod(int fd, mode_t mode) ;
     更改文件mode,除了能够更改文件权限,还能用来更改 设置用户id,和设置组id.
 
@@ -1235,9 +1230,9 @@ S_ISVTX ：为提高访问效率,将文件粘住在交换区内,而不被交换�
 
 ### 4.8. 更改文件的用户ID和组ID
 
-int chown(const char \*path, uid_t owner, gid_t group);
+int chown(const char *path, uid_t owner, gid_t group);
 int fchown(int fd, uid_t owner, gid_t group);
-int lchown(const char \*path, uid_t owner, gid_t group);        可操作链接文件
+int lchown(const char *path, uid_t owner, gid_t group);        可操作链接文件
 返回值：成功返回0,失败返回-1,设置errno.
 
 注    具有权限才能执行成功.
@@ -1289,7 +1284,7 @@ return    0 ;
     16592    core.copy    # 16592*512=8495104>8483248;copy中存在若干存放指向实际数据块的各个指针
 
 设置文件长度
-int truncate(const char \*path, off_t length);
+int truncate(const char *path, off_t length);
 int ftruncate(int fd, off_t length);
 
 */
@@ -1351,18 +1346,18 @@ hello, world.
 ### 4.10. 链接文件
 
 创建硬链接
-int link(const char \*oldpath, const char \*newpath);
+int link(const char *oldpath, const char *newpath);
     只有超级用户才可以给目录创建硬链接
     如果链接文件存在,返回出错-1,设置errno.
 
 link( "test.txt", "newtest.txt" ) ;    // fat32, ntfs等文件系统不可
 
 创建符号链接
-int symlink(const char \*oldpath, const char \*newpath);
+int symlink(const char *oldpath, const char *newpath);
     创建指向oldpath的新符号链接文件newpath,不强制oldpath必须存在.
 
 读取符号链接
-ssize_t readlink(const char \*path, char \*buf, size_t bufsiz);
+ssize_t readlink(const char *path, char *buf, size_t bufsiz);
     != open + read + close 这是个原子操作
     读取链接符号本身的内容,即获取所引用的文件名,而不是其文件内容.
 
@@ -1370,11 +1365,11 @@ count = readlink( "newtest.txt", buf, 10 ) ;    // newtest.txt -> test.txt
 cout << count << " : " << buf << endl ;        // 8 : test.txt
 
 文件更名
-int rename(const char \*oldpath, const char \*newpath);
+int rename(const char *oldpath, const char *newpath);
     文件,目录：更名,如果newpath已存在,会自动删除newpath,再更名.
 
 删除文件
-int unlink(const char \*pathname);    #include <unistd.h> 说明来自unix家族
+int unlink(const char *pathname);    #include <unistd.h> 说明来自unix家族
 int remove(const char- pathname) ;    #include <stdio.h> 说明来自iso c.
     remove只比unlink多了一个删除目录的功能,但不能删除非空目录.
 
@@ -1402,7 +1397,7 @@ struct utimbuf
     time_t modtime;    // modification time
 };
 
-int utime(const char \*filename, const struct utimbuf *times);
+int utime(const char *filename, const struct utimbuf *times);
     times为空,表示设置为当前时间.
 
 */
@@ -1438,7 +1433,7 @@ struct timeval
     long tv_usec;    // microseconds
 };
 
-int utimes(const char \*filename, const struct timeval times[2]);
+int utimes(const char *filename, const struct timeval times[2]);
     times[0]修改文件的最后访问时间
     times[1]修改文件的状态修改时间
     同utime函数,times如NULL,时间被设置成当前时间值.
@@ -1455,7 +1450,7 @@ int major(dev_t dev);             根据设备号划分出主设备号
 int minor(dev_t dev);             根据设备号划分出次设备号
 
 ```cpp++ 设备文件
-int    main(int argc, char \*argv[])
+int    main(int argc, char *argv[])
 {
 struct stat buf;
 
@@ -1471,23 +1466,23 @@ return     0 ;
 ### 4.13. 目录
 
 a) 创建目录
-int mkdir(const char \*pathname, mode_t mode);
+int mkdir(const char *pathname, mode_t mode);
 
 b) 删除目录
-int rmdir(const char \*pathname);
+int rmdir(const char *pathname);
 
 c) 获取当前路径
 
-char \*getcwd(char \*buf, size_t size);
+char *getcwd(char *buf, size_t size);
     当buf为NULL时,函数调用malloc,分配size长度的空间,若size为0,则分配PATH_MAX大小.最终需手动free.
 
-char \*get_current_dir_name(void);    ~= getcwd(NULL,0) ;    因此也许要最后调用free进行空间释放.
+char *get_current_dir_name(void);    ~= getcwd(NULL,0) ;    因此也许要最后调用free进行空间释放.
 
-char \*getwd(char \*buf);        buf需要手动分配至少PATH_MAX的空间,此函数不会自动malloc空间.
+char *getwd(char *buf);        buf需要手动分配至少PATH_MAX的空间,此函数不会自动malloc空间.
 
 更改当前进程工作目录
 
-int chdir(const char \*path);
+int chdir(const char *path);
 int fchdir(int fd);
     进程范围内,不影响其他进程
 
@@ -1504,7 +1499,7 @@ struct dirent
     char    d_name[256];        // 文件名
 };
 
-DIR-    opendir(const char \*name);    打开一个目录流
+DIR-    opendir(const char *name);    打开一个目录流
 struct dirent    *readdir(DIR *dirp);    读目录流,循环遍历
 long    telldir(DIR *dirp);        获取当前目录流指针便宜
 void    rewinddir(DIR *dirp);        流指针返回当前目录首
@@ -1647,7 +1642,7 @@ typedef struct {
     size_t   gl_offs;     /- Slots to reserve in gl_pathv.  */
 } glob_t;
 
-int glob(const char \*pattern, int flags, int (*errfunc) (const char \*epath, int eerrno), glob_t *pglob);
+int glob(const char *pattern, int flags, int (*errfunc) (const char *epath, int eerrno), glob_t *pglob);
     将与pattern匹配的内容存储在pglob中.
     pattern    匹配内容
     pglob    存储匹配的指定模式的文件名或目录
@@ -1706,7 +1701,7 @@ return 0;
 ```cpp++ mydu.c,查看某个目录所占的空间大小
 #define PATHSIZE 1024
 
-static int path_noloop(const char \*path)
+static int path_noloop(const char *path)
 {
 const char-    pos = strrchr(path,'/');
 if(pos == NULL)
@@ -1717,7 +1712,7 @@ if(strcmp(pos+1,".") == 0 || strcmp(pos+1,"..") == 0)
 return 1;
 }
 
-static int64_t mydu(const char \*path)
+static int64_t mydu(const char *path)
 {
 int i;
 static struct stat statres;
@@ -1802,7 +1797,7 @@ struct passwd
     char   *pw_shell;    // shell program
 };
 
-struct passwd *getpwnam(const char \*name);    根据名字获取用口令信息,可由getpwent函数来实现
+struct passwd *getpwnam(const char *name);    根据名字获取用口令信息,可由getpwent函数来实现
 struct passwd *getpwuid(uid_t uid);        更具uid获取用户口令信息
 ```
 
@@ -1851,8 +1846,8 @@ nobody:*:15628:0:99999:7:::
 ```cpp++
 struct spwd
 {
-    char \*sp_namp;                  // Login name.
-    char \*sp_pwdp;                  // Encrypted password.
+    char *sp_namp;                  // Login name.
+    char *sp_pwdp;                  // Encrypted password.
     long int sp_lstchg;             // Date of last change.
     long int sp_min;                // Minimum number of days between changes.
     long int sp_max;                // Maximum number of days between changes.
@@ -1863,7 +1858,7 @@ struct spwd
 };
 
 struct spwd *getspnam (har *__name);    根据名字获取spwd信息
-struct spwd *sgetspent (char \*__string);根据某string来获取spwd信息
+struct spwd *sgetspent (char *__string);根据某string来获取spwd信息
 
 void setspent (void);            打开/etc/shadow文件
 struct spwd *getspent (void);        遍历文件记录项
@@ -1880,14 +1875,14 @@ nobody:x:99:
 ```cpp++
 struct group
 {
-    char \*gr_name;          // Group name.
-    char \*gr_passwd;        // Password.
+    char *gr_name;          // Group name.
+    char *gr_passwd;        // Password.
     __gid_t gr_gid;         // Group ID.
-    char \**gr_mem;          // Member list.
+    char **gr_mem;          // Member list.
 };
 
 struct group  *getgrgid(gid_t);        根据组id获取组信息
-struct group  *getgrnam(const char \*);    根据组名称获取组信息
+struct group  *getgrnam(const char *);    根据组名称获取组信息
 
 void          setgrent(void);        打开/etc/group文件
 struct group  *getgrent(void);        遍历/etc/group文件
@@ -1896,7 +1891,7 @@ void           endgrent(void);        关闭/etc/group文件
 
 附加组    用户想获取对某事物的权力,可加入不同的组.
 
-- **int getgroups(int size, gid_t list[]);**
+- **int getgroups(int size, gid_t list[]);
     获取当前用户的附加组.
     附加组id填到数组list中,并且返回实际获取的附加组id个数.
 
@@ -1904,7 +1899,7 @@ int setgroups(size_t size, const gid_t *list);
     设置当前用户到某附加组id list表,size为个数.成功返回0.
     size最大位NGROUPS_MAX
 
-int initgroups(const char \*user, gid_t group);
+int initgroups(const char *user, gid_t group);
     设定组成员,user指针为组成员.成功返回0.
     只有超级用户才能调用此函数
 
@@ -1931,7 +1926,7 @@ w
 /var/run/utmp    /var/log/wtmp
 相关函数查看/usr/include/utmp.h
 
-char \*getlogin(void);        获取当前实际登录用户名.
+char *getlogin(void);        获取当前实际登录用户名.
 
 ### 5.6. uname
 
@@ -1951,8 +1946,8 @@ struct utsname {
 };
 
 int uname(struct utsname *buf);                查看系统信息
-int gethostname(char \*name, size_t len);        获取tcp/ip网络主机名
-int sethostname(const char \*name, size_t len);        设置网络主机名
+int gethostname(char *name, size_t len);        获取tcp/ip网络主机名
+int sethostname(const char *name, size_t len);        设置网络主机名
 
 ### 5.7. 时间
 
@@ -2040,7 +2035,7 @@ int    main( void )
 
 ```h
 // 将time_t类型时间值转换成字符串,形式类似date：Tue Feb 10 18:27:30 2004\n\0
-char \*ctime(const time_t *timep);
+char *ctime(const time_t *timep);
 
 //将time_t类型时间值转换成国际标准时间
 struct tm *gmtime(const time_t *timep);
@@ -2049,7 +2044,7 @@ struct tm *gmtime(const time_t *timep);
 struct tm *localtime(const time_t *timep);
 
 //将tm类型时间值转换成字符串,形式类似date：Tue Feb 10 18:27:30 2004\n\0
-char \*asctime(const struct tm *tm);
+char *asctime(const struct tm *tm);
 ```
 
 - localtime例子
@@ -2090,7 +2085,7 @@ int    main( void )
 time_t mktime(struct tm *tm);
 
 //将tm类型时间值格式化输出为format的形式到字符串s中.
-size_t strftime(char \*s, size_t max, const char \*format, const struct tm *tm );
+size_t strftime(char *s, size_t max, const char *format, const struct tm *tm );
 ```
 
 - strftime 例子
@@ -2270,11 +2265,11 @@ extern char** environ ;
 for ( int i = 0 ; environ[i] != NULL ; i++ )
 cout << environ[i] << endl ;
 
-char \*getenv(const char \*name);        获取某环境变量取值
+char *getenv(const char *name);        获取某环境变量取值
 
 cout << getenv("HOME") << endl ;
 
-int setenv(const char \*name, const char \*value, int overwrite);        更改某环境变量取值
+int setenv(const char *name, const char *value, int overwrite);        更改某环境变量取值
     原表中已有某环境变量时,overwrite为0,跳过;为1,覆盖.
     其结果只对当前进程起作用,程序退出后,shell的PATH依旧.
 
@@ -2282,7 +2277,7 @@ cout << "PATH = " << getenv("PATH") << endl ;    // PATH = /bin/:/sbin/:.....
 setenv("PATH", "hello", 1);
 cout << "PATH = " << getenv("PATH") << endl ;    // PATH = hello
 
-int unsetenv(const char \*name);        删除某环境变量
+int unsetenv(const char *name);        删除某环境变量
 
 ### 6.5. 跳转
 
@@ -2344,15 +2339,15 @@ int setrlimit(int resource, const struct rlimit *rlim);
 **pid_t**  
     进程id, 非负整数 unsigned int, 打印输出时注意
 
-**pid_t    getpid( void ) ;**  
+**pid_t    getpid( void ) ;  
     获取当前进程id
 
-**pid_t    getppid( void ) ;**  
+**pid_t    getppid( void ) ;  
     获取父进程id
 
 ### 7.2. fork
 
-**pid_t fork(void);**  
+**pid_t fork(void);  
     创建子进程  
     调用一次返回两次,子进程中返回0,父进程中返回子进程的进程id,出错返回-1.
 
@@ -2716,12 +2711,12 @@ fork()创建子进程后再调用.
 execl(?"/bin/cat","/bin/cat", "test.txt",NULL);?
 cout << "==========" << endl ;    // 此句无输出
 
-int execl(const char \*path, const char \*cmd, ...);
-int execlp(const char \*file, const char \*cmd, ...);
-int execle(const char \*path, const char \*cmd, ..., char \- const env[]);
-int execv(const char \*path, char \*const cmd[]);
-int execvp(const char \*file, char \*const cmd[]);
-int execve(const char \*path, char \*const cmd[], char \*const env[]);
+int execl(const char *path, const char *cmd, ...);
+int execlp(const char *file, const char *cmd, ...);
+int execle(const char *path, const char *cmd, ..., char \- const env[]);
+int execv(const char *path, char *const cmd[]);
+int execvp(const char *file, char *const cmd[]);
+int execve(const char *path, char *const cmd[], char *const env[]);
 
 第一个参数    表示可执行程序文件在哪.
     若为file,代表可执行文件名, 如单命令名 cat, ls, df
@@ -2786,7 +2781,7 @@ execl( "/bin/sh", "sh", "-c", "echo aaa", NULL ) ;
 
 ### 7.7. system
 
-- **int system(const char \*command);**
+- **int system(const char *command);
 = /bin/sh -c command
 system函数是由 fork, exec, waitpid实现的.
 system返回值情况:
@@ -2924,7 +2919,7 @@ c) 针对进程运行的时间.
         buf    获取的是当前进程及其子进程从main开始到现在所经过的时钟滴答数
 
 ```cpp++ Get process times
-void doit(char \*, clock_t);
+void doit(char *, clock_t);
 
 int    main( void )
 {
@@ -2948,7 +2943,7 @@ doit("\tsys  CPU", t_end.tms_cstime);
 exit(EXIT_SUCCESS);
 }
 
-void doit(char \*str, clock_t time)
+void doit(char *str, clock_t time)
 {
 /- Get clock ticks/second */
 long tps = sysconf(_SC_CLK_TCK);    // 获取每秒的滴答次数
@@ -3230,7 +3225,7 @@ return 0;
 打开系统日志
 
 ```cpp
-void openlog(const char \*ident, int option, int facility);
+void openlog(const char *ident, int option, int facility);
 
 连接syslogd守护进程.此函数可有可无.若不调用,则在第一次调用syslogd时自动调用.
 
@@ -3266,7 +3261,7 @@ void closelog(void);
 写入系统日志
 
 ```cpp
-void syslog( int priority, const char \*format, ... ) ;
+void syslog( int priority, const char *format, ... ) ;
 
 priority    日志级别
     LOG_EMERG    紧急,最高优先级
@@ -3347,8 +3342,8 @@ return    0 ;
 popen创建一个管道然后fork出一个子进程,接着执行一个exec调用,调用/bin/sh -c,执行保存在command中的命令字符串.
 尽管popen和pclose使代码量减少,但失去了灵活性和可控性. 限定编程人员只能使用C流库操作,不能使用文件IO操作.另外popen强迫执行了一次exec调用.存在诸多缺陷.
 
-FILE \*popen(const char \*command, const char \*type);    type : "r"或"w".
-int pclose(FILE \*stream) ;    关闭流,等待command执行完成.
+FILE *popen(const char *command, const char *type);    type : "r"或"w".
+int pclose(FILE *stream) ;    关闭流,等待command执行完成.
 
 ```cpp++ popen示例
 int    main( void )
@@ -3374,7 +3369,7 @@ b) 有名管道
 mknod pipe p
 mkfifo pipe    此二命令皆可 mkfifo -m mode pipe ,因此可以创建带位掩码的管道,更灵活.
 
-int mkfifo(const char \*pathname, mode_t mode);
+int mkfifo(const char *pathname, mode_t mode);
 
 读端只能通过O_RDONLY或O_RDWR来打开.
 写端只能通过O_WRONLY或O_RDWR来打开.
@@ -3672,7 +3667,7 @@ if(semop(semid,&op,1) < 0)
 
 static void \*func_add(void \*p)
 {
-FILE \*fp;
+FILE *fp;
 char linebuf[LINESIZE];
 
 fp = fopen(FNAME,"r+");
@@ -3862,26 +3857,26 @@ struct in_addr  {       in_addr_t       s_addr; } ;
 
 1) ip地址字符串 -> in_addr
 
-    int    inet_aton(const char \*cp, struct in_addr *inp);
+    int    inet_aton(const char *cp, struct in_addr *inp);
     struct in_addr    addr ;
 if ( inet_aton( "192.168.1.1", &inp ) == 0 )
 
     把本机ip转换成网络字节序数据
-    in_addr_t    inet_addr(const char \*cp);
+    in_addr_t    inet_addr(const char *cp);
     inet_addr( "192.168.1.1" );
 
     把网络ip转换成网络字节序数据
-    in_addr_t    inet_network(const char \*cp);
+    in_addr_t    inet_network(const char *cp);
     inet_network( "1.1.168.192" );
 
-    int    inet_pton(int af, const char \*src, void \*dst);
+    int    inet_pton(int af, const char *src, void \*dst);
     inet_pton( AF_INET,"192.168.1.1", &addr );
 inet_pton( AF_INET6,"xx.xx.xx.xx.xx.xx", &addr );
 
 2) in_addr -> ip地址字符串
 
-    char \*inet_ntoa(struct in_addr in);
-    const char \*inet_ntop(int af, const void \*src, char \*dst, socklen_t size);
+    char *inet_ntoa(struct in_addr in);
+    const char *inet_ntop(int af, const void \*src, char *dst, socklen_t size);
         dst要求非空,返回值是dst的一个拷贝.
     inet_ntop( AF_INET, &addr, get_ip_str, INET_ADDRSTRLEN );
 //inet_ntop( AF_INET6, &addr, get_ip_str, INET6_ADDRSTRLEN );
@@ -4241,7 +4236,7 @@ return    0 ;
 ```
 
 ```cpp++ 广播示例,发送端
-int    main(int argc,char \**argv)
+int    main(int argc,char **argv)
 {
     int    fd=socket(AF_INET,SOCK_DGRAM,0);
 
