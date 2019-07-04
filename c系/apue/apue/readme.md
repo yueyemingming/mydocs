@@ -624,8 +624,8 @@ int fseek(FILE *stream, long offset, int whence);
 
 - offset  定位的长度,可以为负数  
 - whence  
-value | location
 
+value | location
 :--- | :---
 SEEK_SET | 文件头
 SEEK_CUR | 当前位置
