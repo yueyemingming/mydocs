@@ -142,13 +142,15 @@ mount -o loop rhel-server-6.5-x86_64-dvd.iso /mnt/cdrom
 
 ##### 修改配置文件
 
-vim /etc/yum.repos.d/rhel6.repo
+- vim /etc/yum.repos.d/rhel6.repo
 
+    ```ini
     [media]                             # 名称任意
     name=media                          # 名称任意
     baseurl=file:///mnt/cdrom/Server    # yum安装源位置
     enabled=1                           # 使能
     gpgcheck=0                          # 不校验
+    ```
 
 #### 1.1.2 编译器安装
 
