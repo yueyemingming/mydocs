@@ -633,10 +633,12 @@ SEEK_END | 文件尾
 
 - 返回值  定位到比文件头小的位置,函数错误,但可以定位到比文件尾大的位置.
 
-long ftell(FILE *stream);                    获取文件位置指针距文件头偏移
-void rewind(FILE *stream); = **fseek(steam,0,SEEK_SET) ;   定位到文件头
-int fgetpos(FILE *stream, fpos_t \*pos);      获取当前位置指针
-int fsetpos(FILE *stream, fpos_t \*pos);      定位文件指针
+```cpp
+long ftell(FILE *stream);                   // 获取文件位置指针距文件头偏移
+void rewind(FILE *stream);                  // 定位到文件头, = fseek(steam,0,SEEK_SET)
+int fgetpos(FILE *stream, fpos_t \*pos);    // 获取当前位置指针
+int fsetpos(FILE *stream, fpos_t \*pos);    // 定位文件指针
+```
 
 ### 2.9. 临时文件
 
