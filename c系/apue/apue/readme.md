@@ -165,22 +165,22 @@ yum install glibc-static.x86_64
 ```bash
 gcc -v
 
-gcc 版本 4.4.7 20120313 (Red Hat 4.4.7-4) (GCC)        # 安装成功
+  gcc 版本 4.4.7 20120313 (Red Hat 4.4.7-4) (GCC)        # 安装成功
 ```
 
 ### 1.2 unix历史简介
 
-| unix分支    | 产地                                                    |
-| :---------- | :------------------------------------------------------ |
-| svr4        | IBM                                                     |
-| bsd,freebsd | 美国伯克利大学                                            |
-| mac os      | 苹果                                                     |
-| solaris     | sun                                                     |
-| linux       | 杂货铺,linux内核(www.kernel.org)+界面(gnome, kde)的集合    |
-| ~           | redhat 红帽子: 企业版, 企业版的社区版本CentOS, fedora等      |
-| ~           | debian                                                  |
-| ~           | ubuntu                                                  |
-| ~           | redflag 红旗(中国)                                       |
+unix分支    | 产地
+:---------- | :---
+svr4        | IBM
+bsd,freebsd | 美国伯克利大学
+mac os      | 苹果
+solaris     | sun
+linux       | 杂货铺,linux内核(www.kernel.org)+界面(gnome, kde)的集合
+~           | redhat 红帽子: 企业版, 企业版的社区版本CentOS, fedora等
+~           | debian
+~           | ubuntu
+~           | redflag 红旗(中国)
 
 ### 1.3 apue是什么
 
@@ -297,7 +297,7 @@ fun | desc | header
 
 * FILE
 
-```c
+```cpp
 #include <stdio.h>
 typedef struct _IO_FILE FILE ;
 
@@ -311,7 +311,7 @@ struct _IO_FILE {
 
 * stdin, stdout, stderr
 
-```c
+```cpp
 #include <stdio.h>
 extern struct _IO_FILE \*stdin;      // Standard input stream.
 extern struct _IO_FILE \*stdout;     // Standard output stream.
@@ -340,7 +340,7 @@ extern struct _IO_FILE \*stderr;     // Standard error output stream.
 
     将指定的文件打开为预定义的流：stdin,stdout,stderr ;
 
-    ```c
+    ```cpp
     newfp = freopen( "test.txt", "w", stdout ) ;    向newfp中写入数据,即向stdout中写入数据
     ```
 
@@ -364,7 +364,7 @@ extern struct _IO_FILE \*stderr;     // Standard error output stream.
 
 ### 2.5. 判断流结尾
 
-```c
+```cpp
 #include <stdio.h>
 #ifndef EOF
 # define EOF (-1)
@@ -377,7 +377,7 @@ extern struct _IO_FILE \*stderr;     // Standard error output stream.
 
     eg.
 
-        ```c
+        ```cpp
         if ( feof(fp) )    ... ;
         if ( feof(fp) && !ferror(fp) )    ... ;
         ```
@@ -399,7 +399,7 @@ extern struct _IO_FILE \*stderr;     // Standard error output stream.
 
 eg.
 
-    ```c
+    ```cpp
     ungetc( 97, stdin ) ;
     向标准输入写入字符'a'
 
@@ -410,7 +410,7 @@ eg.
 
     eg.
 
-    ```c
+    ```cpp
     if ( c == EOF )    break ;    //可以这样判断结尾
     ```
 
@@ -440,7 +440,7 @@ size-1为最大读取个数,数据末尾自动补齐\0.
 
 * **char \*gets(char \*s);** ~= **fgets( s, BUFSIZ, stdin ) ;**
 
-    ```c
+    ```cpp
     stdio.h:128:    #define    BUFSIZ       _IO_BUFSIZ  
     libio.h:46:     #define    _IO_BUFSIZ   _G_BUFSIZ  
     _G_config.h:85: #define    _G_BUFSIZ    8192  
@@ -449,7 +449,7 @@ size-1为最大读取个数,数据末尾自动补齐\0.
     gets函数bug : 在终端输入超过str大小的字符个数,不做溢出检测.  
     eg.
 
-        ```c++
+        ```cpp++
         char    str[5] = { 0x00 } ;
         cout << gets( buf ) << endl ;
         ```
@@ -474,7 +474,7 @@ size-1为最大读取个数,数据末尾自动补齐\0.
 
     向标准输出写一样,输出最后的\n
 
-    ```c
+    ```cpp
     fputs( "aaa", stdout ) ;    // aaa 没有回车换行
     puts( "aaa" ) ;            // aaa 有回车换行
     aaaaaa回车
@@ -533,7 +533,7 @@ read_student student.txt      读出此学生对象,打印
 
 ##### d.1) 输入
 
-```c
+```cpp
 int scanf(const char \*format, ...);                    输入来自标准输入
 int fscanf(FILE \*stream, const char \*format, ...);    输入来自文件
 int sscanf(const char \*str, const char \*format, ...); 输入来自字符串
@@ -542,7 +542,7 @@ sscanf( "12 abc", "%d%s", i, s ) ;
 
 ##### d.2) 输出
 
-```c
+```cpp
 int printf(const char \*format, ...);                   格式化到标准输出
 int fprintf(FILE \*stream, const char \*format, ...);   格式化到文件
 int sprintf(char \*str, const char \*format, ...);      格式化到字符串buffer
@@ -557,14 +557,14 @@ int snprintf(char \*str, size_t size, const char \*format, ...);    格式化到
 
 #### 1) 无缓冲：stderr标准错误
 
-```c
+```cpp
 fprintf( stderr, "aaa" ) ;
 sleep(3) ;    结果立即输出,不等待3秒
 ```
 
 #### 2) 行缓冲：stdout标准输出, 其他终端设备等
 
-```c
+```cpp
 printf( "aaa\n" ) ;     sleep(3) ;              结果立即输出,不等待3秒
 fwrite( "aaa", 1, 3, stdout ) ; sleep(3) ;      3秒后才有输出
 fwrite( "aaa\n", 1, 3, stdout ) ;   sleep(3) ;  3秒后才有输出
@@ -574,7 +574,7 @@ write(1, "aaa", 3 ) ;   sleep(3) ;              结果立即输出,不等待3秒
 
 #### 3) 全缓冲：面向非标准输出
 
-```c
+```cpp
 fwrite( "aaa\n", 1, 4, somefile ) ;     sleep(3) ;  带'\n'会也不会立即输出;
 write( somefd, "aaa\n", 3 ) ;   sleep(3) ;          结果会立即输出
 ```
@@ -597,7 +597,7 @@ _exit(2)、_Exit(2)函数不会引发缓冲刷新
 
 ##### c) 从无缓冲或行缓冲文件进行读取操作, 因引发了底层的系统调用,这时行缓冲也会被刷新.
 
-```c
+```cpp
 printf("Please input a line: ");
 fgets(buf, 20, stdin);
 ```
@@ -616,7 +616,7 @@ fgets(buf, 20, stdin);
 
 **void setbuf(FILE \*stream, char \*buf);** = **setvbuf( stream, buf, _IOFBF, BUFSIZ );**
 
-```c
+```cpp
 stdio.h:128:    #define    BUFSIZ        _IO_BUFSIZ
 libio.h:46:     #define    _IO_BUFSIZ    _G_BUFSIZ
 _G_config.h:85: #define    _G_BUFSIZ    8192
@@ -662,7 +662,7 @@ func | desc
 
 eg.
 
-```c
+```cpp
 char    s[10] = { 0x00 } ;
 printf( "%s\n", tmpnam( NULL ) ) ;  // 临时文件名
 printf( "%s\n", tmpnam( s ) ) ;     // 临时文件名
@@ -691,7 +691,7 @@ printf( "%s\n", tmpfile() ) ;       // FILE指针
 
 FILE fd : /usr/include/libio.h :line 273
 
-```c
+```cpp
 typedef    struct _IO_FILE FILE ;
 struct _IO_FILE {
     ... ...
@@ -703,7 +703,7 @@ struct _IO_FILE {
 * **int fileno(FILE \*stream);**  
 获取打开的文件流对应的文件描述符
 
-```c
+```cpp
 #define STDIN_FILENO 0      标准输入    stdin
 #define STDOUT_FILENO 1     标准输出    stdout
 #define STDERR_FILENO 2     标准错误    stderr
@@ -764,7 +764,7 @@ off_t lseek(int fd, off_t offset, int whence);
 off_t    curpos = lseek( fd, 0, SEEK_CUR ) ;
         返回值    返回文件指针当前位置.（注:fseek不返回文件位置.）
 
-```c++ lseek
+```cpp++ lseek
 int    main( void )
 {
 if ( lseek( STDIN_FILENO, 0, SEEK_CUR) == -1 )    // 要检测返回值是否是-1,而不是判断小于0
@@ -800,7 +800,7 @@ write( fd, "xxxx\n", 5 ) ;
     注    O_APPEND只对写操作起作用,使lseek失效,文件位置指针始终被定位在文件尾.
         O_APPEND对读操作不起作用,文件位置指针可以任意lseek.
 
-```c++ O_APPEND对写操作和读操作的影响
+```cpp++ O_APPEND对写操作和读操作的影响
 int    main(int ac, char \* av[])
 {
 int    fd = open(av[1], O_RDWR | O_APPEND ) ;
@@ -883,7 +883,7 @@ a) 复制文件描述符( cmd = F_DUPFD )        不原子,不建议使用
 dup2( STDOUT_FILENO, fd ) ;
 = close(newfd) ;   fcntl( STDOUT_FILENO, F_DUPFD, newfd ) ;
 
-```c++ fcntl dup
+```cpp++ fcntl dup
 int    main( void )
 {
 int    fd = open( "tmp", O_WRONLY|O_CREAT|O_TRUNC ) ;
@@ -942,7 +942,7 @@ e) 获取/设置记录锁( cmd = F_GETLK, F_SETLK, F_SETLKW )
 
 int ioctl(int d, int request, ...);    杂物箱,多用于设备控制,比如串口读写的波特率,校验位读取或设置等
 
-```c++ ioctl
+```cpp++ ioctl
 int    main( void )
 {
 struct winsize size;
@@ -980,7 +980,7 @@ int munmap(void \*addr, size_t length);        解除映射
 
 当进程终止时,该进程的映射内存会自动解除,也可以调用munmap解除映射.
 
-```c++ mmap
+```cpp++ mmap
 #define MMAP_SIZE         10
 
 int    main( void )
@@ -1069,7 +1069,7 @@ Access: 2014-08-02 17:28:20.278017702 +0800    st_atime
 Modify: 2014-08-02 17:27:50.890017954 +0800    st_mtime
 Change: 2014-08-02 17:27:50.893017888 +0800    st_ctime
 
-```c++ 判断文件类型
+```cpp++ 判断文件类型
 int    main( int argc, char* argv[] )
 {
 struct stat    buf ;
@@ -1196,7 +1196,7 @@ exit
 代码实现
 chmod( "test", ( statbuf.st_mode & ~S_IXUSR ) | S_ISUID ) ;    注意：不能跟执行位掩码同在
 
-```c++ 更改文件模式,设置文件用户id,组id等
+```cpp++ 更改文件模式,设置文件用户id,组id等
 int    main( void )
 {
 struct stat    statbuf ;
@@ -1242,7 +1242,7 @@ int lchown(const char \*path, uid_t owner, gid_t group);        可操作链接�
 对于普通文件
     遗留问题：空洞文件,是由文件所设置的偏移量超过文件尾,并写入了某些数据产生的.
 
-```c++ 创建空洞文件
+```cpp++ 创建空洞文件
 int    main( void )
 {
 int     fd = open( "file.hole", O_CREAT | O_RDWR ) ;
@@ -1283,7 +1283,7 @@ int ftruncate(int fd, off_t length);
 */
 ```    // comments
 
-```c++ trancate
+```cpp++ trancate
 int    main( void )
 {
 truncate( "test.txt", 3 ) ;
@@ -1396,7 +1396,7 @@ int utime(const char \*filename, const struct utimbuf *times);
 */
 ```    // comments
 
-```c++ utime
+```cpp++ utime
 int    main( int argc, char* argv[] )
 {
 // stat a.txt
@@ -1442,7 +1442,7 @@ dev_t makedev(int maj, int min);    根据主次设备号创建设备号
 int major(dev_t dev);             根据设备号划分出主设备号
 int minor(dev_t dev);             根据设备号划分出次设备号
 
-```c++ 设备文件
+```cpp++ 设备文件
 int    main(int argc, char \*argv[])
 {
 struct stat buf;
@@ -1499,7 +1499,7 @@ void    rewinddir(DIR *dirp);        流指针返回当前目录首
 void    seekdir(DIR *dirp, long offset);    用来设置参数dir目录流目前的读取位置,在调用readdir()时便从此新位置开始读取.参数offset 代表距离目录文件开头的偏移量.
 int    closedir(DIR *dirp);        关闭目录流
 
-```c++ readdir示例
+```cpp++ readdir示例
 int    main(int argc,char** argv)
 {
 DIR *dirptr = NULL;
@@ -1531,7 +1531,7 @@ return 0;
 }
 ```
 
-```c++ 作业 递归遍历各级目录,打印各个文件大小.
+```cpp++ 作业 递归遍历各级目录,打印各个文件大小.
 void    fsize( char* name )
 {
 struct stat     s = { 0x00 } ;
@@ -1583,7 +1583,7 @@ return  0 ;
 }
 ```
 
-```c++ rewinddir 示例
+```cpp++ rewinddir 示例
 int    main( void )
 {
 DIR * dir;
@@ -1603,7 +1603,7 @@ closedir(dir);
 }
 ```
 
-```c++ seekdir示例
+```cpp++ seekdir示例
 int    main( void )
 {
 DIR * dir;
@@ -1656,7 +1656,7 @@ int glob(const char \*pattern, int flags, int (*errfunc) (const char \*epath, in
 
 void globfree(glob_t *pglob);    释放空间
 
-```c++ glob
+```cpp++ glob
 int    main( void )
 {
 int err,i;
@@ -1691,7 +1691,7 @@ return 0;
 }
 ```
 
-```c++ mydu.c,查看某个目录所占的空间大小
+```cpp++ mydu.c,查看某个目录所占的空间大小
 #define PATHSIZE 1024
 
 static int path_noloop(const char \*path)
@@ -1778,7 +1778,7 @@ nobody:x:99:99:Nobody:/:/sbin/nologin
 
 * nobody用户：类似windows的匿名账户,它们是用来完成特定任务的,比如我们访问LinuxSir.Org的网页程序,就是nobody用户;我们匿名访问ftp时,会用到用户ftp或nobody.也就是说某些服务器需要nobody,ftp等这类的用户来访问,尽量使其访问权限最小.UID(65534)和GID(65534).
 
-```c++
+```cpp++
 struct passwd
 {
     char   *pw_name;    // username
@@ -1794,7 +1794,7 @@ struct passwd *getpwnam(const char \*name);    根据名字获取用口令信息
 struct passwd *getpwuid(uid_t uid);        更具uid获取用户口令信息
 ```
 
-```c++
+```cpp++
 int    main( int argc, char** argv )
 {
     struct passwd * pw = getpwnam( argv[1] );
@@ -1836,7 +1836,7 @@ root:$6$096cvfi33dvBWCej$wWmu9WpQ0q07.3pWt ...... LOnJXlR4sc4olye/:16024:0:99999
 nobody:*:15628:0:99999:7:::
     ......
 
-```c++
+```cpp++
 struct spwd
 {
     char \*sp_namp;                  // Login name.
@@ -1865,7 +1865,7 @@ root:x:0:
 nobody:x:99:
     ......
 
-```c++
+```cpp++
 struct group
 {
     char \*gr_name;          // Group name.
@@ -1944,7 +1944,7 @@ int sethostname(const char \*name, size_t len);        设置网络主机名
 
 ### 5.7. 时间
 
-```c++
+```cpp++
 time_t    长整型时间值
 
 struct tm {    // 时间结构体
@@ -1983,7 +1983,7 @@ int settimeofday(const struct timeval *tv, const struct timezone *tz);
 
 * gettimeofday例子
 
-```c++
+```cpp++
 int    main( void )
 {
     struct  timeval    tv = { 0x00 } ;
@@ -1999,7 +1999,7 @@ int    main( void )
 
 * gettimeofday例子, 获取delay函数的运行时间
 
-```c++
+```cpp++
 void delay(void)
 {
     int i,j;
@@ -2042,7 +2042,7 @@ char \*asctime(const struct tm *tm);
 
 * localtime例子
 
-```c++
+```cpp++
 int    main( void )
 {
     struct tm *t;
@@ -2056,7 +2056,7 @@ int    main( void )
 
 * localtime, asctime 例子
 
-```c++
+```cpp++
 int    main( void )
 {
     time_t timer;//time_t就是long int 类型
@@ -2083,7 +2083,7 @@ size_t strftime(char \*s, size_t max, const char \*format, const struct tm *tm )
 
 * strftime 例子
 
-```c++
+```cpp++
 int    main( void )
 {
     struct tm *newtime;
@@ -2129,7 +2129,7 @@ int atexit(void (*function)(void));
     退出时的调用顺序跟注册顺序相反.
     _exit,_Exit退出时不调用注册函数.
 
-```c++ exit, atexit
+```cpp++ exit, atexit
 static void my_exit1(void)    {    cout << "exit 1 handler ." << endl ;    }
 static void my_exit2(void)    {    cout << "exit 2 handler ." << endl ;    }
 int    main( void )
@@ -2278,7 +2278,7 @@ int setjmp(jmp_buf env);        设置跳转标签
 void longjmp(jmp_buf env, int val);    跳转,val为返回值
     此函数会自动跳过从当前位置一直到当前函数结束的代码,因此在main函数中使用此函数不合适,会出现段错误.
 
-```c++ setjmp, longjmp示例
+```cpp++ setjmp, longjmp示例
 static jmp_buf save ;
 
 void    a( void )
@@ -2378,7 +2378,7 @@ fork的应用场景：
 if ( fork() == 0 )    cout << "child running... " << endl ;
 else    cout << "parent running... " << endl ;
 
-```c++ fork,行缓冲的继承.
+```cpp++ fork,行缓冲的继承.
 int    main( void )
 {
 printf("[%u]:Begin!",(unsigned int)getpid());    // 测试去掉\n,或fflush等的操作,查看缓冲区内容是否被子进程继承.
@@ -2411,7 +2411,7 @@ return 0;
 
 ```
 
-```c++ fork 存储映射
+```cpp++ fork 存储映射
 int     main( void )
 {
 int     val = 0 ;
@@ -2429,7 +2429,7 @@ child : 1
 
 将子进程创建放入某函数中,return在子进程返回时,直接返回当前函数,而非直接退出.
 
-```c++ fork return
+```cpp++ fork return
 int    test( void )
 {
 if ( fork() == 0 )    /*return 0*/exit(0) ;
@@ -2459,7 +2459,7 @@ a) 祖先进程：init进程,它是系统中的一个特殊进程,通常程序�
 
 b) 孤儿进程：父进程退出运行,子进程不会伴随退出运行.这样的子进程叫做孤儿进程.孤儿进程最终被init进程所接收wait清理,父进程变为init进程.
 
-```c++ 孤儿进程
+```cpp++ 孤儿进程
 int    main( void )
 {
 if ( fork() == 0 )
@@ -2479,12 +2479,12 @@ ps ajx | grep apue
 */
 ```
 
-```c++ coments
+```cpp++ coments
 /*
 
 孤儿进程并不会脱离继承的先前父进程的终端,孤儿进程会继续在终端上继续运行.
 
-```c++ 孤儿进程与终端
+```cpp++ 孤儿进程与终端
 int    main( void )
 {
 if ( fork() == 0)
@@ -2512,7 +2512,7 @@ c) 僵尸进程,zombie：子进程已经终止,但父进程并没有对其wait�
 
     ps aux    状态为Z.
 
-```c++ 僵尸进程示例
+```cpp++ 僵尸进程示例
 int    main( void )
 {
 if ( fork() == 0) {
@@ -2544,7 +2544,7 @@ vfork的子进程总是先于父进程执行.子进程要显式调用_exit()或_
 
 因为vfork的子进程对父进程的地址空间直接访问,而非复制,因此退出时必须调用_exit函数退出,不能调用exit或return,以避免父进程在退出进程时再次执行清理工作,空间被进行双重清理,容易出现问题(这是vfork的一个bug).
 
-```c++ vfork 存储映射
+```cpp++ vfork 存储映射
 int     main( void )
 {
 int     val = 0 ;
@@ -2586,7 +2586,7 @@ pid_t wait(int *status);
         WIFCONTINUED(status)    判断在作业控制暂停后子进程是否已经继续.
         WSTOPSIG(status)    获取使子进程暂停的信号编号.
 
-```c++ wait,获取退出或暂停状态
+```cpp++ wait,获取退出或暂停状态
 void    print( pid_t pid, int status )
 {
 if ( WIFEXITED( status ) )
@@ -2635,7 +2635,7 @@ wait = waitpid( -1, &status, 0 ) ;    wait其实就是对waitpid进行了封装.
 
 示例+练习：waitpid实现,上节代码,wait获取进程退出或暂停状态
 
-```c++ waitpid, WNOHANG示例
+```cpp++ waitpid, WNOHANG示例
 int    main( void )
 {
 pid_t    pid = fork() ;
@@ -2785,7 +2785,7 @@ system返回值情况:
     c) 子进程运行失败,返回-1.
     d) 子进程运行被中断,waitpid返回除EINTR之外的出错,则system返回-1,设置errno.
 
-```c++ 实现自己的system函数
+```cpp++ 实现自己的system函数
 void    print( int status )
 {
     if ( WIFEXITED( status ) )
@@ -2911,7 +2911,7 @@ c) 针对进程运行的时间.
         返回值    获取的是从不确定某个时间点到到现在经过的时钟滴答数
         buf    获取的是当前进程及其子进程从main开始到现在所经过的时钟滴答数
 
-```c++ Get process times
+```cpp++ Get process times
 void doit(char \*, clock_t);
 
 int    main( void )
@@ -2983,7 +2983,7 @@ int getrusage(int who, struct rusage *usage);
     who    RUSAGE_SELF    获取当前进程的资源使用信息.
         RUSAGE_CHILDREN    获取子进程的资源使用信息.
 
-```c++ Get resource usage with getrusage
+```cpp++ Get resource usage with getrusage
 int    main( void )
 {
 struct rusage usage;
@@ -3059,7 +3059,7 @@ pid_t setsid(void)
     c) 当前进程会成为新进程组组长和新会话id.
     b) 断开当前进程与控制终端的连接.
 
-```c++ setsid 查看 会话 父进程 子进程 三者关系
+```cpp++ setsid 查看 会话 父进程 子进程 三者关系
 int    main( void )
 {
 if ( fork() == 0 )
@@ -3102,7 +3102,7 @@ pid_t tcgetsid(int fd);        获取当前进程打开的文件描述符所在�
 pid_t tcgetpgrp(int fd);    获取当前进程打开的文件描述符所在的进程组id
 int tcsetpgrp(int fd, pid_t pgrp);    设置当前进程打开的文件描述符所在的进程组id
 
-```c++ 进程组
+```cpp++ 进程组
 static void judge(void)
 {
 pid_t    pid = tcgetpgrp(STDIN_FILENO);
@@ -3182,7 +3182,7 @@ cupsd    打印假脱机守护进程
 6) 关闭0 1 2等描述符.
 综上所述,就是要求守护进程是一个非常干净的程序.
 
-```c++ 守护进程示例
+```cpp++ 守护进程示例
 int     main( void )
 {
 umask(0);
@@ -3303,7 +3303,7 @@ a) 无名管道
 int pipe(int fd[2]);
     fd[0] 读端        fd[1] 写端
 
-```c++ 无名管道读写示例
+```cpp++ 无名管道读写示例
 int    main( void )
 {
 int    fd[2] = { 0x00 } ;
@@ -3338,7 +3338,7 @@ popen创建一个管道然后fork出一个子进程,接着执行一个exec调用
 FILE \*popen(const char \*command, const char \*type);    type : "r"或"w".
 int pclose(FILE \*stream) ;    关闭流,等待command执行完成.
 
-```c++ popen示例
+```cpp++ popen示例
 int    main( void )
 {
 FILE*    fp = popen( "cat popen.c", "r" ) ;
@@ -3367,7 +3367,7 @@ int mkfifo(const char \*pathname, mode_t mode);
 读端只能通过O_RDONLY或O_RDWR来打开.
 写端只能通过O_WRONLY或O_RDWR来打开.
 
-```c++ 有名管道使用示例,rdfifo.c wrfifo.c 两个文件分开独立来运行
+```cpp++ 有名管道使用示例,rdfifo.c wrfifo.c 两个文件分开独立来运行
 // rdfifo.c
 int    main( void )
 {
@@ -3385,7 +3385,7 @@ return    0 ;
 }
 ```
 
-```c++ 有名管道使用示例,写端
+```cpp++ 有名管道使用示例,写端
 // wrfifo.c
 int    main( void )
 {
@@ -3436,7 +3436,7 @@ void \*shmat(int shmid, const void \*shmaddr, int shmflg);
 
 int shmdt(const void \*shmaddr);
 
-```c++ 共享内存段示例
+```cpp++ 共享内存段示例
 int    main( void )
 {
 #if    0
@@ -3538,7 +3538,7 @@ if ( msgsnd( 0/*前面创建了0号队列*/, &msg, strlen(msg.text)/*此处特�
 Msg    msg = { 0x00 }
 if ( msgrcv( 0/*前有创建0号队列*/, &msg, 1024, 0, 0 ) < 0 )
 
-```c++ 消息队列示例
+```cpp++ 消息队列示例
 typedef struct    Msg
 {
 pid_t    pid ;
@@ -3620,7 +3620,7 @@ int semctl(int semid, int semnum, int cmd, ...);
     cmd    IPC_RMID    删除信号灯对象
         具体查看《apue》p302,表17.1
 
-```c++ 信号灯操作,模拟p v操作.
+```cpp++ 信号灯操作,模拟p v操作.
 #define PROCNUM  20
 #define LINESIZE 1024
 #define FNAME   "/tmp/out"
@@ -4068,7 +4068,7 @@ int    main( void )
 }
 ```
 
-```c++ udp示例,客户端
+```cpp++ udp示例,客户端
 int    main( void )
 {
 int    fd_client = socket( AF_INET, SOCK_DGRAM, 0 );
@@ -4128,7 +4128,7 @@ ssize_t write(int fd, const void \*buf, size_t count);
 */
 ```    //comments
 
-```c++ tcp server
+```cpp++ tcp server
 int    main( void )
 {
 int    fd_server = socket( AF_INET, SOCK_STREAM, 0 ) ;
@@ -4161,7 +4161,7 @@ return    0 ;
 }
 ```
 
-```c++ tcp client
+```cpp++ tcp client
 int    main( void )
 {
 int    fd_client = socket( AF_INET, SOCK_STREAM, 0 ) ;
@@ -4208,7 +4208,7 @@ setsockopt(fd,SOL_SOCKET,SO_BROADCAST,&on,sizeof(int));
 接收端设置
     1) 同udp接收端,recvfrom或read
 
-```c++ 广播示例,udp方式,接收端不变
+```cpp++ 广播示例,udp方式,接收端不变
 int    main( void )
 {
 int    fd = socket(AF_INET,SOCK_DGRAM,0);
@@ -4228,7 +4228,7 @@ return    0 ;
 }
 ```
 
-```c++ 广播示例,发送端
+```cpp++ 广播示例,发送端
 int    main(int argc,char \**argv)
 {
     int    fd=socket(AF_INET,SOCK_DGRAM,0);
@@ -4279,7 +4279,7 @@ setsockopt(sockfd,IPPROTO_IP,IP_ADD_MEMBERSHIP,&mcaddr,sizeof(struct ip_mreq)) ;
 */
 ```
 
-```c++ 组播示例,发送端
+```cpp++ 组播示例,发送端
 int    main( void )
 {
 int    sockfd=socket(AF_INET,SOCK_DGRAM,0);
@@ -4295,7 +4295,7 @@ return    0 ;
 
 ```
 
-```c++ 组播示例,接收端
+```cpp++ 组播示例,接收端
 int main(void)
 {
 int    sockfd=socket(AF_INET,SOCK_DGRAM,0);
@@ -4331,7 +4331,7 @@ ps -T    可以用来查看内核线程的运行情况,spid是线程.
 
 spid是通过gettid函数获取到的数值,这个函数man手册可以查看到,但实际上可能系统中不存在.自己去造一个.
 
-```c++
+```cpp++
 pid_t gettid( void )
 {
     return syscall( SYS_gettid ) ;
@@ -4350,7 +4350,7 @@ pid_t gettid( void )
 
 eg. 线程创建
 
-```c++
+```cpp++
 void*    func( void* arg )
 {
     printf( "the new thread .\n" ) ;
@@ -4370,7 +4370,7 @@ int    main( void )
 
 eg. 主线程和新线程调用同一函数.
 
-```c++
+```cpp++
 void*    func( void* arg )
 {
     printf( "%s\n", (char*)arg ) ;
@@ -4409,7 +4409,7 @@ int pthread_join(pthread_t thread, void \**retval);
 
 线程退出,线程状态接收,传参,以及获取返回值
 
-```c++
+```cpp++
 static void*    func( void* arg )
 {
     cout << "thread print int " << (int)( *(int*)arg ) << endl ;
@@ -4438,7 +4438,7 @@ int    main( void )
 
 线程退出,线程状态接收,传参,以及获取返回值,针对结构体,这个例子可以作为学生自己写的代码
 
-```c++
+```cpp++
 typedef    struct
 {
     int    a ;
@@ -4487,7 +4487,7 @@ int    main( void )
 
     注    此二函数乃宏实现,push函数中带有左大括号{,pop函数中带有右大括号},因此要求此二函数要成对出现.
 
-```c++ 线程清理工作示例
+```cpp++ 线程清理工作示例
 static void    cleanup_func( void* arg )
 {
 cout << "cleanup function : " << (char*)arg << endl ;
@@ -4548,7 +4548,7 @@ return    0 ;
     解锁
     int pthread_mutex_unlock(pthread_mutex_t *mutex);
 
-```c++ 访问临界区产生错误
+```cpp++ 访问临界区产生错误
 static int    i = 0 ;
 static void*    func( void* arg )
 {
@@ -4578,7 +4578,7 @@ int    main( void )
 
 访问临界区加上互斥代码
 
-```c++
+```cpp++
 // 全局互斥锁
 pthread_mutex_t    mutex = PTHREAD_MUTEX_INITIALIZER ;
 static int    i = 0 ;    // 全局变量i
@@ -4812,7 +4812,7 @@ sighandler_t signal(int signum, sighandler_t handler);
         信号处理函数 捕获信号,并处理(SIGKILL,SIGSTOP除外), 其参数即为此信号, 即signum .
     返回值    成功返回之前的处理动作或之前的处理函数地址.失败返回SIG_ERR.
 
-```c++ signal 演示 Ctrl c
+```cpp++ signal 演示 Ctrl c
 static void    func( int i )
 {
 cout << "Ctrl C be pressed ." << endl ;
@@ -4833,7 +4833,7 @@ return    0 ;
 }
 ```
 
-```c++ 针对进程发出相应的信号
+```cpp++ 针对进程发出相应的信号
 void    fun( int signum )
 {
 cout << "recived signal : " << signum << endl ;
@@ -4913,7 +4913,7 @@ kill -INT childpid    # 也调用fun函数
 
 不可靠信号和可靠信号的区别在于前者不支持排队,可能会造成信号丢失,而后者不会.
 
-```c++ 可靠信号与不可靠信号测试
+```cpp++ 可靠信号与不可靠信号测试
 static void    func( int signo )
 {
 cout << signo << endl ;
@@ -4951,7 +4951,7 @@ int sigaddset(sigset_t *set, int signum);        将某信号添加到信号集�
 int sigdelset(sigset_t *set, int signum);        将某信号从信号集中删除.
 int sigismember(const sigset_t *set, int signum);    判断某信号是否从属于信号集.
 
-```c++ 获取当前进程的信号集中都有哪些信号
+```cpp++ 获取当前进程的信号集中都有哪些信号
 int    main( void )
 {
 sigset_t    sigset ;
@@ -5003,7 +5003,7 @@ int  sigprocmask(int  how,  const sigset_t *set, sigset_t *old-set);
 
         在写关于信号阻塞相关的代码时,尽可能的保存住原来的信号集行为,最后恢复行为.
 
-```c++ 信号阻塞与解除
+```cpp++ 信号阻塞与解除
 static void    func( int signo )
 {
 printf( "signal received.\n" ) ;
@@ -5042,7 +5042,7 @@ return    0 ;
 int sigpending(sigset_t *set);
     set,本质上就是上面提到的递送队列.sigpending用来获取这个队列.
 
-```c++ 查看在pending状态中信号
+```cpp++ 查看在pending状态中信号
 static void    func( int signo )
 {
 printf( "signal received.\n" ) ;
@@ -5090,7 +5090,7 @@ sigprocmask( SIG_SETMASK, &saveset, NULL ) ;
 
     在两句代码之间,若解除阻塞前产生过SIGINT信号,此时会先响应信号处理,再运行pause()函数,这样程序将一直休眠.
 
-```c++ sigsuspend
+```cpp++ sigsuspend
 static void    func( int signo )
 {
    cout << "signal recived ..." << endl ;
@@ -5166,7 +5166,7 @@ struct sigaction {
         return    oact.sa_handler ;
     }
 
-```c++ sigaction 使用
+```cpp++ sigaction 使用
 static void    func( int argno )
 {
 cout << "signal recived ." << endl ;
@@ -5248,7 +5248,7 @@ int  FD_ISSET(int fd, fd_set *set);    判断fd是否在set中
 void FD_SET(int fd, fd_set *set);    添加fd到set中
 void FD_ZERO(fd_set *set);        清空set集
 
-```c++ select示例,管道测试
+```cpp++ select示例,管道测试
 int    main( void )
 {
 int    fd1 = open( "pipe1", O_RDONLY | O_NONBLOCK ) ;
@@ -5301,7 +5301,7 @@ int poll(struct pollfd *fds, nfds_t nfds, int timeout);
         == 0    等待超时,没有获取到数据
         < 0    函数出错,errno被设置
 
-```c++ poll示例,管道测试.
+```cpp++ poll示例,管道测试.
 int    main( void )
 {
 struct pollfd fds[2] = { 0x00 } ;
