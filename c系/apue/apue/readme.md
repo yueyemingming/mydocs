@@ -157,9 +157,7 @@ gpgcheck=0                          # 不校验
 #### 1.1.2 编译器安装
 
 ```bash
-yum install gcc.x86_64
-yum install gcc-c++.x86_64
-yum install glibc-static.x86_64
+yum install gcc.x86_64 gcc-c++.x86_64 glibc-static.x86_64
 ```
 
 > 32位上将x86_64换成i386或i686
@@ -188,85 +186,75 @@ linux       | 杂货铺,linux内核(www.kernel.org)+界面(gnome, kde)的集合
 
 ### 1.3 apue是什么
 
-* APUE    Advanced Programming in the Unix Envirionment
-* apue = linux操作系统原理 + linux操作系统编程接口,即系统调用
+- APUE    Advanced Programming in the Unix Envirionment
+- apue = linux操作系统原理 + linux操作系统编程接口,即系统调用
 
 ### 1.4 标准
 
-* ISO C
-  * C89,C99    C语言标准
-  * ANSI    美国国家标准学会
-  * 标准化了C库函数接口, 目的是提高程序在各种操作系统之间的可移植性,而不只是unix家族操作系统.
-  * 此标准不仅定义了c语法和语义,还定义了标准库, 即glibc.
-  * （# 《apue》p20展示了标准定义的头文件以及各个操作系统对其的支持）
-* IEEE POSIX
-  * unix/linux家族函数标准
-  * portable operating system interface 可移植的操作系统接口 POSIX.1
-  * IEEE    电气与电子工程协会
-  * 标准化了unix家族操作系统的系统调用接口, 目的是提高程序在各种unix家族操作系统之间的可移植性.
-  * 此标准只是标准化了函数接口,并没有函数接口定义,定义工作又各个操作系统自己来完成.
-  * 本书《apue》遵循POSIX.1的2001版本.（# 《apue》p39展示了标准定义的头文件以及各个系统对其的支持情况）
-  * 现在由Austin Group<http://www.opengroup.org/austin>的开放工作组维护.
-* Single Unix Specification
-  * POSIX.1的一个超集, 被成为XSI (X/Open System Interface), 使用时加载宏定义 __XOPEN_UNIX.
-    只有遵循XSI的实现才能成为UNIX系统.
+- ISO C
+  - C89,C99    C语言标准
+  - ANSI    美国国家标准学会
+  - 标准化了C库函数接口, 目的是提高程序在各种操作系统之间的可移植性,而不只是unix家族操作系统.
+  - 此标准不仅定义了c语法和语义,还定义了标准库, 即glibc.
+  - 《apue》p20展示了标准定义的头文件以及各个操作系统对其的支持
+- IEEE POSIX
+  - unix/linux家族函数标准
+  - portable operating system interface 可移植的操作系统接口 POSIX.1
+  - IEEE    电气与电子工程协会
+  - 标准化了unix家族操作系统的系统调用接口, 目的是提高程序在各种unix家族操作系统之间的可移植性.
+  - 此标准只是标准化了函数接口,并没有函数接口定义,定义工作又各个操作系统自己来完成.
+  - 本书《apue》遵循POSIX.1的2001版本.（# 《apue》p39展示了标准定义的头文件以及各个系统对其的支持情况）
+  - 现在由Austin Group<http://www.opengroup.org/austin>的开放工作组维护.
+- Single Unix Specification
+  - OSIX.1的一个超集, 被成为XSI (X/Open System Interface), 使用时加载宏定义 __XOPEN_UNIX.
+  - 只有遵循XSI的实现才能成为UNIX系统.
 
 ### 1.5 posix限制
 
-#### a. 查看系统限制配置
+1. 查看系统限制配置
 
-```bash
-ulimit -a
-core file size          (blocks, -c) 0
-data seg size           (kbytes, -d) unlimited
-scheduling priority             (-e) 0
-file size               (blocks, -f) unlimited
-pending signals                 (-i) 30686
-max locked memory       (kbytes, -l) 64
-max memory size         (kbytes, -m) unlimited
-open files                      (-n) 1024
-pipe size            (512 bytes, -p) 8
-POSIX message queues     (bytes, -q) 819200
-real-time priority              (-r) 0
-stack size              (kbytes, -s) 10240
-cpu time               (seconds, -t) unlimited
-max user processes              (-u) 30686
-virtual memory          (kbytes, -v) unlimited
-file locks                      (-x) unlimited
-```
+    ```bash
+    ulimit -a
 
-#### b. 修改系统限制配置
+    core file size          (blocks, -c) 0
+    data seg size           (kbytes, -d) unlimited
+    scheduling priority             (-e) 0
+    file size               (blocks, -f) unlimited
+    pending signals                 (-i) 30686
+    max locked memory       (kbytes, -l) 64
+    max memory size         (kbytes, -m) unlimited
+    open files                      (-n) 1024
+    pipe size            (512 bytes, -p) 8
+    POSIX message queues     (bytes, -q) 819200
+    real-time priority              (-r) 0
+    stack size              (kbytes, -s) 10240
+    cpu time               (seconds, -t) unlimited
+    max user processes              (-u) 30686
+    virtual memory          (kbytes, -v) unlimited
+    file locks                      (-x) unlimited
+    ```
 
-**ulimit -n \<num\>**　修改进程中打开文件的最大个数
-
-#### c. 限制相关头文件
-
-**#include <linux/limits.h>**
-**#include <linux/limits.h>**
-
-#### d. 数据类型相关头文件
-
-**#include <sys/types.h>**  
-**#include <bits/types.h>**
-
-#### e. 查看系统配置的函数
-
-**long sysconf(int name);**  
-　　获取运行时配置信息,参数name常以_SC_开通。  
-　　**_SC_CLK_TCK**　　 每秒时钟滴答数  
-　　**_SC_OPEN_MAX**　每个进程的最大打开文件数
-
-**long fpathconf(int fd, int name);**
-
-**long pathconf(char \*path, int name);**  
-　　为文件获取配置信息,参数name常以_PC_开头
-
-#### f. 参见书《apue》p46, 2.5限制
+2. 修改系统限制配置  
+  **ulimit -n \<num\>** 修改进程中打开文件的最大个数
+3. 跟限制相关头文件  
+  **#include \<linux/limits.h\>**  
+  **#include \<linux/limits.h\>**
+4. 数据类型相关头文件  
+**#include \<sys/types.h\>**  
+**#include \<bits/types.h\>**
+5. 查看系统配置的函数  
+  **long sysconf(int name);**  
+    获取运行时配置信息,参数name常以_SC_开通。  
+    **_SC_CLK_TCK**   每秒时钟滴答数  
+    **_SC_OPEN_MAX** 每个进程的最大打开文件数
+  **long fpathconf(int fd, int name);**
+  **long pathconf(char \*path, int name);**  
+  为文件获取配置信息,参数name常以_PC_开头
+6. 参见书《apue》p46, 2.5限制
 
 ### 1.6 man 手册
 
-* `man n xxx`
-
+- `man n xxx`  
 num | en | chs
 :--- | :--- | :---
 1 | Standard commands | 标准命令
@@ -278,28 +266,27 @@ num | en | chs
 7 | Miscellaneous | 杂项
 8 | Administrative Commands | 管理员命令
 9 |  | 其他（Linux特定的）, 用来存放内核例行程序的文档.
-
-* `man xxx`
-* `man string.h`
-* **/usr/share/man/**
+- `man xxx`
+- `man string.h`
+- **/usr/share/man/**
 
 ### 1.7 错误检测
 
-* man查看错误号  
+- man查看错误号  
 `man errno`
 
 fun | desc | header
 :--- | :--- | :---
-**int errno** | 错误号,全局变量 | errno.h
-**const char \*sys_errlist[]** | 错误提示字符串数组,下标对应错误号. | errno.h
-**char\* strerror(int errnum)** | 返回相应的错误号对应的字符串 | string.h
-**void perror(const char \*s)** | 同时打印错误号errno所对应的字符串 | stdio.h
+**int errno*- | 错误号,全局变量 | errno.h
+**const char \*sys_errlist[]*- | 错误提示字符串数组,下标对应错误号. | errno.h
+**char\- strerror(int errnum)*- | 返回相应的错误号对应的字符串 | string.h
+**void perror(const char \*s)*- | 同时打印错误号errno所对应的字符串 | stdio.h
 
 ## 2. 标准库IO函数
 
 ### 2.1. 流
 
-* FILE
+- FILE
 
 ```cpp
 #include <stdio.h>
@@ -313,7 +300,7 @@ struct _IO_FILE {
 }
 ```
 
-* stdin, stdout, stderr
+- stdin, stdout, stderr
 
 ```cpp
 #include <stdio.h>
@@ -326,7 +313,7 @@ extern struct _IO_FILE \*stderr;     // Standard error output stream.
 
 ### 2.2. 打开文件
 
-* **FILE \*fopen(const char \*path, const char \*mode);**
+- **FILE \*fopen(const char \*path, const char \*mode);**
 
     以某种方式打开文件  
 
@@ -340,7 +327,7 @@ extern struct _IO_FILE \*stderr;     // Standard error output stream.
     a | 追加,只写,指针定位到文件尾  
     a+ | 追加,读写,指针定位到文件尾  
 
-* **FILE \*freopen(const char \*path, const char \*mode, FILE \*stream);**
+- **FILE \*freopen(const char \*path, const char \*mode, FILE \*stream);**
 
     将指定的文件打开为预定义的流：stdin,stdout,stderr ;
 
@@ -348,7 +335,7 @@ extern struct _IO_FILE \*stderr;     // Standard error output stream.
     newfp = freopen( "test.txt", "w", stdout ) ;    向newfp中写入数据,即向stdout中写入数据
     ```
 
-* **FILE \*fdopen(int fd, const char \*mode);**  
+- **FILE \*fdopen(int fd, const char \*mode);**  
 将文件描述符fd转换成文件流.
 
 #### 习题 2.2 maxopen.c
@@ -357,14 +344,14 @@ extern struct _IO_FILE \*stderr;     // Standard error output stream.
 
 ### 2.3. 关闭文件
 
-**FILE*指针本身的存放位置** : 因为存在成对函数fclose, 可以断定此指针是在**堆**上创建的.
+**FILE*指针本身的存放位置*- : 因为存在成对函数fclose, 可以断定此指针是在**堆**上创建的.
 
-* **int fclose(FILE \*fp);**     冲刷缓冲区,同时,关闭文件流.  stdio.h
+- **int fclose(FILE \*fp);**     冲刷缓冲区,同时,关闭文件流.  stdio.h
 
 ### 2.4. 判断流错误
 
-* **int ferror(FILE \*stream);**    判断是否文件流产生错误  stdio.h
-* **void clearerr(FILE \*stream);** 清除某个文件流上的错误  stdio.h
+- **int ferror(FILE \*stream);**    判断是否文件流产生错误  stdio.h
+- **void clearerr(FILE \*stream);*- 清除某个文件流上的错误  stdio.h
 
 ### 2.5. 判断流结尾
 
@@ -375,7 +362,7 @@ extern struct _IO_FILE \*stderr;     // Standard error output stream.
 #endif
 ```
 
-* **int feof(FILE \*stream);**
+- **int feof(FILE \*stream);**
 
     判断是否文件尾,配合ferror一起使用.  
 
@@ -394,10 +381,10 @@ extern struct _IO_FILE \*stderr;     // Standard error output stream.
 
 在文件流获取一个字符
 
-* **int fgetc(FILE \*stream);**
-* **int getc(FILE \*stream);**  宏定义实现,用法与fgetc相同
-* **int getchar(void);** = **getc(stdin);**
-* **int ungetc(int c, FILE \*stream);**    回写字符到某流中.
+- **int fgetc(FILE \*stream);**
+- **int getc(FILE \*stream);**  宏定义实现,用法与fgetc相同
+- **int getchar(void);*- = **getc(stdin);**
+- **int ungetc(int c, FILE \*stream);**    回写字符到某流中.
 
     `返回值`  成功返回读到的字节,出错或者读到文件末尾时返回EOF
 
@@ -422,9 +409,9 @@ eg.
 
 向文件流中写入一个字符
 
-* **int fputc(int c, FILE \*stream);**
-* ***int putc(int c, FILE \*stream);*** 宏定义实现,用法与fputc相同
-* **int putchar(int c);** = **putc(c, stdout) ;**
+- **int fputc(int c, FILE \*stream);**
+- ***int putc(int c, FILE \*stream);**- 宏定义实现,用法与fputc相同
+- **int putchar(int c);*- = **putc(c, stdout) ;**
 
     `返回值`    成功返回写入的字节,出错返回EOF.
 
@@ -439,10 +426,10 @@ eg.
 
 从文件流中读取一串数据,数据末尾自动补齐\0
 
-* **char \*fgets(char \*s, int size, FILE \*stream);**  
+- **char \*fgets(char \*s, int size, FILE \*stream);**  
 size-1为最大读取个数,数据末尾自动补齐\0.
 
-* **char \*gets(char \*s);** ~= **fgets( s, BUFSIZ, stdin ) ;**
+- **char \*gets(char \*s);*- ~= **fgets( s, BUFSIZ, stdin ) ;**
 
     ```cpp
     stdio.h:128:    #define    BUFSIZ       _IO_BUFSIZ  
@@ -470,11 +457,11 @@ size-1为最大读取个数,数据末尾自动补齐\0.
 
 向文件流中写入一串数据
 
-* **int fputs(const char \*s, FILE \*stream);**
+- **int fputs(const char \*s, FILE \*stream);**
 
     不输出\n
 
-* **int puts(const char \*s);**
+- **int puts(const char \*s);**
 
     向标准输出写一样,输出最后的\n
 
@@ -494,7 +481,7 @@ size-1为最大读取个数,数据末尾自动补齐\0.
 
 #### c) 直接IO,块操作
 
-* **size_t fread(void \*ptr, size_t size, size_t nmemb, FILE \*stream);**
+- **size_t fread(void \*ptr, size_t size, size_t nmemb, FILE \*stream);**
 
     从文件流stream中读取nmemb*size个字节数据保存ptr中.
 
@@ -507,7 +494,7 @@ size-1为最大读取个数,数据末尾自动补齐\0.
     超过10个字节文件 | fread( buf, 10, 1, fp ) | 循环1次 | 返回值1 | 读文件的次数
     少于10个字节文件(比如3个字节) | fread( buf, 1, 10, fp ) | 循环10次 | 返回值3 | 读文件的次数
 
-* **size_t fwrite(const void \*ptr, size_t size, size_t nmemb, FILE \*stream);**
+- **size_t fwrite(const void \*ptr, size_t size, size_t nmemb, FILE \*stream);**
 
     向文件流stream中写入从ptr开始的nmemb*size个字节的数据.
 
@@ -608,7 +595,7 @@ fgets(buf, 20, stdin);
 
 #### 5) 设置缓冲
 
-* **int setvbuf(FILE \*stream, char \*buf, int mode, size_t size);**
+- **int setvbuf(FILE \*stream, char \*buf, int mode, size_t size);**
 
     `mode` | 设置的缓冲方式
     :--- | :---
@@ -616,9 +603,9 @@ fgets(buf, 20, stdin);
     _IOLBF | line buffered
     _IOFBF | fully buffered
 
-* 全缓冲,长度BUFSIZ
+- 全缓冲,长度BUFSIZ
 
-**void setbuf(FILE \*stream, char \*buf);** = **setvbuf( stream, buf, _IOFBF, BUFSIZ );**
+**void setbuf(FILE \*stream, char \*buf);*- = **setvbuf( stream, buf, _IOFBF, BUFSIZ );**
 
 ```cpp
 stdio.h:128:    #define    BUFSIZ        _IO_BUFSIZ
@@ -626,17 +613,17 @@ libio.h:46:     #define    _IO_BUFSIZ    _G_BUFSIZ
 _G_config.h:85: #define    _G_BUFSIZ    8192
 ```
 
-* 全缓冲,长度size
+- 全缓冲,长度size
 
-**void setbuffer(FILE \*stream, char \*buf, size_t size);** = **setvbuf( stream, buf, _IOFBF, size );**
+**void setbuffer(FILE \*stream, char \*buf, size_t size);*- = **setvbuf( stream, buf, _IOFBF, size );**
 
-* 行缓冲
+- 行缓冲
 
-**void setlinebuf(FILE \*stream);** = **setvbuf(stream, (char \*) NULL, _IOLBF, 0);**
+**void setlinebuf(FILE \*stream);*- = **setvbuf(stream, (char \*) NULL, _IOLBF, 0);**
 
 ### 2.8. 文件内位置指针
 
-* **int fseek(FILE \*stream, long offset, int whence);**
+- **int fseek(FILE \*stream, long offset, int whence);**
 
     定位文件位置指针位置
 
@@ -651,18 +638,18 @@ _G_config.h:85: #define    _G_BUFSIZ    8192
 
     `返回值`  定位到比文件头小的位置,函数错误,但可以定位到比文件尾大的位置.
 
-* **long ftell(FILE \*stream);**                    获取文件位置指针距文件头偏移
-* **void rewind(FILE \*stream);** = **fseek(steam,0,SEEK_SET) ;**   定位到文件头
-* **int fgetpos(FILE \*stream, fpos_t \*pos);**      获取当前位置指针
-* **int fsetpos(FILE \*stream, fpos_t \*pos);**      定位文件指针
+- **long ftell(FILE \*stream);**                    获取文件位置指针距文件头偏移
+- **void rewind(FILE \*stream);*- = **fseek(steam,0,SEEK_SET) ;**   定位到文件头
+- **int fgetpos(FILE \*stream, fpos_t \*pos);**      获取当前位置指针
+- **int fsetpos(FILE \*stream, fpos_t \*pos);**      定位文件指针
 
 ### 2.9. 临时文件
 
 func | desc
 :--- | :---
-**char \*tmpnam(char \*s);** | 在/tmp目录下创建唯一的临时文件,若s不为空,返回值为s的拷贝
-**int mkstemp(char \*template);** | 创建临时文件同时打开,返回文件描述符
-**FILE \*tmpfile(void);** | 创建临时文件同时打开,返回文件指针
+**char \*tmpnam(char \*s);*- | 在/tmp目录下创建唯一的临时文件,若s不为空,返回值为s的拷贝
+**int mkstemp(char \*template);*- | 创建临时文件同时打开,返回文件描述符
+**FILE \*tmpfile(void);*- | 创建临时文件同时打开,返回文件指针
 
 eg.
 
@@ -704,7 +691,7 @@ struct _IO_FILE {
 }
 ```
 
-* **int fileno(FILE \*stream);**  
+- **int fileno(FILE \*stream);**  
 获取打开的文件流对应的文件描述符
 
 ```cpp
@@ -719,7 +706,7 @@ struct _IO_FILE {
 
 ### 3.6. 打开文件
 
-* **int open(const char \*pathname, int flags);**  
+- **int open(const char \*pathname, int flags);**  
 **int open(const char \*pathname, int flags, mode_t mode);**
 
     `flags`    O_RDONLY,O_WRONLY,O_RDWR此三者必指定其一,不可同时出现. 
@@ -805,7 +792,7 @@ write( fd, "xxxx\n", 5 ) ;
         O_APPEND对读操作不起作用,文件位置指针可以任意lseek.
 
 ```cpp++ O_APPEND对写操作和读操作的影响
-int    main(int ac, char \* av[])
+int    main(int ac, char \- av[])
 {
 int    fd = open(av[1], O_RDWR | O_APPEND ) ;
 
@@ -991,7 +978,7 @@ int    main( void )
 {
 int fd = open( "test.txt", O_RDWR) ;  // O_RDWR 才能被读写,文件大小必须超过MMAP_SIZE,否则segment default
 
-char*    addr = mmap( NULL, MMAP_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+char-    addr = mmap( NULL, MMAP_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
 if ( addr == NULL )    return  -1 ;
 
 memcpy( addr, "mmap test\n", MMAP_SIZE );
@@ -1017,7 +1004,7 @@ stat 命令    stat信息来自于inode节点.
 linux上下层文件操作逻辑
 
 a) 内容部分
-    FILE* fp  ->  int fd  ->  设备节点  ->  struct file
+    FILE- fp  ->  int fd  ->  设备节点  ->  struct file
     fopen(3)  ->  open(2) ->  设备节点  ->  struct file_operations.open
 
 b) 属性部分
@@ -1074,7 +1061,7 @@ Modify: 2014-08-02 17:27:50.890017954 +0800    st_mtime
 Change: 2014-08-02 17:27:50.893017888 +0800    st_ctime
 
 ```cpp++ 判断文件类型
-int    main( int argc, char* argv[] )
+int    main( int argc, char- argv[] )
 {
 struct stat    buf ;
 
@@ -1087,7 +1074,7 @@ else if ( S_ISBLK(buf.st_mode) )    printf( "block device\n" ) ;
 else if ( S_ISFIFO(buf.st_mode) )    printf( "fifo\n" ) ;
 else if ( S_ISLNK(buf.st_mode) )    printf( "symbolic link\n" ) ;
 else if ( S_ISSOCK(buf.st_mode) )    printf( "socket\n" ) ;
-else    printf( "** unknown mode **\n" ) ;
+else    printf( "*- unknown mode **\n" ) ;
 return    0 ;
 }
 ```
@@ -1367,7 +1354,7 @@ int rename(const char \*oldpath, const char \*newpath);
 
 删除文件
 int unlink(const char \*pathname);    #include <unistd.h> 说明来自unix家族
-int remove(const char* pathname) ;    #include <stdio.h> 说明来自iso c.
+int remove(const char- pathname) ;    #include <stdio.h> 说明来自iso c.
     remove只比unlink多了一个删除目录的功能,但不能删除非空目录.
 
     符号链接：直接删除
@@ -1401,7 +1388,7 @@ int utime(const char \*filename, const struct utimbuf *times);
 ```    // comments
 
 ```cpp++ utime
-int    main( int argc, char* argv[] )
+int    main( int argc, char- argv[] )
 {
 // stat a.txt
 system( "stat a.txt" ) ;
@@ -1496,7 +1483,7 @@ struct dirent
     char    d_name[256];        // 文件名
 };
 
-DIR*    opendir(const char \*name);    打开一个目录流
+DIR-    opendir(const char \*name);    打开一个目录流
 struct dirent    *readdir(DIR *dirp);    读目录流,循环遍历
 long    telldir(DIR *dirp);        获取当前目录流指针便宜
 void    rewinddir(DIR *dirp);        流指针返回当前目录首
@@ -1504,7 +1491,7 @@ void    seekdir(DIR *dirp, long offset);    用来设置参数dir目录流目前
 int    closedir(DIR *dirp);        关闭目录流
 
 ```cpp++ readdir示例
-int    main(int argc,char** argv)
+int    main(int argc,char*- argv)
 {
 DIR *dirptr = NULL;
 struct dirent *entry;
@@ -1536,7 +1523,7 @@ return 0;
 ```
 
 ```cpp++ 作业 递归遍历各级目录,打印各个文件大小.
-void    fsize( char* name )
+void    fsize( char- name )
 {
 struct stat     s = { 0x00 } ;
 
@@ -1545,9 +1532,9 @@ printf( "%ld %s\n", s.st_size, name ) ;
 
 if ( S_ISDIR( s.st_mode ) == 0 )    return ;
 
-DIR*    dfd = opendir( name ) ;
+DIR-    dfd = opendir( name ) ;
 if ( dfd == NULL )    return ;
-struct dirent*  dp = NULL ;
+struct dirent-  dp = NULL ;
 
 while ( ( dp = readdir( dfd ) ) != NULL )
 {
@@ -1569,7 +1556,7 @@ dfd = NULL ;
 return ;
 }
 
-int     main( int argc, char* argv[] )
+int     main( int argc, char- argv[] )
 {
 if ( argc == 1 )
 {
@@ -1590,7 +1577,7 @@ return  0 ;
 ```cpp++ rewinddir 示例
 int    main( void )
 {
-DIR * dir;
+DIR - dir;
 struct dirent *ptr;
 dir = opendir("/etc/rc.d");
 while((ptr = readdir(dir))!=NULL)
@@ -1610,8 +1597,8 @@ closedir(dir);
 ```cpp++ seekdir示例
 int    main( void )
 {
-DIR * dir;
-struct dirent * ptr;
+DIR - dir;
+struct dirent - ptr;
 long offset,offset_5,i=0;
 dir=opendir("/etc/rc.d");
 while((ptr = readdir(dir))!=NULL)
@@ -1634,9 +1621,9 @@ closedir(dir);
 2) 附加：glob
 
 typedef struct {
-    size_t   gl_pathc;    /* 符合条件的目录项个数  */
-    char   **gl_pathv;    /* 符合条件的目录项  */
-    size_t   gl_offs;     /* Slots to reserve in gl_pathv.  */
+    size_t   gl_pathc;    /- 符合条件的目录项个数  */
+    char   **gl_pathv;    /- 符合条件的目录项  */
+    size_t   gl_offs;     /- Slots to reserve in gl_pathv.  */
 } glob_t;
 
 int glob(const char \*pattern, int flags, int (*errfunc) (const char \*epath, int eerrno), glob_t *pglob);
@@ -1700,7 +1687,7 @@ return 0;
 
 static int path_noloop(const char \*path)
 {
-const char*    pos = strrchr(path,'/');
+const char-    pos = strrchr(path,'/');
 if(pos == NULL)
     exit(1);
 
@@ -1764,7 +1751,7 @@ return    0 ;
 
 ### 5.1. /etc/passwd
 
-* 密码文件 ：/etc/passwd
+- 密码文件 ：/etc/passwd
 
 ```bash
 # 用户名:机密口令:用户id:用户组id:注释字段:初始工作目录:初始shell
@@ -1773,14 +1760,14 @@ nobody:x:99:99:Nobody:/:/sbin/nologin
 ......
 ```
 
-* 真实的加密口令文件 : /etc/shadow
+- 真实的加密口令文件 : /etc/shadow
 
-* 初始工作目录设置  
-  * 禁止某人登录 /dev/null
-  * 一切返回主失败状态 /bin/false
-  * 一切返回终止状态 /bin/true
+- 初始工作目录设置  
+  - 禁止某人登录 /dev/null
+  - 一切返回主失败状态 /bin/false
+  - 一切返回终止状态 /bin/true
 
-* nobody用户：类似windows的匿名账户,它们是用来完成特定任务的,比如我们访问LinuxSir.Org的网页程序,就是nobody用户;我们匿名访问ftp时,会用到用户ftp或nobody.也就是说某些服务器需要nobody,ftp等这类的用户来访问,尽量使其访问权限最小.UID(65534)和GID(65534).
+- nobody用户：类似windows的匿名账户,它们是用来完成特定任务的,比如我们访问LinuxSir.Org的网页程序,就是nobody用户;我们匿名访问ftp时,会用到用户ftp或nobody.也就是说某些服务器需要nobody,ftp等这类的用户来访问,尽量使其访问权限最小.UID(65534)和GID(65534).
 
 ```cpp++
 struct passwd
@@ -1799,9 +1786,9 @@ struct passwd *getpwuid(uid_t uid);        更具uid获取用户口令信息
 ```
 
 ```cpp++
-int    main( int argc, char** argv )
+int    main( int argc, char*- argv )
 {
-    struct passwd * pw = getpwnam( argv[1] );
+    struct passwd - pw = getpwnam( argv[1] );
     if ( pw == NULL) {
         printf("%s is not exist\n", username);
         return -1;
@@ -1827,7 +1814,7 @@ void endpwent(void);            关闭/etc/passwd文件
 练习 ：用这三个函数可以用来实现getpwnam.
 
 setpwent() ;
-struct passwd*    ptr = NULL ;
+struct passwd-    ptr = NULL ;
 while ( (ptr=getpwent()) != NULL )
 if ( strcmp( name, ptr->pw_name ) == 0 )    break ;
 endpwent() ;
@@ -1888,7 +1875,7 @@ void           endgrent(void);        关闭/etc/group文件
 
 附加组    用户想获取对某事物的权力,可加入不同的组.
 
-* **int getgroups(int size, gid_t list[]);**
+- **int getgroups(int size, gid_t list[]);**
     获取当前用户的附加组.
     附加组id填到数组list中,并且返回实际获取的附加组id个数.
 
@@ -1964,8 +1951,8 @@ struct tm {    // 时间结构体
 };
 
 struct utimbuf {
-    time_t actime;       /* access time */
-    time_t modtime;      /* modification time */
+    time_t actime;       /- access time */
+    time_t modtime;      /- modification time */
 };
 
 struct timeval {            // 时间结构体
@@ -1985,7 +1972,7 @@ int gettimeofday(struct timeval *tv, struct timezone *tz);
 int settimeofday(const struct timeval *tv, const struct timezone *tz);
 ```
 
-* gettimeofday例子
+- gettimeofday例子
 
 ```cpp++
 int    main( void )
@@ -2001,7 +1988,7 @@ int    main( void )
 }
 ```
 
-* gettimeofday例子, 获取delay函数的运行时间
+- gettimeofday例子, 获取delay函数的运行时间
 
 ```cpp++
 void delay(void)
@@ -2023,7 +2010,7 @@ int    main( void )
 
     gettimeofday( &end, NULL ) ;
 
-    diff = 1000000 * (end.tv_sec-start.tv_sec)+ end.tv_usec-start.tv_usec;
+    diff = 1000000 - (end.tv_sec-start.tv_sec)+ end.tv_usec-start.tv_usec;
     printf( "the difference is %ld usecond\n" , diff ) ;
 
     return 0;
@@ -2044,7 +2031,7 @@ struct tm *localtime(const time_t *timep);
 char \*asctime(const struct tm *tm);
 ```
 
-* localtime例子
+- localtime例子
 
 ```cpp++
 int    main( void )
@@ -2058,7 +2045,7 @@ int    main( void )
 }
 ```
 
-* localtime, asctime 例子
+- localtime, asctime 例子
 
 ```cpp++
 int    main( void )
@@ -2085,7 +2072,7 @@ time_t mktime(struct tm *tm);
 size_t strftime(char \*s, size_t max, const char \*format, const struct tm *tm );
 ```
 
-* strftime 例子
+- strftime 例子
 
 ```cpp++
 int    main( void )
@@ -2110,7 +2097,7 @@ int    main( void )
 ### 6.1. 进程启动和结束
 
 int    main( void ) ;
-int    main( int argc, char* argv[] ) ;    解释命令行参数.
+int    main( int argc, char- argv[] ) ;    解释命令行参数.
 
 正常终止：
     1) 从main函数返回return.
@@ -2258,7 +2245,7 @@ ptr = NULL ;
 
 环境变量 environ,二维字符数组,全局变量.
 
-extern char** environ ;
+extern char*- environ ;
 for ( int i = 0 ; environ[i] != NULL ; i++ )
 cout << environ[i] << endl ;
 
@@ -2350,28 +2337,28 @@ int setrlimit(int resource, const struct rlimit *rlim);
 
 子进程是父进程的副本,父进程很多属性将被子进程所继承,即被子进程复制：
 
-* 运行代码.
-* 存储映射(栈,堆,静态存储区).
-* 文件描述符以及位置指针, 重定向, 文件模式创建屏蔽字, 打开的文件描述符在执行时关闭标志.
-* 实际用户id, 实际组id, 有效用户id, 有效组id.
-* 附加组id.
-* 进程组.
-* 会话(session)id.
-* 控制终端.
-* 设置用户id标志, 设置组id标志.
-* 环境变量表(当前工作目录, 家目录).
-* 信号屏蔽和信号处理方式.
-* 连接的共享存储段.
-* 资源限制
+- 运行代码.
+- 存储映射(栈,堆,静态存储区).
+- 文件描述符以及位置指针, 重定向, 文件模式创建屏蔽字, 打开的文件描述符在执行时关闭标志.
+- 实际用户id, 实际组id, 有效用户id, 有效组id.
+- 附加组id.
+- 进程组.
+- 会话(session)id.
+- 控制终端.
+- 设置用户id标志, 设置组id标志.
+- 环境变量表(当前工作目录, 家目录).
+- 信号屏蔽和信号处理方式.
+- 连接的共享存储段.
+- 资源限制
 
 父进程没有被子进程继承的：
 
-* fork返回值.
-* 进程id.
-* 子进程的tms_utime, tms_stime, tms_cutime, tms_ustime均被置0 .
-* 文件锁
-* alarm信号被清除.
-* 未决(pending,产生了,但在递送过程中被阻塞的信号.)信号.
+- fork返回值.
+- 进程id.
+- 子进程的tms_utime, tms_stime, tms_cutime, tms_ustime均被置0 .
+- 文件锁
+- alarm信号被清除.
+- 未决(pending,产生了,但在递送过程中被阻塞的信号.)信号.
 
 fork的应用场景：
     1) 一个父进程希望复制自己,使父子进程同时执行不同的代码.比如网络服务进程——父进程等待客户端服务请求（最后可以设置成作业）.
@@ -2396,7 +2383,7 @@ printf("[%d]:End!\n",getpid());
 return 0;
 }
 
-/*    # Begin后没有\n的情况,行缓冲在fork时被继承,因此Begin被打印了两遍.
+/-    # Begin后没有\n的情况,行缓冲在fork时被继承,因此Begin被打印了两遍.
 [9782]:Begin![9782]:Parent is working!
 [9782]:End!
 [9782]:Begin![9783]:Child is working!
@@ -2404,7 +2391,7 @@ return 0;
         # 如果加了return,代表子进程退出函数main,因此下面的End打印不会被执行.
 */
 
-/*    # Begin后有\n的情况,父进程行缓冲中无内容,因此Begin被打印了一遍.
+/-    # Begin后有\n的情况,父进程行缓冲中无内容,因此Begin被打印了一遍.
 [9750]:Begin!
 [9750]:Parent is working!
 [9750]:End!
@@ -2710,7 +2697,7 @@ cout << "==========" << endl ;    // 此句无输出
 
 int execl(const char \*path, const char \*cmd, ...);
 int execlp(const char \*file, const char \*cmd, ...);
-int execle(const char \*path, const char \*cmd, ..., char \* const env[]);
+int execle(const char \*path, const char \*cmd, ..., char \- const env[]);
 int execv(const char \*path, char \*const cmd[]);
 int execvp(const char \*file, char \*const cmd[]);
 int execve(const char \*path, char \*const cmd[], char \*const env[]);
@@ -2727,24 +2714,24 @@ l 参数list列表方式,以逗号分隔,以NULL指针作为结束标志.
 execl( "/bin/cat","cat", "test.txt",NULL);
 
 v 参数为NULL结尾的字符串数组vector方式.
-char*    cmd[]={"cat","test.txt",NULL};
+char-    cmd[]={"cat","test.txt",NULL};
 execv( "/bin/cat",?cmd?);
 
 p 表示去PATH变量中查找可执行程序文件.
-char*    cmd[]={"cat","test.txt",NULL};
+char-    cmd[]={"cat","test.txt",NULL};
 execvp( "cat", cmd ) ;
 
 e 表示明确要传递给此子进程的环境变量.env即此环境变量.以NULL结尾.
   不带后缀e函数,子进程直接复制父进程说有所有环境.
 
     environ.c    用来打印环境变量
-extern char** environ ;
+extern char*- environ ;
 for ( int i = 0 ; environ[i] != NULL ; i++ )
 cout << environ[i] << endl ;
 
     exec.c        调用environ
-char*     cmd[] = { "environ", NULL } ;
-char*     env[] = { "FILEPATH=/tmp", NULL } ;
+char-     cmd[] = { "environ", NULL } ;
+char-     env[] = { "FILEPATH=/tmp", NULL } ;
 execve( "/...pwd.../environ", cmd, env );
 ---------------------------------------------------
 // execle( "/...pwd.../environ", "envrion", env );
@@ -2778,7 +2765,7 @@ execl( "/bin/sh", "sh", "-c", "echo aaa", NULL ) ;
 
 ### 7.7. system
 
-* **int system(const char \*command);**
+- **int system(const char \*command);**
 = /bin/sh -c command
 system函数是由 fork, exec, waitpid实现的.
 system返回值情况:
@@ -2801,7 +2788,7 @@ void    print( int status )
     else    cout << "error" << endl ;
 }
 
-int    my_system( const char* command ) {
+int    my_system( const char- command ) {
     pid_t    pid ;
     int    status ;
 
@@ -2942,7 +2929,7 @@ exit(EXIT_SUCCESS);
 
 void doit(char \*str, clock_t time)
 {
-/* Get clock ticks/second */
+/- Get clock ticks/second */
 long tps = sysconf(_SC_CLK_TCK);    // 获取每秒的滴答次数
 
 printf("%s: %6.2f secs\n", str, (float)time/tps);    // 次数除以每秒的滴答次数获得秒数
@@ -3345,7 +3332,7 @@ int pclose(FILE \*stream) ;    关闭流,等待command执行完成.
 ```cpp++ popen示例
 int    main( void )
 {
-FILE*    fp = popen( "cat popen.c", "r" ) ;
+FILE-    fp = popen( "cat popen.c", "r" ) ;
 
 char    buf[1024] = { 0x00 } ;
 while( (fgets( buf, 1024, fp ) ) != NULL )
@@ -3412,7 +3399,7 @@ a) 共享内存    连续内存空间存储方式
 
 int shmget(key_t key, size_t size, int shmflg);
     key    IPC_PRIVATE,创建新共享内存段
-        #define IPC_PRIVATE     ((__key_t) 0)   /* Private key.  */
+        #define IPC_PRIVATE     ((__key_t) 0)   /- Private key.  */
         若key为某具体值,shmflg为IPC_CREAT|mode,也为创建新共享内存段.
     size    段的大小,最大PAGE_SIZE,不同处理器不同大小,intel 4KB, alpha 8KB .
     shmflg    读写权限,eg. 0666 0444 等
@@ -3459,7 +3446,7 @@ system("ipcs -m");    // 查看系统中的共享内存情况,m代表memory
 
 #if    0
 // 读写
-void*   shmaddr = shmat( atoi(argv[1]), NULL, 0 ) ;
+void-   shmaddr = shmat( atoi(argv[1]), NULL, 0 ) ;
 printf( "the shmid %d addr : %p\n", atoi(argv[1]), shmaddr ) ;
 
 // 写
@@ -3494,7 +3481,7 @@ b) 消息队列    链表形式存储方式,但可以任意遍历.
 
 int msgget(key_t key, int msgflg) ;
     key    IPC_PRIVATE    生成新队列,返回值为新队列句柄.
-        #define IPC_PRIVATE    ((__key_t) 0)    /* Private key.  */
+        #define IPC_PRIVATE    ((__key_t) 0)    /- Private key.  */
         若为某实际数字,msgflg=IPC_CREAT|mode,同样也为创建队列.由上可知,0值不可取.
     msgflg    读写权限,eg. 0666 0644等.
     返回值    返回消息队列标识.
@@ -3596,7 +3583,7 @@ c) 信号灯
 信号灯集合：这个对象上把持着一个信号灯集合,这个集合中可以添加若干个信号灯.
 int semget( key_t key, int nsems, int semflg ) ;
     key    IPC_PRIVATE,创建新信号灯对象.
-        #define IPC_PRIVATE     ((__key_t) 0)   /* Private key.  */
+        #define IPC_PRIVATE     ((__key_t) 0)   /- Private key.  */
         若为某具体值,semflg为O_CREAT|mode,同为为创建新信号灯对象.由上可知,0值不可取.
     nsems    信号灯对象中可以创建的信号灯的个数.
     返回值    返回和nsems相关的信号灯对象标识.
@@ -3610,9 +3597,9 @@ int semop(int semid, struct sembuf *sops, unsigned nsops);
     sops    向信号灯对象中添加信号灯集合.
         #include <sys/sem.h>
         struct sembuf {
-            unsigned short int sem_num;   /* semaphore number */
-            short int sem_op;             /* semaphore operation */
-            short int sem_flg;            /* operation flag */
+            unsigned short int sem_num;   /- semaphore number */
+            short int sem_op;             /- semaphore operation */
+            short int sem_flg;            /- operation flag */
         };
         sem_op    >0,信号灯控制资源被释放,且信号灯值增加.
             <0,调用进程将等待直到资源被释放,此时信号灯值减小.
@@ -3920,7 +3907,7 @@ SO_DONTLINER    BOOL    禁止TIME_WAIT开关.不要因为数据未发送就阻�
             设置本选项相当于将SO_LINGER的l_onoff元素置为零.
 SO_DONTROUTE    BOOL    禁止选径;直接传送.
 SO_KEEPALIVE    BOOL    在TCP连接情况下允许使用“保持活动”包.
-SO_LINGER    struct linger FAR*    如关闭时有未发送数据,则逗留.
+SO_LINGER    struct linger FAR-    如关闭时有未发送数据,则逗留.
 SO_OOBINLINE    BOOL    在常规数据流中接收带外数据.
 SO_RCVBUF    int    为接收确定缓冲区大小.
 SO_REUSEADDR    BOOL    允许套接口和一个已在使用中的地址捆绑（参见bind()）.
@@ -3961,7 +3948,7 @@ setsockopt( fd_client,SOL_SOCKET,SO_RCVTIMEO,&tv_out, sizeof(tv_out)) ;
 
 4. 在send()的时候,返回的是实际发送出去的字节(同步)或发送到socket缓冲区的字节(异步);系统默认的状态发送和接收一次为8688字节(约为8.5K);在实际的过程中如果发送或是接收的数据量比较大,可以设置socket缓冲区,避免send(),recv()不断的循环收发.
     // 接收缓冲区
-    int nRecvSize = 32 * 1024; //设置为32K
+    int nRecvSize = 32 - 1024; //设置为32K
     setsockopt( s, SOL_SOCKET, SO_RCVBUF, &nRecvSize, sizeof( int ) );
     //发送缓冲区
     int nSendSize = 32*1024; //设置为32K
@@ -3969,11 +3956,11 @@ setsockopt( fd_client,SOL_SOCKET,SO_RCVTIMEO,&tv_out, sizeof(tv_out)) ;
 
 5. 在发送数据的时,不执行由系统缓冲区到socket缓冲区的拷贝,以提高程序的性能.
     int nZero = 0;
-    setsockopt( socket, SOL_SOCKET, SO_SNDBUF, (const char \* )&nZero, sizeof( nZero ) );
+    setsockopt( socket, SOL_SOCKET, SO_SNDBUF, (const char \- )&nZero, sizeof( nZero ) );
 
 6. 在接收数据时,不执行将socket缓冲区的内容拷贝到系统缓冲区.
     int nZero = 0;
-    setsockopt( s, SOL_SOCKET, SO_RCVBUF, ( const char \* )&nZero, sizeof( int ) );
+    setsockopt( s, SOL_SOCKET, SO_RCVBUF, ( const char \- )&nZero, sizeof( int ) );
 
 7. 一般在发送UDP数据报的时候,希望该socket发送的数据具有广播特性.
     int    bBroadcast = 1 ;
@@ -3981,7 +3968,7 @@ setsockopt( fd_client,SOL_SOCKET,SO_RCVTIMEO,&tv_out, sizeof(tv_out)) ;
 
 8. 在client连接服务器过程中,如果处于非阻塞模式下的socket在connect()的过程中可以设置connect()延时,直到accpet()被调用(此设置只有在非阻塞的过程中有显著的作用,在阻塞的函数调用中作用不大)
     int bConditionalAccept = 1;
-    setsockopt( s, SOL_SOCKET, SO_CONDITIONAL_ACCEPT, ( const char* )&bConditionalAccept, sizeof(int) );
+    setsockopt( s, SOL_SOCKET, SO_CONDITIONAL_ACCEPT, ( const char- )&bConditionalAccept, sizeof(int) );
 
 9. 如果在发送数据的过程中send()没有完成,还有数据没发送,而调用了closesocket(),以前一般采取的措施是shutdown(s,SD_BOTH),但是数据将会丢失.某些具体程序要求待未发送完的数据发送出去后再关闭socket,可通过设置让程序满足要求.
     struct linger
@@ -4355,7 +4342,7 @@ pid_t gettid( void )
 eg. 线程创建
 
 ```cpp++
-void*    func( void* arg )
+void-    func( void- arg )
 {
     printf( "the new thread .\n" ) ;
     return    NULL ;
@@ -4375,7 +4362,7 @@ int    main( void )
 eg. 主线程和新线程调用同一函数.
 
 ```cpp++
-void*    func( void* arg )
+void-    func( void- arg )
 {
     printf( "%s\n", (char*)arg ) ;
     return    NULL ;
@@ -4414,7 +4401,7 @@ int pthread_join(pthread_t thread, void \**retval);
 线程退出,线程状态接收,传参,以及获取返回值
 
 ```cpp++
-static void*    func( void* arg )
+static void-    func( void- arg )
 {
     cout << "thread print int " << (int)( *(int*)arg ) << endl ;
 
@@ -4432,7 +4419,7 @@ int    main( void )
         return    -1 ;
     }
 
-    int*    ret = 0 ;
+    int-    ret = 0 ;
     pthread_join( tid, (void**)&ret ) ;
     cout << "get the return value " << *ret << " from thread" << endl ;
 
@@ -4449,7 +4436,7 @@ typedef    struct
     char    str[20] ;
 } Test ;
 
-static void*    func( void* arg )
+static void-    func( void- arg )
 {
     cout << "thread print struct a : " << ( *(Test*)arg ).a << endl ;
     cout << "thread print struct str : " << ( *(Test*)arg ).str << endl << endl ;
@@ -4470,7 +4457,7 @@ int    main( void )
         return    -1 ;
     }
 
-    Test*    ret = NULL ;
+    Test-    ret = NULL ;
     pthread_join( tid, (void**)&ret ) ;
 
     cout << "get the return value " << endl ;
@@ -4492,12 +4479,12 @@ int    main( void )
     注    此二函数乃宏实现,push函数中带有左大括号{,pop函数中带有右大括号},因此要求此二函数要成对出现.
 
 ```cpp++ 线程清理工作示例
-static void    cleanup_func( void* arg )
+static void    cleanup_func( void- arg )
 {
 cout << "cleanup function : " << (char*)arg << endl ;
 }
 
-static void*    func( void* arg )
+static void-    func( void- arg )
 {
 static int    ret = 1 ;
 
@@ -4519,7 +4506,7 @@ int    main( void )
 pthread_t    tid ;
 pthread_create( &tid, NULL, func, (void*)1 ) ;
 
-int*    ret = NULL ;
+int-    ret = NULL ;
 pthread_join( tid, (void**)&ret ) ;
 
 cout << "thread exit code " << *ret << endl ;
@@ -4536,7 +4523,7 @@ return    0 ;
     pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 
     初始化互斥锁
-    int pthread_mutex_init(pthread_mutex_t* mutex, const pthread_mutexattr_t* attr);
+    int pthread_mutex_init(pthread_mutex_t- mutex, const pthread_mutexattr_t- attr);
         attr    一般置NULL即可
 
     销毁锁
@@ -4554,7 +4541,7 @@ return    0 ;
 
 ```cpp++ 访问临界区产生错误
 static int    i = 0 ;
-static void*    func( void* arg )
+static void-    func( void- arg )
 {
     while( true ) {
         char    str[100] = { 0x00 } ;
@@ -4587,7 +4574,7 @@ int    main( void )
 pthread_mutex_t    mutex = PTHREAD_MUTEX_INITIALIZER ;
 static int    i = 0 ;    // 全局变量i
 
-static void*    func( void* arg )
+static void-    func( void- arg )
 {
     while( true ) {
         // 加锁
@@ -4865,7 +4852,7 @@ if ( signal( SIGKILL, fun ) == SIG_ERR )    // SIGKILL不能被处理
     perror( "sigkill" ) ;            // signal: Invalid argument
 
 signal( SIGSEGV, fun ) ;
-// char* p = NULL ;    *p = 'a' ;
+// char- p = NULL ;    *p = 'a' ;
 
 signal( SIGALRM, fun ) ;
 // alarm(2) ;
@@ -5291,9 +5278,9 @@ int poll(struct pollfd *fds, nfds_t nfds, int timeout);
     fds    要监听的对象,一般是数组形式,数组中存放监听的各路文件数据.
         struct pollfd
         {
-            int   fd;         /* 要监听的文件描述符号 */
-            short events;     /* 要监听的事件 */
-            short revents;    /* 监听到的事件 */
+            int   fd;         /- 要监听的文件描述符号 */
+            short events;     /- 要监听的事件 */
+            short revents;    /- 监听到的事件 */
         };
     nfds    数组中元素个数
     timeout    超时设置
