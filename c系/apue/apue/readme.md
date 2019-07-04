@@ -294,14 +294,14 @@ num | en | chs
 ### 1.7 错误检测
 
 - man查看错误号  
-`man errno`
+    `man errno`
 
-```cpp
-int errno   //错误号,全局变量. 头文件errno.h
-const char *sys_errlist[]   //错误提示字符串数组,下标对应错误号. 头文件errno.h
-char* strerror(int errnum)  //返回相应的错误号对应的字符串. 头文件string.h
-void perror(const char *s)  //同时打印错误号errno所对应的字符串. 头文件stdio.h
-```
+    ```cpp
+    int errno   //错误号,全局变量. 头文件errno.h
+    const char *sys_errlist[]   //错误提示字符串数组,下标对应错误号. 头文件errno.h
+    char* strerror(int errnum)  //返回相应的错误号对应的字符串. 头文件string.h
+    void perror(const char *s)  //同时打印错误号errno所对应的字符串. 头文件stdio.h
+    ```
 
 ## 2. 标准库IO函数
 
