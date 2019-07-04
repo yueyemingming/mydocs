@@ -166,7 +166,6 @@ yum install gcc.x86_64 gcc-c++.x86_64 glibc-static.x86_64
 
 ```bash
 gcc -v
-
   gcc 版本 4.4.7 20120313 (Red Hat 4.4.7-4) (GCC)        # 安装成功
 ```
 
@@ -236,38 +235,38 @@ linux       | 杂货铺,linux内核(www.kernel.org)+界面(gnome, kde)的集合
 
 - 修改系统限制配置
 
-```bash
-ulimit -n <num>    #修改进程中打开文件的最大个数
-```
+    ```bash
+    ulimit -n <num>    #修改进程中打开文件的最大个数
+    ```
 
 - 跟限制相关头文件
 
-```cpp
-#include <linux/limits.h>
-#include <linux/limits.h>
-```
+    ```cpp
+    #include <linux/limits.h>
+    #include <linux/limits.h>
+    ```
 
 - 数据类型相关头文件
 
-```cpp
-#include <sys/types.h>
-#include <bits/types.h>
-```
+    ```cpp
+    #include <sys/types.h>
+    #include <bits/types.h>
+    ```
 
 - 查看系统配置的函数
 
-```cpp
-long sysconf(int name);
-    // 获取运行时配置信息
-    // 参数name常以_SC_开头
-        // _SC_CLK_TCK      每秒时钟滴答数
-        // _SC_OPEN_MAX     每个进程的最大打开文件数
+    ```cpp
+    long sysconf(int name);
+        // 获取运行时配置信息
+        // 参数name常以_SC_开头
+            // _SC_CLK_TCK      每秒时钟滴答数
+            // _SC_OPEN_MAX     每个进程的最大打开文件数
 
-long fpathconf(int fd, int name);
+    long fpathconf(int fd, int name);
 
-long pathconf(char *path, int name);
-    // 为文件获取配置信息,参数name常以_PC_开头
-```
+    long pathconf(char *path, int name);
+        // 为文件获取配置信息,参数name常以_PC_开头
+    ```
 
 - 参见书《apue》p46, 2.5限制
 
@@ -275,17 +274,17 @@ long pathconf(char *path, int name);
 
 - `man n xxx`
 
-num | en | chs
-:--- | :--- | :---
-1 | Standard commands | 标准命令
-2 | System calls | 系统调用
-3 | Library functions | 库函数
-4 | Special devices | 设备说明
-5 | File formats | 文件格式
-6 | Games and toys | 游戏和娱乐
-7 | Miscellaneous | 杂项
-8 | Administrative Commands | 管理员命令
-9 |  | 其他（Linux特定的）, 用来存放内核例行程序的文档.
+    num | en | chs
+    :--- | :--- | :---
+    1 | Standard commands | 标准命令
+    2 | System calls | 系统调用
+    3 | Library functions | 库函数
+    4 | Special devices | 设备说明
+    5 | File formats | 文件格式
+    6 | Games and toys | 游戏和娱乐
+    7 | Miscellaneous | 杂项
+    8 | Administrative Commands | 管理员命令
+    9 |  | 其他（Linux特定的）, 用来存放内核例行程序的文档.
 
 - `man xxx`
 - `man string.h`
@@ -296,12 +295,12 @@ num | en | chs
 - man查看错误号  
     `man errno`
 
-```cpp
-int errno                   //错误号,全局变量.                    errno.h
-const char *sys_errlist[]   //错误提示字符串数组,下标对应错误号.    errno.h
-char* strerror(int errnum)  //返回相应的错误号对应的字符串.         string.h
-void perror(const char *s)  //同时打印错误号errno所对应的字符串.    stdio.h
-```
+    ```cpp
+    int errno                   //错误号,全局变量.                    errno.h
+    const char *sys_errlist[]   //错误提示字符串数组,下标对应错误号.    errno.h
+    char* strerror(int errnum)  //返回相应的错误号对应的字符串.         string.h
+    void perror(const char *s)  //同时打印错误号errno所对应的字符串.    stdio.h
+    ```
 
 ## 2. 标准库IO函数
 
@@ -309,68 +308,68 @@ void perror(const char *s)  //同时打印错误号errno所对应的字符串.  
 
 - FILE
 
-```cpp
-#include <stdio.h>
-typedef struct _IO_FILE FILE ;
+    ```cpp
+    #include <stdio.h>
+    typedef struct _IO_FILE FILE ;
 
-#include <libio.h>
-struct _IO_FILE {
-    ...
-    int _fileno ;    // 文件描述符
-    ...
-}
-```
+    #include <libio.h>
+    struct _IO_FILE {
+        ...
+        int _fileno ;    // 文件描述符
+        ...
+    }
+    ```
 
 - stdin, stdout, stderr
 
-```cpp
-#include <stdio.h>
-extern struct _IO_FILE *stdin;      // Standard input stream.
-extern struct _IO_FILE *stdout;     // Standard output stream.
-extern struct _IO_FILE *stderr;     // Standard error output stream.
-```
+    ```cpp
+    #include <stdio.h>
+    extern struct _IO_FILE *stdin;      // Standard input stream.
+    extern struct _IO_FILE *stdout;     // Standard output stream.
+    extern struct _IO_FILE *stderr;     // Standard error output stream.
+    ```
 
 > 这三个流在进程中默认是已经打开的.
 
 ### 2.2 打开文件
 
-```cpp
-FILE* fopen(const char *path, const char *mode);
-    // 以某种方式打开文件
-    // path    要打开的文件, 绝对路径,相对路径皆可.  
-    // mode    打开方式
-    //     r   只读,指针定位到文件头  
-    //     r+  读写,指针定位到文件头  
-    //     w   只写,创建,指针定位到文件头,文件大小立即变为0  
-    //     w+  读写,创建,指针定位到文件头,文件大小立即变为0  
-    //     a   追加,只写,指针定位到文件尾  
-    //     a+  追加,读写,指针定位到文件尾  
+    ```cpp
+    FILE* fopen(const char *path, const char *mode);
+        // 以某种方式打开文件
+        // path    要打开的文件, 绝对路径,相对路径皆可.  
+        // mode    打开方式
+        //     r   只读,指针定位到文件头  
+        //     r+  读写,指针定位到文件头  
+        //     w   只写,创建,指针定位到文件头,文件大小立即变为0  
+        //     w+  读写,创建,指针定位到文件头,文件大小立即变为0  
+        //     a   追加,只写,指针定位到文件尾  
+        //     a+  追加,读写,指针定位到文件尾  
 
-FILE* freopen(const char *path, const char *mode, FILE *stream);
-    // 将指定的文件打开为预定义的流：stdin,stdout,stderr ;
-    // eg.
-        newfp = freopen( "test.txt", "w", stdout ) ;    //向newfp中写入数据,即向stdout中写入数据
+    FILE* freopen(const char *path, const char *mode, FILE *stream);
+        // 将指定的文件打开为预定义的流：stdin,stdout,stderr ;
+        // eg.
+            newfp = freopen( "test.txt", "w", stdout ) ;    //向newfp中写入数据,即向stdout中写入数据
 
 
-FILE *fdopen(int fd, const char *mode);
-    //将文件描述符fd转换成文件流.
-```
+    FILE *fdopen(int fd, const char *mode);
+        //将文件描述符fd转换成文件流.
+    ```
 
 ### 2.3 关闭文件
 
 FILE*指针本身的存放位置 : 因为存在成对函数fclose, 可以断定此指针是在**堆**上创建的.
 
-```cpp
-int fclose(FILE *fp);
-   //冲刷缓冲区,同时,关闭文件流.  stdio.h
-```
+    ```cpp
+    int fclose(FILE *fp);
+    //冲刷缓冲区,同时,关闭文件流.  stdio.h
+    ```
 
 ### 2.4. 判断流错误
 
-```cpp
-int ferror(FILE *stream);       //判断是否文件流产生错误  stdio.h
-void clearerr(FILE *stream);    //清除某个文件流上的错误  stdio.h
-```
+    ```cpp
+    int ferror(FILE *stream);       //判断是否文件流产生错误  stdio.h
+    void clearerr(FILE *stream);    //清除某个文件流上的错误  stdio.h
+    ```
 
 ### 2.5 判断流结尾
 
