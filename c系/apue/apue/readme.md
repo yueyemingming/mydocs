@@ -289,7 +289,7 @@ num | en | chs
 
 - `man xxx`
 - `man string.h`
-- **/usr/share/man/**
+/usr/share/man/**
 
 ### 1.7 错误检测
 
@@ -335,39 +335,35 @@ num | en | chs
 ### 2.2 打开文件
 
 ```cpp
-FILE* fopen(const char *path, const char *mode);
-    以某种方式打开文件  
-    path    要打开的文件, 绝对路径,相对路径皆可.  
-    mode    打开方式
-        r   只读,指针定位到文件头  
-        r+  读写,指针定位到文件头  
-        w   只写,创建,指针定位到文件头,文件大小立即变为0  
-        w+  读写,创建,指针定位到文件头,文件大小立即变为0  
-        a   追加,只写,指针定位到文件尾  
-        a+  追加,读写,指针定位到文件尾  
+FILE* fopen(const char *path, const char *mode);    //以某种方式打开文件  
+    // path    要打开的文件, 绝对路径,相对路径皆可.  
+    // mode    打开方式
+    //     r   只读,指针定位到文件头  
+    //     r+  读写,指针定位到文件头  
+    //     w   只写,创建,指针定位到文件头,文件大小立即变为0  
+    //     w+  读写,创建,指针定位到文件头,文件大小立即变为0  
+    //     a   追加,只写,指针定位到文件尾  
+    //     a+  追加,读写,指针定位到文件尾  
 
 FILE* freopen(const char *path, const char *mode, FILE *stream);
-    将指定的文件打开为预定义的流：stdin,stdout,stderr ;
-    newfp = freopen( "test.txt", "w", stdout ) ;    //向newfp中写入数据,即向stdout中写入数据
+    // 将指定的文件打开为预定义的流：stdin,stdout,stderr ;
+    // newfp = freopen( "test.txt", "w", stdout ) ;    //向newfp中写入数据,即向stdout中写入数据
 
-FILE *fdopen(int fd, const char *mode);
-    将文件描述符fd转换成文件流.
+FILE *fdopen(int fd, const char *mode);     //将文件描述符fd转换成文件流.
 ```
 
-#### 习题 2.2 maxopen.c
+### 2.3 关闭文件
 
-程序中,一个文件可以被打开的最大次数.
+FILE*指针本身的存放位置 : 因为存在成对函数fclose, 可以断定此指针是在**堆**上创建的.
 
-### 2.3. 关闭文件
-
-**FILE*指针本身的存放位置** : 因为存在成对函数fclose, 可以断定此指针是在**堆**上创建的.
-
-- **int fclose(FILE *fp);     冲刷缓冲区,同时,关闭文件流.  stdio.h
+```cpp
+int fclose(FILE *fp);   //冲刷缓冲区,同时,关闭文件流.  stdio.h
+```
 
 ### 2.4. 判断流错误
 
-- **int ferror(FILE *stream);    判断是否文件流产生错误  stdio.h
-- **void clearerr(FILE *stream); 清除某个文件流上的错误  stdio.h
+int ferror(FILE *stream);    判断是否文件流产生错误  stdio.h
+void clearerr(FILE *stream); 清除某个文件流上的错误  stdio.h
 
 ### 2.5. 判断流结尾
 
@@ -378,7 +374,7 @@ FILE *fdopen(int fd, const char *mode);
 #endif
 ```
 
-- **int feof(FILE *stream);
+int feof(FILE *stream);
 
     判断是否文件尾,配合ferror一起使用.  
 
@@ -397,10 +393,10 @@ FILE *fdopen(int fd, const char *mode);
 
 在文件流获取一个字符
 
-- **int fgetc(FILE *stream);
-- **int getc(FILE *stream);  宏定义实现,用法与fgetc相同
-- **int getchar(void); = **getc(stdin);
-- **int ungetc(int c, FILE *stream);    回写字符到某流中.
+int fgetc(FILE *stream);
+int getc(FILE *stream);  宏定义实现,用法与fgetc相同
+int getchar(void); = **getc(stdin);
+int ungetc(int c, FILE *stream);    回写字符到某流中.
 
     `返回值`  成功返回读到的字节,出错或者读到文件末尾时返回EOF
 
@@ -425,9 +421,9 @@ eg.
 
 向文件流中写入一个字符
 
-- **int fputc(int c, FILE *stream);
-- ***int putc(int c, FILE *stream);* 宏定义实现,用法与fputc相同
-- **int putchar(int c); = **putc(c, stdout) ;
+int fputc(int c, FILE *stream);
+*int putc(int c, FILE *stream);* 宏定义实现,用法与fputc相同
+int putchar(int c); = **putc(c, stdout) ;
 
     `返回值`    成功返回写入的字节,出错返回EOF.
 
@@ -442,10 +438,10 @@ eg.
 
 从文件流中读取一串数据,数据末尾自动补齐\0
 
-- **char *fgets(char *s, int size, FILE *stream);  
+char *fgets(char *s, int size, FILE *stream);  
 size-1为最大读取个数,数据末尾自动补齐\0.
 
-- **char *gets(char *s); ~= **fgets( s, BUFSIZ, stdin ) ;
+char *gets(char *s); ~= **fgets( s, BUFSIZ, stdin ) ;
 
     ```cpp
     stdio.h:128:    #define    BUFSIZ       _IO_BUFSIZ  
@@ -473,11 +469,11 @@ size-1为最大读取个数,数据末尾自动补齐\0.
 
 向文件流中写入一串数据
 
-- **int fputs(const char *s, FILE *stream);
+int fputs(const char *s, FILE *stream);
 
     不输出\n
 
-- **int puts(const char *s);
+int puts(const char *s);
 
     向标准输出写一样,输出最后的\n
 
@@ -497,7 +493,7 @@ size-1为最大读取个数,数据末尾自动补齐\0.
 
 #### c) 直接IO,块操作
 
-- **size_t fread(void \*ptr, size_t size, size_t nmemb, FILE *stream);
+size_t fread(void \*ptr, size_t size, size_t nmemb, FILE *stream);
 
     从文件流stream中读取nmemb*size个字节数据保存ptr中.
 
@@ -510,7 +506,7 @@ size-1为最大读取个数,数据末尾自动补齐\0.
     超过10个字节文件 | fread( buf, 10, 1, fp ) | 循环1次 | 返回值1 | 读文件的次数
     少于10个字节文件(比如3个字节) | fread( buf, 1, 10, fp ) | 循环10次 | 返回值3 | 读文件的次数
 
-- **size_t fwrite(const void \*ptr, size_t size, size_t nmemb, FILE *stream);
+size_t fwrite(const void \*ptr, size_t size, size_t nmemb, FILE *stream);
 
     向文件流stream中写入从ptr开始的nmemb*size个字节的数据.
 
@@ -611,7 +607,7 @@ fgets(buf, 20, stdin);
 
 #### 5) 设置缓冲
 
-- **int setvbuf(FILE *stream, char *buf, int mode, size_t size);
+int setvbuf(FILE *stream, char *buf, int mode, size_t size);
 
     `mode` | 设置的缓冲方式
     :--- | :---
@@ -639,7 +635,7 @@ _G_config.h:85: #define    _G_BUFSIZ    8192
 
 ### 2.8. 文件内位置指针
 
-- **int fseek(FILE *stream, long offset, int whence);
+int fseek(FILE *stream, long offset, int whence);
 
     定位文件位置指针位置
 
@@ -654,10 +650,10 @@ _G_config.h:85: #define    _G_BUFSIZ    8192
 
     `返回值`  定位到比文件头小的位置,函数错误,但可以定位到比文件尾大的位置.
 
-- **long ftell(FILE *stream);                    获取文件位置指针距文件头偏移
-- **void rewind(FILE *stream); = **fseek(steam,0,SEEK_SET) ;   定位到文件头
-- **int fgetpos(FILE *stream, fpos_t \*pos);      获取当前位置指针
-- **int fsetpos(FILE *stream, fpos_t \*pos);      定位文件指针
+long ftell(FILE *stream);                    获取文件位置指针距文件头偏移
+void rewind(FILE *stream); = **fseek(steam,0,SEEK_SET) ;   定位到文件头
+int fgetpos(FILE *stream, fpos_t \*pos);      获取当前位置指针
+int fsetpos(FILE *stream, fpos_t \*pos);      定位文件指针
 
 ### 2.9. 临时文件
 
@@ -707,7 +703,7 @@ struct _IO_FILE {
 }
 ```
 
-- **int fileno(FILE *stream);  
+int fileno(FILE *stream);  
 获取打开的文件流对应的文件描述符
 
 ```cpp
@@ -722,7 +718,7 @@ struct _IO_FILE {
 
 ### 3.6. 打开文件
 
-- **int open(const char *pathname, int flags);  
+int open(const char *pathname, int flags);  
 **int open(const char *pathname, int flags, mode_t mode);
 
     `flags`    O_RDONLY,O_WRONLY,O_RDWR此三者必指定其一,不可同时出现. 
@@ -1891,7 +1887,7 @@ void           endgrent(void);        关闭/etc/group文件
 
 附加组    用户想获取对某事物的权力,可加入不同的组.
 
-- **int getgroups(int size, gid_t list[]);
+int getgroups(int size, gid_t list[]);
     获取当前用户的附加组.
     附加组id填到数组list中,并且返回实际获取的附加组id个数.
 
@@ -2781,7 +2777,7 @@ execl( "/bin/sh", "sh", "-c", "echo aaa", NULL ) ;
 
 ### 7.7. system
 
-- **int system(const char *command);
+int system(const char *command);
 = /bin/sh -c command
 system函数是由 fork, exec, waitpid实现的.
 system返回值情况:
