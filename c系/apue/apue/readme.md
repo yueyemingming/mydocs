@@ -243,13 +243,9 @@ linux       | 杂货铺,linux内核(www.kernel.org)+界面(gnome, kde)的集合
 **#include \<sys/types.h\>**  
 **#include \<bits/types.h\>**
 5. 查看系统配置的函数  
-  **long sysconf(int name);**  
-    获取运行时配置信息,参数name常以_SC_开通。  
-    **_SC_CLK_TCK**   每秒时钟滴答数  
-    **_SC_OPEN_MAX** 每个进程的最大打开文件数  
+  **long sysconf(int name);**  获取运行时配置信息,参数name常以_SC_开通。**_SC_CLK_TCK** 每秒时钟滴答数, **_SC_OPEN_MAX** 每个进程的最大打开文件数  
   **long fpathconf(int fd, int name);**  
-  **long pathconf(char \*path, int name);**  
-    为文件获取配置信息,参数name常以_PC_开头
+  **long pathconf(char \*path, int name);**  为文件获取配置信息,参数name常以_PC_开头
 6. 参见书《apue》p46, 2.5限制
 
 ### 1.6 man 手册
