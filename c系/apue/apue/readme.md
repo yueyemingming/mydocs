@@ -211,7 +211,7 @@ linux       | 杂货铺,linux内核(www.kernel.org)+界面(gnome, kde)的集合
 
 ### 1.5 posix限制
 
-1. 查看系统限制配置
+- 查看系统限制配置
 
     ```bash
     ulimit -a
@@ -234,42 +234,42 @@ linux       | 杂货铺,linux内核(www.kernel.org)+界面(gnome, kde)的集合
     file locks                      (-x) unlimited
     ```
 
-2. 修改系统限制配置
+- 修改系统限制配置
 
-    ```bash
-    ulimit -n <num>    #修改进程中打开文件的最大个数
-    ```
+```bash
+ulimit -n <num>    #修改进程中打开文件的最大个数
+```
 
-3. 跟限制相关头文件
+- 跟限制相关头文件
 
-    ```cpp
-    #include <linux/limits.h>
-    #include <linux/limits.h>
-    ```
+```cpp
+#include <linux/limits.h>
+#include <linux/limits.h>
+```
 
-4. 数据类型相关头文件
+- 数据类型相关头文件
 
-    ```cpp
-    #include <sys/types.h>
-    #include <bits/types.h>
-    ```
+```cpp
+#include <sys/types.h>
+#include <bits/types.h>
+```
 
-5. 查看系统配置的函数
+- 查看系统配置的函数
 
-    ```cpp
-    //获取运行时配置信息
-    long sysconf(int name);
-        参数name常以_SC_开通。
-        _SC_CLK_TCK 每秒时钟滴答数
-        _SC_OPEN_MAX    每个进程的最大打开文件数
+```cpp
+long sysconf(int name);
+    // 获取运行时配置信息
+    // 参数name常以_SC_开头
+        // _SC_CLK_TCK      每秒时钟滴答数
+        // _SC_OPEN_MAX     每个进程的最大打开文件数
 
-    long fpathconf(int fd, int name);
+long fpathconf(int fd, int name);
 
-    //为文件获取配置信息,参数name常以_PC_开头
-    long pathconf(char *path, int name);
-    ```
+long pathconf(char *path, int name);
+    // 为文件获取配置信息,参数name常以_PC_开头
+```
 
-6. 参见书《apue》p46, 2.5限制
+- 参见书《apue》p46, 2.5限制
 
 ### 1.6 man 手册
 
@@ -289,19 +289,19 @@ num | en | chs
 
 - `man xxx`
 - `man string.h`
-/usr/share/man/**
+- /usr/share/man/
 
 ### 1.7 错误检测
 
 - man查看错误号  
     `man errno`
 
-    ```cpp
-    int errno                   //错误号,全局变量. 头文件errno.h
-    const char *sys_errlist[]   //错误提示字符串数组,下标对应错误号. 头文件errno.h
-    char* strerror(int errnum)  //返回相应的错误号对应的字符串. 头文件string.h
-    void perror(const char *s)  //同时打印错误号errno所对应的字符串. 头文件stdio.h
-    ```
+```cpp
+int errno                   //错误号,全局变量.                    errno.h
+const char *sys_errlist[]   //错误提示字符串数组,下标对应错误号.    errno.h
+char* strerror(int errnum)  //返回相应的错误号对应的字符串.         string.h
+void perror(const char *s)  //同时打印错误号errno所对应的字符串.    stdio.h
+```
 
 ## 2. 标准库IO函数
 
@@ -309,26 +309,26 @@ num | en | chs
 
 - FILE
 
-    ```cpp
-    #include <stdio.h>
-    typedef struct _IO_FILE FILE ;
+```cpp
+#include <stdio.h>
+typedef struct _IO_FILE FILE ;
 
-    #include <libio.h>
-    struct _IO_FILE {
-        ...
-        int _fileno ;    // 文件描述符
-        ...
-    }
-    ```
+#include <libio.h>
+struct _IO_FILE {
+    ...
+    int _fileno ;    // 文件描述符
+    ...
+}
+```
 
 - stdin, stdout, stderr
 
-    ```cpp
-    #include <stdio.h>
-    extern struct _IO_FILE *stdin;      // Standard input stream.
-    extern struct _IO_FILE *stdout;     // Standard output stream.
-    extern struct _IO_FILE *stderr;     // Standard error output stream.
-    ```
+```cpp
+#include <stdio.h>
+extern struct _IO_FILE *stdin;      // Standard input stream.
+extern struct _IO_FILE *stdout;     // Standard output stream.
+extern struct _IO_FILE *stderr;     // Standard error output stream.
+```
 
 > 这三个流在进程中默认是已经打开的.
 
@@ -365,10 +365,12 @@ int fclose(FILE *fp);
 
 ### 2.4. 判断流错误
 
-int ferror(FILE *stream);    判断是否文件流产生错误  stdio.h
-void clearerr(FILE *stream); 清除某个文件流上的错误  stdio.h
+```cpp
+int ferror(FILE *stream);       //判断是否文件流产生错误  stdio.h
+void clearerr(FILE *stream);    //清除某个文件流上的错误  stdio.h
+```
 
-### 2.5. 判断流结尾
+### 2.5 判断流结尾
 
 ```cpp
 #include <stdio.h>
@@ -377,16 +379,15 @@ void clearerr(FILE *stream); 清除某个文件流上的错误  stdio.h
 #endif
 ```
 
+```cpp
 int feof(FILE *stream);
-
-    判断是否文件尾,配合ferror一起使用.  
-
-    eg.
-
+    // 判断是否文件尾,配合ferror一起使用.  
+    // eg.
         ```cpp
         if ( feof(fp) )    ... ;
         if ( feof(fp) && !ferror(fp) )    ... ;
         ```
+```
 
 ### 2.6. 读写操作
 
