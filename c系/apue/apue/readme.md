@@ -373,19 +373,19 @@ FILE*指针本身的存放位置 : 因为存在成对函数fclose, 可以断定�
 
 ### 2.5 判断流结尾
 
-```cpp
-#include <stdio.h>
-#ifndef EOF
-# define EOF (-1)
-#endif
-```
+    ```cpp
+    #include <stdio.h>
+    #ifndef EOF
+    # define EOF (-1)
+    #endif
+    ```
 
-```cpp
-int feof(FILE *stream);
-    // 判断是否文件尾,配合ferror一起使用.  
-        if ( feof(fp) )    ... ;
-        if ( feof(fp) && !ferror(fp) )    ... ;
-```
+    ```cpp
+    int feof(FILE *stream);
+        // 判断是否文件尾,配合ferror一起使用.  
+            if ( feof(fp) )    ... ;
+            if ( feof(fp) && !ferror(fp) )    ... ;
+    ```
 
 ### 2.6 读写操作
 
@@ -503,106 +503,115 @@ int feof(FILE *stream);
 
 #### 2.6.4 格式化io
 
-##### d.1) 输入
+- 输入
 
-```cpp
-int scanf(const char *format, ...);                    输入来自标准输入
-int fscanf(FILE *stream, const char *format, ...);    输入来自文件
-int sscanf(const char *str, const char *format, ...); 输入来自字符串
-sscanf( "12 abc", "%d%s", i, s ) ;
-```
+    ```cpp
+    int scanf(const char *format, ...);                     // 输入来自标准输入
+    int fscanf(FILE *stream, const char *format, ...);      // 输入来自文件
+    int sscanf(const char *str, const char *format, ...);   // 输入来自字符串
+    sscanf( "12 abc", "%d%s", i, s ) ;
+    ```
 
-##### d.2) 输出
+- 输出
 
-```cpp
-int printf(const char *format, ...);                   格式化到标准输出
-int fprintf(FILE *stream, const char *format, ...);   格式化到文件
-int sprintf(char *str, const char *format, ...);      格式化到字符串buffer
-sprintf( str, "%d,%s", i, s ) ;
-puts(str) ;
-int snprintf(char *str, size_t size, const char *format, ...);    格式化到字符串buffer
-```
+    ```cpp
+    int printf(const char *format, ...);                    // 格式化到标准输出
+    int fprintf(FILE *stream, const char *format, ...);     // 格式化到文件
+    int sprintf(char *str, const char *format, ...);        // 格式化到字符串buffer
+    sprintf( str, "%d,%s", i, s ) ;
+    puts(str) ;
+    int snprintf(char *str, size_t size, const char *format, ...);      // 格式化到字符串buffer
+    ```
 
 ### 2.7. 缓冲
 
 缓冲有三种方式：无缓冲、行缓冲、全缓冲.
 
-#### 1) 无缓冲：stderr标准错误
+1. 无缓冲：stderr标准错误
 
-```cpp
-fprintf( stderr, "aaa" ) ;
-sleep(3) ;    结果立即输出,不等待3秒
-```
+    ```cpp
+    fprintf( stderr, "aaa" ) ;
+    sleep(3) ;      // 结果立即输出,不等待3秒
+    ```
 
-#### 2) 行缓冲：stdout标准输出, 其他终端设备等
+2. 行缓冲：stdout标准输出, 其他终端设备等
 
-```cpp
-printf( "aaa\n" ) ;     sleep(3) ;              结果立即输出,不等待3秒
-fwrite( "aaa", 1, 3, stdout ) ; sleep(3) ;      3秒后才有输出
-fwrite( "aaa\n", 1, 3, stdout ) ;   sleep(3) ;  3秒后才有输出
-fwrite( "aaa\n", 1, 4, stdout ) ;   sleep(3) ;  结果立即输出,不等待3秒
-write(1, "aaa", 3 ) ;   sleep(3) ;              结果立即输出,不等待3秒,系统调用函数write是不带缓冲的.
-```
+    ```cpp
+    printf( "aaa\n" ) ;     sleep(3) ;              //结果立即输出,不等待3秒
+    fwrite( "aaa", 1, 3, stdout ) ; sleep(3) ;      //3秒后才有输出
+    fwrite( "aaa\n", 1, 3, stdout ) ;   sleep(3) ;  //3秒后才有输出
+    fwrite( "aaa\n", 1, 4, stdout ) ;   sleep(3) ;  //结果立即输出,不等待3秒
+    write(1, "aaa", 3 ) ;   sleep(3) ;              //结果立即输出,不等待3秒,系统调用函数write是不带缓冲的.
+    ```
 
-#### 3) 全缓冲：面向非标准输出
+3. 全缓冲：面向非标准输出
 
-```cpp
-fwrite( "aaa\n", 1, 4, somefile ) ;     sleep(3) ;  带'\n'会也不会立即输出;
-write( somefd, "aaa\n", 3 ) ;   sleep(3) ;          结果会立即输出
-```
+    ```cpp
+    fwrite( "aaa\n", 1, 4, somefile ) ;     sleep(3) ;  //带'\n'会也不会立即输出;
+    write( somefd, "aaa\n", 3 ) ;   sleep(3) ;          //结果会立即输出
+    ```
 
-#### 4) 缓冲刷新
+4. 缓冲刷新
 
-##### a) 程序结束
+- 程序结束
+  - exit(3)函数, return语句,引发缓冲刷新
+  - _exit(2)、_Exit(2)函数不会引发缓冲刷新
+  - fflush
 
-exit(3)函数, return语句,引发缓冲刷新
+    ```cpp
+    int fflush(FILE *stream);
+    ```
 
-_exit(2)、_Exit(2)函数不会引发缓冲刷新
+    **返回值** 成功返回0,出错返回EOF并设置errno
 
-##### b) fflush
+    ```cpp
+    fflush(NULL)    //对所有打开文件的I/O缓冲区做刷新操作.
+        ```
 
-**int fflush(FILE *stream);
+  - 从无缓冲或行缓冲文件进行读取操作, 因引发了底层的系统调用,这时行缓冲也会被刷新.
 
-    `返回值`    成功返回0,出错返回EOF并设置errno
+    ```cpp
+    printf("Please input a line: ");
+    fgets(buf, 20, stdin);
+    ```
 
-**fflush(NULL)**    对所有打开文件的I/O缓冲区做刷新操作.
+5. 设置缓冲
 
-##### c) 从无缓冲或行缓冲文件进行读取操作, 因引发了底层的系统调用,这时行缓冲也会被刷新.
+    ```cpp
+    int setvbuf(FILE *stream, char *buf, int mode, size_t size);
+    ```
 
-```cpp
-printf("Please input a line: ");
-fgets(buf, 20, stdin);
-```
-
-#### 5) 设置缓冲
-
-int setvbuf(FILE *stream, char *buf, int mode, size_t size);
-
-    `mode` | 设置的缓冲方式
+    mode | 设置的缓冲方式
     :--- | :---
     _IONBF | unbuffered
     _IOLBF | line buffered
     _IOFBF | fully buffered
 
-- 全缓冲,长度BUFSIZ
+  - 全缓冲,长度BUFSIZ
 
-**void setbuf(FILE *stream, char *buf); = **setvbuf( stream, buf, _IOFBF, BUFSIZ );
+    ```cpp
+    void setbuf(FILE *stream, char *buf); = **setvbuf( stream, buf, _IOFBF, BUFSIZ );
+    ```
 
-```cpp
-stdio.h:128:    #define    BUFSIZ        _IO_BUFSIZ
-libio.h:46:     #define    _IO_BUFSIZ    _G_BUFSIZ
-_G_config.h:85: #define    _G_BUFSIZ    8192
-```
+    ```cpp
+    stdio.h:128:    #define    BUFSIZ        _IO_BUFSIZ
+    libio.h:46:     #define    _IO_BUFSIZ    _G_BUFSIZ
+    _G_config.h:85: #define    _G_BUFSIZ    8192
+    ```
 
-- 全缓冲,长度size
+  - 全缓冲,长度size
 
-**void setbuffer(FILE *stream, char *buf, size_t size); = **setvbuf( stream, buf, _IOFBF, size );
+    ```cpp
+    void setbuffer(FILE *stream, char *buf, size_t size); = **setvbuf( stream, buf, _IOFBF, size );
+    ```
 
-- 行缓冲
+  - 行缓冲
 
-**void setlinebuf(FILE *stream); = **setvbuf(stream, (char *) NULL, _IOLBF, 0);
+    ```cpp
+    void setlinebuf(FILE *stream); = **setvbuf(stream, (char *) NULL, _IOLBF, 0);
+    ```
 
-### 2.8. 文件内位置指针
+### 2.8 文件内位置指针
 
 int fseek(FILE *stream, long offset, int whence);
 
