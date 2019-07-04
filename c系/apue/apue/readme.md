@@ -359,7 +359,8 @@ FILE *fdopen(int fd, const char *mode);
 FILE*指针本身的存放位置 : 因为存在成对函数fclose, 可以断定此指针是在**堆**上创建的.
 
 ```cpp
-int fclose(FILE *fp);   //冲刷缓冲区,同时,关闭文件流.  stdio.h
+int fclose(FILE *fp);
+   //冲刷缓冲区,同时,关闭文件流.  stdio.h
 ```
 
 ### 2.4. 判断流错误
