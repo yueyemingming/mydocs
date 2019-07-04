@@ -394,82 +394,82 @@ int feof(FILE *stream);
 
 - 输入
 
-在文件流获取一个字符
+    在文件流获取一个字符
 
-```cpp
-int fgetc(FILE *stream);
-int getc(FILE *stream);             // 宏定义实现,用法与fgetc相同
-int getchar(void);                  // = getc(stdin);
-int ungetc(int c, FILE *stream);    // 回写字符到某流中.
-```
+    ```cpp
+    int fgetc(FILE *stream);
+    int getc(FILE *stream);             // 宏定义实现,用法与fgetc相同
+    int getchar(void);                  // = getc(stdin);
+    int ungetc(int c, FILE *stream);    // 回写字符到某流中.
+    ```
 
-**返回值** : 成功返回读到的字节,出错或者读到文件末尾时返回EOF
+    **返回值** : 成功返回读到的字节,出错或者读到文件末尾时返回EOF
 
-```cpp
-ungetc( 97, stdin ) ;               // 向标准输入写入字符'a'
-cout << (char)getchar() << endl;    // 不等待输入,直接显示'a'
+    ```cpp
+    ungetc( 97, stdin ) ;               // 向标准输入写入字符'a'
+    cout << (char)getchar() << endl;    // 不等待输入,直接显示'a'
 
-if ( c == EOF ) break ;             // 这样判断结尾
-```
+    if ( c == EOF ) break ;             // 这样判断结尾
+    ```
 
 - 输出
 
-向文件流中写入一个字符
+    向文件流中写入一个字符
 
-```cpp
-int fputc(int c, FILE *stream);
-int putc(int c, FILE *stream);      // 宏定义实现,用法与fputc相同
-int putchar(int c);                 // = putc(c, stdout) ;
-```
+    ```cpp
+    int fputc(int c, FILE *stream);
+    int putc(int c, FILE *stream);      // 宏定义实现,用法与fputc相同
+    int putchar(int c);                 // = putc(c, stdout) ;
+    ```
 
-**返回值** 成功返回写入的字节,出错返回EOF.
+    **返回值** 成功返回写入的字节,出错返回EOF.
 
 #### 2.6.2 串IO
 
 - 输入
 
-从文件流中读取一串数据,数据末尾自动补齐\0.
+    从文件流中读取一串数据,数据末尾自动补齐\0.
 
-```cpp
-char *fgets(char *s, int size, FILE *stream);
-    // size-1为最大读取个数,数据末尾自动补齐\0.
+    ```cpp
+    char *fgets(char *s, int size, FILE *stream);
+        // size-1为最大读取个数,数据末尾自动补齐\0.
 
-char *gets(char *s);    // ~= fgets( s, BUFSIZ, stdin ) ;
-```
+    char *gets(char *s);    // ~= fgets( s, BUFSIZ, stdin ) ;
+    ```
 
-```cpp
-stdio.h:128:    #define    BUFSIZ       _IO_BUFSIZ  
-libio.h:46:     #define    _IO_BUFSIZ   _G_BUFSIZ  
-_G_config.h:85: #define    _G_BUFSIZ    8192  
-```
+    ```cpp
+    stdio.h:128:    #define    BUFSIZ       _IO_BUFSIZ  
+    libio.h:46:     #define    _IO_BUFSIZ   _G_BUFSIZ  
+    _G_config.h:85: #define    _G_BUFSIZ    8192  
+    ```
 
-> gets函数bug : 在终端输入超过str大小的字符个数,不做溢出检测.  
+    > gets函数bug : 在终端输入超过str大小的字符个数,不做溢出检测.  
 
-```cpp
-char str[5] = { 0x00 } ;
-cout << gets( buf ) << endl ;
+    ```cpp
+    char str[5] = { 0x00 } ;
+    cout << gets( buf ) << endl ;
 
-  ./gets
-  aaaaaaaaa    # 超出数组大小,但依旧可以输入
-  aaaaaaaaa    # 且都打印出来
-```
+    ./gets
+    aaaaaaaaa    # 超出数组大小,但依旧可以输入
+    aaaaaaaaa    # 且都打印出来
+    ```
 
-**返回值** 成功返回s指针指向;出错或者读到文件末尾EOF,返回NULL.
+    **返回值** 成功返回s指针指向;出错或者读到文件末尾EOF,返回NULL.
 
 - 输出
 
-向文件流中写入一串数据
+    向文件流中写入一串数据
 
-```cpp
-int fputs(const char *s, FILE *stream);     // 不输出\n
-int puts(const char *s);                    // 向标准输出写一样,输出最后的\n
+    ```cpp
+    int fputs(const char *s, FILE *stream);     // 不输出\n
+    int puts(const char *s);                    // 向标准输出写一样,输出最后的\n
 
-    fputs( "aaa", stdout ) ;    // aaa 没有回车换行
-    puts( "aaa" ) ;             // aaa 有回车换行
-    aaaaaa回车
-```
+        fputs( "aaa", stdout ) ;    // aaa 没有回车换行
+        puts( "aaa" ) ;             // aaa 有回车换行
+        aaaaaa回车
+    ```
 
-**返回值** 成功返回一个非负整数,文件尾部或出错返回EOF
+    **返回值** 成功返回一个非负整数,文件尾部或出错返回EOF
 
 #### 2.6.3 直接IO,块操作
 
