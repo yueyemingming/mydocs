@@ -142,9 +142,9 @@ mount -o loop rhel-server-6.5-x86_64-dvd.iso /mnt/cdrom
 
 ##### 修改配置文件
 
-```bash
-vim /etc/yum.repos.d/rhel6.repo
-```
+    ```bash
+    vim /etc/yum.repos.d/rhel6.repo
+    ```
 
 ```ini
 [media]                             # 名称任意
