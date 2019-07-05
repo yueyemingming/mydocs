@@ -21,6 +21,7 @@
   - [source, sh, exec, .号的区别](#source-sh-exec-号的区别)
   - [解决sudo时的“sudo: unable to resolve host xxxx”的问题](#解决sudo时的sudo-unable-to-resolve-host-xxxx的问题)
   - [随系统启动](linux.autostart.md)
+  - [mplayer开启硬解码的方面](mplayer/readme.md)
 - **清华大学开源软件镜像站** —— **[https://mirrors.tuna.tsinghua.edu.cn/](https://mirrors.tuna.tsinghua.edu.cn/)**
 - **阿里云开源软件镜像站** —— **[https://mirrors.aliyun.com/](https://mirrors.aliyun.com/)**
 
