@@ -49,7 +49,7 @@ vainfo软件是用来查看硬件加速支持情况的。
 - 安装
 
   ```bash
-  apt-get install vainfo
+  apt -y install vainfo
   ```
 
 - 运行
@@ -82,44 +82,32 @@ vainfo软件是用来查看硬件加速支持情况的。
 
 不同显卡，显示的内容会不太一样！！！
 
-### 3.2 下载mplayer-vaapi源码
+如果出错，代码先看不支持硬件解码。
+
+### 3.2 下载mplayer-vaapi源码, 编译安装
 
   ```bash
+  #mplayer通过libva-dev库，来支持vaapi，即硬件解码依赖库
+  apt -y install libva-dev
+
+  #下载代码
   git clone https://github.com/gbeauchesne/mplayer-vaapi
-  ```
 
-### 3.3 编译安装
-
-- vaapi的支持安装依赖库libva-dev
-
-  ```bash
-  apt-get install libva-dev
-  ```
-
-- 切换分支
-
-  ```bash
+  # 切换分支
   git branch –r
     origin/HEAD -> origin/master
     origin/hwaccel-common
     origin/hwaccel-vaapi
     origin/hwaccel-vdpau
     origin/master
+  git checkout hwaccel-vaapi        # 切换到这个分支是必须的，只有这个分支带硬件解码
 
-  git checkout hwaccel-vaapi        # 切换到这个分支是必须的
-  ```
-
-- 编译安装
-
-  ```bash
+  # 编译安装
   ./configure --enable-vaapi        #配置过程中会自动下载ffmpeg，并进行配置。
   make
   make install
-  ```
-
-### 3.4 查看是否编译安装成功
-
-  ```bash
+  
+  #查看是否编译安装成功
   mplayer -vo help
     MPlayer SVN-r36265-4.7 (C) 2000-2013 MPlayer Team
     Available video output drivers:
@@ -142,15 +130,11 @@ vainfo软件是用来查看硬件加速支持情况的。
         pnm         PPM/PGM/PGMYUV file
         md5sum      md5sum of each frame
         vaapi       VA API with X11                  # 出现此选项，代表编译安装成功
+
+  # 运行测试
+  mplayer -vo vaapi 1080p.mp4
+  # 此时出现图像即运行成功。通过top命令查看mplayer的cpu占用率，可以看到在10%以内。
   ```
-
-### 3.5 运行测试
-
-  ```bash
-  mplayer -vo vaapi 1080i_25.mp4
-  ```
-
-此时出现图像即运行成功。通过top命令查看mplayer的cpu占用率，可以看到在10%以内。
 
 ## 4. smplayer使用开启硬件加速
 
