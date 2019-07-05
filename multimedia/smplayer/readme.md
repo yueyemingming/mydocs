@@ -77,7 +77,7 @@ vainfo软件是用来查看硬件加速支持情况的。
   ```bash
   git clone https://github.com/gbeauchesne/mplayer-vaapi
   ```
-  
+
 ### 3.3 编译安装
 
 - vaapi的支持安装依赖库libva-dev
@@ -141,3 +141,7 @@ vainfo软件是用来查看硬件加速支持情况的。
   ```
 
 此时出现图像即运行成功。通过top命令查看mplayer的cpu占用率，可以看到在10%以内。
+
+## 4. smplayer使用开启硬件加速
+
+smplayer界面上开启硬件加速的方法: 选项 > 首选项 > 常规 > 视频, 并设置输出驱动为 vaapi。
