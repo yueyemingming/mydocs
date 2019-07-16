@@ -27,26 +27,26 @@ Fabric的构架：
 
 1，首先从客户端发起一笔交易提交到Endorsing Peer，进行预处理。
 
-![001.webp](001.webp)
+![001.png](001.png)
 
 2，预处理通过之后，将签名数据，传回给客户端。
 
-![002.webp](002.webp)
+![002.png](002.png)
 
 3，客户端发起请求，将收到的签名数据传给Ordering Node。
 
-![003.webp](003.webp)
+![003.png](003.png)
 
 4，Ordering Node对交易进行排序，然后传给Committing Peer。
 
-![004.webp](004.webp)
+![004.png](004.png)
 
 5，Committing Peer这里将排序好的交易进行验证，并打包，通过指定的共识算法达成一致，形成新的区块。
 
-![005.webp](005.webp)
+![005.png](005.png)
 
 6，最后将交易结果返回给客户端。
 
-![006.webp](006.webp)
+![006.png](006.png)
 
 6，中间过程的每一步，都伴随着权限的验证。会根据MSP颁发的证书，进行判断。
