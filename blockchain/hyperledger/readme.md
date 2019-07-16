@@ -2,27 +2,20 @@
 
 ## Hyperledger
 
-* [官方网站 https://cn.hyperledger.org/](https://cn.hyperledger.org/)
-* [github https://github.com/hyperledger](https://github.com/hyperledger)
+* **官方网站** —— <https://cn.hyperledger.org/>
+* **github代码** —— <https://github.com/hyperledger](https://github.com/hyperledger>
 
 ## Fabric
 
-* Fabric 官方文档
-
-  <https://hyperledger-fabric.readthedocs.io/en/latest/index.html>
-
-* fabric 源码
-
-  <https://github.com/hyperledger/fabric>
-
-* fabric-samples源码, 可执行文件，组建网络及智能合约示例
-
+* **Fabric 官方文档** —— <https://hyperledger-fabric.readthedocs.io/en/latest/index.html>
+* **fabric 源码** —— <https://github.com/hyperledger/fabric>
+* **fabric-samples源码, 可执行文件，组建网络及智能合约示例**  
   <https://github.com/hyperledger/fabric-samples>
 
 ## 技术总结
 
 * [Fabric组件原理](doc02/readme.md)
-* [`Fabric技术总结`](doc01/readme.md)
+* [Fabric技术总结`](doc01/readme.md)
 * [基础环境搭建](build.md)
 * [docker镜像下载](docker.download.md)
 * [fabric各个程序或文件的作用](component.md)
