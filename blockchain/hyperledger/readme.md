@@ -3,7 +3,7 @@
 ## Hyperledger
 
 * **官方网站** —— <https://cn.hyperledger.org/>
-* **github代码** —— <https://github.com/hyperledger](https://github.com/hyperledger>
+* **github代码** —— <https://github.com/hyperledger>
 
 ## Fabric
 
