@@ -15,7 +15,7 @@
 ## 技术总结
 
 * [Fabric组件原理](doc02/readme.md)
-* [Fabric技术总结`](doc01/readme.md)
+* [Fabric技术总结](doc01/readme.md)
 * [基础环境搭建](build.md)
 * [docker镜像下载](docker.download.md)
 * [fabric各个程序或文件的作用](component.md)

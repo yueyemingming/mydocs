@@ -11,9 +11,7 @@
 * [1.7 区块链应用场景](001/07.md)
 * [1.8 区块链开发平台](001/08.md)
 
-## 2. 超级账本
-
-* [2.1 HyperLedger](002/readme.md)
+## [2. 超级账本 HyperLedger](002/readme.md)
 
 ## 3. Fabric
 
