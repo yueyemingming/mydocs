@@ -16,7 +16,7 @@ docker exec -it u16 /bin/bash
   - [配置国内镜像加速器](docker.accelerator.md)
 - [我的仓库]
   - [阿里云仓库](aliyun.registry.md)
-  - [dockerhub官方仓库](aliyun.registry.md)
+  - [dockerhub官方仓库](docker.registry.md)
 - [仓库操作](docker.registry.md)
   - [命令使用](docker.registry.md)
   - [私有仓库创建](docker.private.registry.md)
