@@ -109,10 +109,10 @@ func main() {
     fmt.Println(reflect.TypeOf(s).Field(0).Tag.Get("json")) //student_name
 
     //--------------方法的获取及调用-------------------
-    fmt.Println(pv.Elem().NumMethod()) //1, 获取方法个数
+    fmt.Println(pv.Elem().NumMethod())  //1, 获取方法个数
 
-    //pv.Elem().Method(0).Call(nil)             //方法调用1：fuck
-    var params []reflect.Value       //调用方法是要传个slice参数
-    pv.Elem().Method(0).Call(params) //方法调用2：fuck
+    //pv.Elem().Method(0).Call(nil)     //方法调用1：fuck
+    var params []reflect.Value          //调用方法是要传个slice参数
+    pv.Elem().Method(0).Call(params)    //方法调用2：fuck
 }
 ```
