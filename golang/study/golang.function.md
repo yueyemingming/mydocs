@@ -138,7 +138,7 @@ Adder.func.x =  111
 ### eg.02
 
 ```golang
-func makeSuffixFunc(suffix string) func(string) string {   //相当于类, ‘suffic’是类成员变量, "func(string) string"是成员函数
+func makeSuffixFunc(suffix string) func(string) string {   //相当于类, ‘suffix’是类成员变量, "func(string) string"是成员函数
 
     return func(name string) string {
         if !strings.HasSuffix(name, suffix) {
