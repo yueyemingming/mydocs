@@ -7,7 +7,7 @@
 ```golang
 type User struct {
     Name string   //首字母大写可被外部打包
-    age int       //首字母小写部可被外部打包
+    age int       //首字母小写不可被外部打包
 }
 
 type U User   //类型别名
