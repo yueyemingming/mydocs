@@ -1,6 +1,6 @@
 # golang语法
 
-## 基本类型
+## [基本类型](golang.datatype.md)
 
 - [变量常量](golang.datatype.md#1-变量常量)
 - [布尔](golang.datatype.md#2-布尔)
@@ -15,13 +15,13 @@
   - **引用类型需要用make创建空间**
 
 - [数组 (array)](golang.array.md)
-- [切片 (slice)](golang.slice.md)
-- [字典 (map)](golang.map.md)
+- [切片 (slice) —— 引用类型](golang.slice.md)
+- [字典 (map) —— 引用类型](golang.map.md)
 - [指针 (pointer)](golang.pointer.md)
 - [结构 (struct)](golang.struct.md)
 - [函数 (function)](golang.function.md)
 - [接口 (interface)](golang.interface.md)
-- [通道 (channel)](golang.goroute.channel.md)
+- [通道 (channel) —— 引用类型](golang.goroute.channel.md)
 
 ---
 
