@@ -1,6 +1,6 @@
 # 结构
 
-* 结构体中的字段内存中是连续的
+- 结构体中的字段内存中是连续的
 
 ## 1. 声明
 
@@ -35,7 +35,7 @@ u.name = "username"
 u.age = 20
 ```
 
-* 指针访问结构体成员, 不同于c, 不用`->`, 而依旧是`.`操作符
+- 指针访问结构体成员, 不同于c, 不用`->`, 而依旧是`.`操作符
 
 ```golang
 var up *User
@@ -79,7 +79,7 @@ func main() {
 {"Name":"stu01","Age":18}
 ```
 
-* 利用tag修改json的字段名
+- 利用tag修改json的字段名
 
 ```golang
 type Student struct {
@@ -156,8 +156,8 @@ func main() {
 {{bus 2} 3}
 ```
 
-* 若Bus结构体中也有一个age字段，将`覆盖`Car的age字段。
-* 若Bus结构体中有 `Car1` 和 `Car2` 两个子类型，那成员访问用 `bus.Car1.name`, `bus.Car1.age`, `bus.Car2.name`, `bus.Car2.age` 。
+- 若Bus结构体中也有一个age字段，将`覆盖`Car的age字段。
+- 若Bus结构体中有 `Car1` 和 `Car2` 两个子类型，那成员访问用 `bus.Car1.name`, `bus.Car1.age`, `bus.Car2.name`, `bus.Car2.age` 。
 
 ## 6. 成员函数
 
@@ -170,14 +170,14 @@ type Circle struct {
   radius int
 }
 
-//修改时用指针
+//修改成员时用指针
 func (p *Circle) init(radius int) {   //方法名首字母大写才能被外部访问
   p.radius = radius
 }
 
 //只读时可以不用指针
 func (c Circle) getArea() float64 {   //方法名首字母大写才能被外部访问
-  return float64(3.14) * float64(c.radius) * float64(c.radius)
+  return float64(3.14) - float64(c.radius) - float64(c.radius)
 }
 
 func main() {
@@ -209,4 +209,4 @@ func main() {
 
 ---
 
-* [反射对结构体的解析及调用](golang.reflect.md#4-结构体的解析及调用)
+- [反射对结构体的解析及调用](golang.reflect.md#4-结构体的解析及调用)
