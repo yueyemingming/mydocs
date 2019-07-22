@@ -46,22 +46,38 @@ docker images
 
 本地的镜像标签，一定要与远程仓库的标签保持一致，否则推送不上去。
 
+- 登录
+
 ```bash
-#登录
 docker login -u yueyemingming
+```
+
+```text
   Password:
   ...
   Login Succeeded
+```
 
-#将标签为ruitest/httpd:0.1的镜像推送上去
+- 将标签为ruitest/httpd:0.1的镜像推送上去
+
+```bash
 docker push ruitest/httpd:v0.1
+```
+
+```text
   The push refers to repository [docker.io/ruitest/httpd]
   3567e20cd636: Pushed
   6194458b07fc: Layer already exists
   v0.1: digest: sha256:d37bf36ed7fc3a5c0b5ac9de4e37d12c2ab4eff6ac9791374acbcd804fd492b6 size: 734
+```
 
-#将当前系统中的所有ruitest/httpd标签镜像推送上去
+- 将当前系统中的所有ruitest/httpd标签镜像推送上去
+
+```bash
 docker push ruitest/httpd
+```
+
+```text
   The push refers to repository [docker.io/ruitest/httpd]
   6194458b07fc: Mounted from library/busybox
   v0.1-1: digest: sha256:bf510723d2cd2d4e3f5ce7e93bf1e52c8fd76831995ac3bd3f90ecc866643aff size: 527
