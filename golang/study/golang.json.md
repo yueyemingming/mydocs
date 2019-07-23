@@ -1,7 +1,13 @@
 # json序列化反序列化
 
-* `json.Marshal()`  序列化
-* `json.UnMarshal()`    反序列化
+- [1. 序列化int](#1-序列化int)
+- [2. 序列化map](#2-序列化map)
+- [3. 序列化结构体](#3-序列化结构体)
+
+操作 | 介绍
+:--- | :---
+`json.Marshal()` | 序列化
+`json.UnMarshal()` | 反序列化
 
 ## 1. 序列化int
 
@@ -58,7 +64,7 @@ func main() {
 }
 ```
 
-* 利用tag修改json字段名称
+- 利用tag修改json字段名称
 
 ```golang
 type Student struct {
