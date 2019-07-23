@@ -29,7 +29,6 @@
 - [锁](golang.lock.md)
 - [range](golang.range.md)
 - [自定义类型](golang.type.md)
-- [自定义类型方法 (type)](golang.type.md#3-为新类型添加成员函数)
 - [反射](golang.reflect.md)
 
 ---
