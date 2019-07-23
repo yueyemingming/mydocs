@@ -2,11 +2,6 @@
 
 ![eos框架图](eos.png)
 
-- 官方  
-    <https://developers.eos.io/>
-
-- github  
-    <https://github.com/EOSIO/eos>
-
-- eos中文社区  
-    <https://eosfans.io/>
+- 官方 —— <https://developers.eos.io/>
+- github —— <https://github.com/EOSIO/eos>
+- eos中文社区 —— <https://eosfans.io/>
