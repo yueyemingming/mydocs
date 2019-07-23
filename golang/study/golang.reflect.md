@@ -1,15 +1,20 @@
 # 反射
 
-* 在运行时获取变了的相关信息
+- [1. 相互转换](#1-相互转换)
+- [2. 获取变量某种类型的值](#2-获取变量某种类型的值)
+- [3. 设置变量某种类型的值](#3-设置变量某种类型的值)
+- [4. 结构体的解析及调用](#4-结构体的解析及调用)
+
+- 在运行时获取变了的相关信息
 
 ## 1. 相互转换
 
 > 变量  <-->  interface{}  <-->  reflect.Value
 
-* `reflect.TypeOf`  返回变量类型, 返回类型为：`reflect.Type`
-* `reflect.ValueOf`  返回变量值, 返回类型为：`reflect.Value`
-* `reflect.Value.Kind`  获取变量类别, 返回类型为：`一个常量`
-* `reflect.Value.Interface()`    转换为接口, 返回类型为：`interface{}`
+- `reflect.TypeOf`  返回变量类型, 返回类型为：`reflect.Type`
+- `reflect.ValueOf`  返回变量值, 返回类型为：`reflect.Value`
+- `reflect.Value.Kind`  获取变量类别, 返回类型为：`一个常量`
+- `reflect.Value.Interface()`    转换为接口, 返回类型为：`interface{}`
 
 > Kind类型请查看 <https://go-zh.org/pkg/reflect/#Kind>
 
@@ -44,8 +49,8 @@ func main() {
 }
 ```
 
-* 这里又有个接口转换的例子
-* 这里需要注意type和kind的区别。
+- 这里又有个接口转换的例子
+- 这里需要注意type和kind的区别。
 
 ## 2. 获取变量某种类型的值
 
@@ -67,8 +72,8 @@ reflect.ValueOf(x).SetBool(..)
 ...
 ```
 
-* `指针Value` 转换为 `值Value` 用Elem()
-* 设置值时，Value类型必须是**指针**Value
+- `指针Value` 转换为 `值Value` 用Elem()
+- 设置值时，Value类型必须是**指针**Value
 
 ```golang
 func main() {
