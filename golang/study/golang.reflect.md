@@ -11,12 +11,12 @@
 
 > 变量  <-->  interface{}  <-->  reflect.Value
 
-- `reflect.TypeOf`  返回变量类型, 返回类型为：`reflect.Type`
-- `reflect.ValueOf`  返回变量值, 返回类型为：`reflect.Value`
-- `reflect.Value.Kind`  获取变量类别, 返回类型为：`一个常量`
-- `reflect.Value.Interface()`    转换为接口, 返回类型为：`interface{}`
-
-> Kind类型请查看 <https://go-zh.org/pkg/reflect/#Kind>
+操作 | 说明 | 返回类型
+:--- | :--- | :---
+`reflect.TypeOf` | 返回变量类型 | `reflect.Type`
+`reflect.ValueOf` | 返回变量值 | `reflect.Value`
+`reflect.Value.Kind` | 获取变量类别 | `一个常量`, Kind类型请查看 <https://go-zh.org/pkg/reflect/#Kind>
+`reflect.Value.Interface()` | 转换为接口| `interface{}`
 
 ```golang
 type Student struct{}
