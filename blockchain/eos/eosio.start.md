@@ -84,6 +84,12 @@ cleos push action eosio.token create '{"issuer":"eosio", "maximum_supply":"10000
 # 发型资产，把100个SYS发型到alice账户中
 cleos push action eosio.token issue '[ "alice", "100.0000 SYS", "memo" ]' -p eosio@active
 
+# 转账bob
+cleos push action eosio.token transfer '[ "alice", "bob", "25.0000 SYS", "m" ]' -p alice@active
+
+# 查看alice,bob资产
+cleos get currency balance eosio.token bob SYS
+cleos get currency balance eosio.token alice SYS
 
 ```
 
