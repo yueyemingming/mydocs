@@ -7,7 +7,7 @@
 ```c++
 #include <stdio.h>
 
-int main(int argc, char ** argv) {
+int main(int argc, char *- argv) {
   printf("Hello World\n");
 }
 ```
@@ -18,9 +18,9 @@ int main(int argc, char ** argv) {
 emcc hello.c -s WASM=1 -o hello.html
 ```
 
-* `-s WASM=1` — 指定我们想要的wasm输出形式。如果我们不指定这个选项，Emscripten默认将只会生成asm.js。
-* `-o hello.html` — 指定这个选项将会生成HTML页面来运行我们的代码，并且会生成wasm模块以及编译和实例化wasm模块所需要的“胶水”js代码，这样我们就可以直接在web环境中使用了。
-* printf将会被翻译成console.log。
+- `-s WASM=1` — 指定我们想要的wasm输出形式。如果我们不指定这个选项，Emscripten默认将只会生成asm.js。
+- `-o hello.html` — 指定这个选项将会生成HTML页面来运行我们的代码，并且会生成wasm模块以及编译和实例化wasm模块所需要的“胶水”js代码，这样我们就可以直接在web环境中使用了。
+- printf将会被翻译成console.log。
 
 生成如下文件：
 
