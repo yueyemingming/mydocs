@@ -13,4 +13,4 @@
 - [MDN WebAssembly 文档](MDN/readme.md)
 - [示例代码](webassmebly.eg/readme.md)
 - [WebAssembly入门介绍——让C代码在浏览器中运行](WebAssembly入门介绍/readme.md)
-- [WebAssembly入门介绍](WebAssembly入门介绍/readme.md)
+- [WebAssembly系列](WebAssembly系列/readme.md)

@@ -1,12 +1,12 @@
 # WebAssembly 系列
 
-# 1. 生动形象地介绍WebAssembly
+## 1. 生动形象地介绍WebAssembly
 
 你可能已经听说过，WebAssembly 执行的更快。但是 WebAssembly 为什么执行的更快呢？
 
 在这个系列文章中，我会为你解释这一点（本系列其他文章请见文末“相关阅读”）。
 
-## 1.1 等等，什么是 WebAssembly？
+### 1.1 等等，什么是 WebAssembly？
 
 WebAssembly 是除了 JavaScript 以外，另一种可以在浏览器中执行的编程语言。所以当人们说 WebAssembly 更快的时候，一般来讲是与 JavaScript 相比而言的。
 
@@ -14,7 +14,7 @@ WebAssembly 是除了 JavaScript 以外，另一种可以在浏览器中执行�
 
 对二者的比较倒是非常有必要的，这样你就可以了解到 WebAssembly 所拥有的独特特性。
 
-## 1.2 一些关于性能的历史
+### 1.2 一些关于性能的历史
 
 JavaScript 于 1995 年问世，它的设计初衷并不是为了执行起来快，在前 10 个年头，它的执行速度也确实不快。
 
