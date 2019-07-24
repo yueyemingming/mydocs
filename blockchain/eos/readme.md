@@ -9,3 +9,4 @@
 ## eos架构图
 
 ![eos框架图](eos.png)
+![eos架构图](eos.svg)

@@ -12,9 +12,16 @@ dpkg -i eosio_1.8.1-1-ubuntu-16.04_amd64.deb
 - 源码编译安装方式
 
 ```bash
+git clone https://github.com/EOSIO/eos
+cd eos
+git checkout v1.8.1
+git submodule update --init --recursive
+cd scripts
+./eosio_build.sh
+./eosio_install.sh
 ```
 
-## 2. eosio 运行
+## 2. eosio 运行单个节点
 
 ```bash
 keosd &
