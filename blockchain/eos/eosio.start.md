@@ -7,6 +7,7 @@
 ```bash
 wget https://github.com/eosio/eos/releases/download/v1.8.1/eosio_1.8.1-1-ubuntu-16.04_amd64.deb
 dpkg -i eosio_1.8.1-1-ubuntu-16.04_amd64.deb
+apt -y install -f
 ```
 
 - 源码编译安装方式
@@ -66,7 +67,7 @@ curl http://localhost:8888/v1/chain/get_info
 ```bash
 # 下载合约代码
 git clone https://github.com/EOSIO/eosio.contracts
-cd eosio.contracts/eosio.token
+cd eosio.contracts/contracts/eosio.token
 
 # 创建合约账户
 cleos create account eosio eosio.token EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV
