@@ -83,15 +83,12 @@ forward-socks5t / 127.0.0.1:1080   # 行1336，去掉前面的注释符号，后
 
 ### 3.2 让终端走代理
 
-`vim ~/.bashrc`
-
 ```bash
-export https_proxy=http://127.0.0.1:8118
-export http_proxy=http://127.0.0.1:8118
-export ftp_proxy=http://127.0.0.1:8118
+echo "export https_proxy=http://127.0.0.1:8118" >>  ~/.bashrc
+echo "export http_proxy=http://127.0.0.1:8118" >>  ~/.bashrc
+echo "export ftp_proxy=http://127.0.0.1:8118" >>  ~/.bashrc
+source ~/.bashrc
 ```
-
-`source ~/.bashrc`
 
 ### 3.3 结果验证
 
