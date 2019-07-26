@@ -1,19 +1,19 @@
 # 系统智能合约部署
 
-- 下载合约代码
+## 1. 下载合约代码
 
 ```bash
 git clone https://github.com/EOSIO/eosio.contracts
 ```
 
-- 创建合约账户
+## 2. 创建合约账户
 
 ```bash
 cd eosio.contracts/contracts/eosio.token
 cleos create account eosio eosio.token EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV
 ```
 
-- 编译合约
+## 3. 编译合约
 
 ```bash
 eosio-cpp -I include -o eosio.token.wasm src/eosio.token.cpp --abigen
@@ -35,7 +35,7 @@ eosio-cpp -I include -o eosio.token.wasm src/eosio.token.cpp --abigen
   apt -y dist-upgrade
 ```
 
-- 部署合约
+## 4. 部署合约
 
 ```bash
 cleos set contract eosio.token . --abi eosio.token.abi -p eosio.token@active
@@ -48,9 +48,11 @@ cleos set contract eosio.token . --abi eosio.token.abi -p eosio.token@active
   warning: transaction executed locally, but may not be confirmed by the network yet         ]
 ```
 
-- 创建资产
+## 5. 调用合约
 
 `cleos push acction` 这个动作也叫做 **调用合约**
+
+### 5.1 创建资产
 
 以下两种格式都行
 
@@ -63,7 +65,7 @@ cleos push action eosio.token create '{"issuer":"eosio", "maximum_supply":"10000
   warning: transaction executed locally, but may not be confirmed by the network yet         ]
 ```
 
-- 发型资产
+### 5.2  发型资产
 
 > 这里可以操作增发。
 
@@ -77,7 +79,7 @@ cleos push action eosio.token issue '[ "eosio", "100.0000 SYS", "memo" ]' -p eos
   warning: transaction executed locally, but may not be confirmed by the network yet         ]
 ```
 
-- 转账bob
+### 5.3 转账bob
 
 ```bash
 cleos push action eosio.token transfer '[ "eosio", "bob", "25.0000 SYS", "m" ]' -p eosio@active
@@ -89,7 +91,7 @@ cleos push action eosio.token transfer '[ "eosio", "bob", "25.0000 SYS", "m" ]' 
   warning: transaction executed locally, but may not be confirmed by the network yet         ]
 ```
 
-- 转账alice
+### 5.4 转账alice
 
 ```bash
 cleos push action eosio.token transfer '[ "bob", "alice", "10.0000 SYS", "m" ]' -p bob@active
@@ -101,7 +103,7 @@ cleos push action eosio.token transfer '[ "bob", "alice", "10.0000 SYS", "m" ]' 
   warning: transaction executed locally, but may not be confirmed by the network yet         ]
 ```
 
-- 查看alice,bob资产
+## 6. 查看alice,bob资产
 
 ```bash
 cleos get currency balance eosio.token eosio SYS
