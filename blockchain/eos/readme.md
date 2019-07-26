@@ -16,5 +16,5 @@
 - [钱包命令](eosio.wallet.md)
 - [创建账户](eosio.account.md)
 - [合约开发工具包 —— eosio.cdt](eosio.cdt.md)
-- [系统智能合约部署](eosio.contract.md)
+- [系统智能合约部署及转账](eosio.contract.md)
 - [hello智能合约](eosio.hello.md)
