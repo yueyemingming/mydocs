@@ -35,6 +35,8 @@ nodeos -e -p eosio \
 --http-validate-host=false \
 --verbose-http-errors >> nodeos.log 2>&1 &
 
+tail -f nodeos.log
+
 cleos wallet list
 
 curl http://localhost:8888/v1/chain/get_info
@@ -58,56 +60,4 @@ curl http://localhost:8888/v1/chain/get_info
     "fork_db_head_block_num":160,
     "fork_db_head_block_id":"000000a09a19f3f8369052475485db3fe8b0864e0852ce0ff7fdd24229d61012"
 }
-```
-
-## 3. 部署合约，发型资产，转账
-
-### 3.1 获取合约代码
-
-```bash
-# 下载合约代码
-git clone https://github.com/EOSIO/eosio.contracts
-cd eosio.contracts/contracts/eosio.token
-
-# 创建合约账户
-cleos create account eosio eosio.token EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV
-
-# 编译合约
-eosio-cpp -I include -o eosio.token.wasm src/eosio.token.cpp --abigen
-
-# 部署合约
-cleos set contract eosio.token CONTRACTS_DIR/eosio.contracts/eosio.token --abi eosio.token.abi -p eosio.token@active
-
-# 创建资产，以下两种格式都行
-cleos push action eosio.token create '["eosio", "1000000000.0000 SYS"]' -p eosio.token@active
-cleos push action eosio.token create '{"issuer":"eosio", "maximum_supply":"1000000000.0000 SYS"}' -p eosio.token@active
-
-# 发型资产，把100个SYS发型到alice账户中
-cleos push action eosio.token issue '[ "alice", "100.0000 SYS", "memo" ]' -p eosio@active
-
-# 转账bob
-cleos push action eosio.token transfer '[ "alice", "bob", "25.0000 SYS", "m" ]' -p alice@active
-
-# 查看alice,bob资产
-cleos get currency balance eosio.token bob SYS
-cleos get currency balance eosio.token alice SYS
-
-```
-
-## 3. 安装eosio.cdt
-
-- ubuntu 二进制安装方式
-
-```bash
-wget https://github.com/EOSIO/eosio.cdt/releases/download/v1.6.1/eosio.cdt_1.6.1-1_amd64.deb
-apt install ./eosio.cdt_1.6.1-1_amd64.deb
-```
-
-- 源码安装方式
-
-```bash
-git clone --recursive https://github.com/eosio/eosio.cdt
-cd eosio.cdt
-./build.sh
-./install.sh
 ```

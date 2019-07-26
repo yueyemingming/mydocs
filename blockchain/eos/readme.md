@@ -12,6 +12,9 @@
 
 ## 操作
 
-- [ubuntu16.04安装,运行，测试helloworld智能合约](eosio.start.md)
+- [安装和运行单节点](eosio.start.md)
 - [钱包命令](eosio.wallet.md)
 - [创建账户](eosio.account.md)
+- [合约开发工具包 —— eosio.cdt](eosio.cdt.md)
+- [系统智能合约部署](eosio.contract.md)
+- [hello智能合约](eosio.hello.md)
