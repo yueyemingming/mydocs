@@ -111,27 +111,34 @@ cleos set contract hello . -p hello@active
 
 ### 2.4 调用合约
 
+#### 2.4.1 向alice打招呼，经过 -p alice@active 允许
+
 ```bash
-# 向alice打招呼，经过 -p alice@active 允许
 cleos push action hello hi '["alice"]' -p alice@active
   executed transaction: c599d5c4d45a100013767b010f38823d5ee88b9dcbe3bda22d461c7ee51b119e  104 bytes  157 us
   #         hello <= hello::hi                    {"user":"alice"}
   >> Hello, alice
   warning: transaction executed locally, but may not be confirmed by the network yet         ]
+```
 
-# 向bob打招呼，经过 -p bob@active 允许
+#### 2.4.2 向bob打招呼，经过 -p bob@active 允许
+
+```bash
 cleos push action hello hi '["bob"]' -p bob@active
   executed transaction: 3f1509b62c1c0063e2460bd3aabb37960739b833395a16685c414c7077fa9a83  104 bytes  152 us
   #         hello <= hello::hi                    {"user":"bob"}
   >> Hello, bob
   warning: transaction executed locally, but may not be confirmed by the network yet         ]
+```
 
-# 向bob打招呼，经过 -p alice@actiove 允许,出错！！！！！！！！！
-root@da6d1f929e2c:~/hello# cleos push action hello hi '["bob"]' -p alice@active
-Error 3090004: Missing required authority
-Ensure that you have the related authority inside your transaction!;
-If you are currently using 'cleos push action' command, try to add the relevant authority using -p option.
-Error Details:
-missing authority of bob
-pending console output:
+#### 2.4.3 向bob打招呼，经过 -p alice@actiove 允许,出错！！！！！！！！！-
+
+```bash
+cleos push action hello hi '["bob"]' -p alice@active
+  Error 3090004: Missing required authority
+  Ensure that you have the related authority inside your transaction!;
+  If you are currently using 'cleos push action' command, try to add the relevant authority using -p option.
+  Error Details:
+  missing authority of bob
+  pending console output:
 ```

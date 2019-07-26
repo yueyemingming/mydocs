@@ -65,11 +65,11 @@ cleos push action eosio.token create '{"issuer":"eosio", "maximum_supply":"10000
   warning: transaction executed locally, but may not be confirmed by the network yet         ]
 ```
 
-### 5.2  发型资产
+### 5.2  发行资产
 
 > 这里可以操作增发。
 
-把100个SYS发型到eosio账户中, 注意，只能发行给资产的创建者，即上面是由系统账户eosio创建的，这里也只能发型给eosio.
+把100个SYS发行到eosio账户中, 注意，只能发行给资产的创建者，即上面是由系统账户eosio创建的，这里也只能发行给eosio.
 
 ```bash
 cleos push action eosio.token issue '[ "eosio", "100.0000 SYS", "memo" ]' -p eosio@active

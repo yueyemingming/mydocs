@@ -11,7 +11,7 @@ apt -y install ./eosio.cdt_1.6.1-1_amd64.deb
 apt -y install -f
 ```
 
-- 二进制安装方式
+- 源码安装方式
 
 ```bash
 git clone --recursive https://github.com/eosio/eosio.cdt --branch v1.6.1 --single-branch

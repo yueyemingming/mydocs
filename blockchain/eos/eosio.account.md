@@ -30,7 +30,7 @@ cleos wallet create_key
   Created new private key with a public key of: "EOS5BDnLT41xLLCF9rfQAUHZ2pTkPTPbrmz8mBJQKTb2WAYM9Fgqy"
 ```
 
-- 创建alice账户
+## 4. 创建alice账户
 
 通过系统账户eosio创建alice账户, 此处要求eosio账户key必须已经在钱包里
 
@@ -41,7 +41,7 @@ cleos create account eosio alice EOS5BDnLT41xLLCF9rfQAUHZ2pTkPTPbrmz8mBJQKTb2WAY
   #         eosio <= eosio::newaccount            {"creator":"eosio","name":"alice","owner":{"threshold":1,"keys":[{"key":"EOS5BDnLT41xLLCF9rfQAUHZ2pT...
 ```
 
-## 4. 查看账户信息
+## 5. 查看账户信息
 
 ```bash
 cleos get account bob
