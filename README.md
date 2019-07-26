@@ -20,5 +20,5 @@
 - [前端](前端/readme.md)
 - [多媒体开发](multimedia/readme.md)
 - [区块链](blockchain/readme.md)
-- [翻墙-shadowsocks](shadowsocks/readme.md)
+- [shadowsocks](shadowsocks/readme.md)
 - [it英语单词](english/it.words.md)

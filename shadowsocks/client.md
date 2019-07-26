@@ -35,7 +35,7 @@ sslocal -c /etc/sslocal.json
 编辑一下 `vim /etc/rc.local` 文件：
 
 ```text
-nohup sslocal -c /etc/sslocal.json >/dev/null 2>/dev/null &
+nohup sslocal -c /etc/sslocal.json >/tmp/sslocal 2>/tmp/sslocal &
 ```
 
 ## 2. 全局模式
