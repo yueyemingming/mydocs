@@ -1,13 +1,10 @@
 # git
 
-<!-- TOC -->
-- [git](#git)
-  - [1. git配置](#1-git配置)
-  - [2. 仓库](#2-仓库)
-  - [3. 暂存区](#3-暂存区)
-  - [4. 提取与提交](#4-提取与提交)
-  - [5. git中文支持](#5-git中文支持)
-<!-- /TOC -->
+- [1. git配置](#1-git配置)
+- [2. 仓库](#2-仓库)
+- [3. 暂存区](#3-暂存区)
+- [4. 提取与提交](#4-提取与提交)
+- [5. git中文支持](#5-git中文支持)
 
 ## 1. git配置
 
@@ -37,7 +34,7 @@ git clone rsync://host.xz/path/to/repo.git              #rsync协议仓库克隆
 git clone file:///path/to/repo.git                      #file协议仓库克隆
 ```
 
-* **带user的会让输入密码**
+- **带user的会让输入密码**
 
 ## 3. 暂存区
 
@@ -48,6 +45,7 @@ echo "zh" > .gitignore  #设置不需要添加到暂存区的内容
 git rm file             #从暂存区中删除单个文件或文件夹
 git mv file1 file2      #从暂存区中改名
 git status              #查看暂存区状态
+git reset HEAD file     #取消暂存文件或文件件
 ```
 
 ## 4. 提取与提交
