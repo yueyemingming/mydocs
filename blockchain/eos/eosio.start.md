@@ -20,6 +20,10 @@ git submodule update --init --recursive
 cd scripts
 ./eosio_build.sh
 ./eosio_install.sh
+
+echo "" >> ~/.bashrc
+echo "export PATH=$PATH:/root/eosio/1.8/bin" >> ~/.bashrc
+source ~/.bashrc
 ```
 
 ## 2. eosio 运行单个节点
