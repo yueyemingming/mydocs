@@ -21,4 +21,6 @@
 
 ### 扩展操作
 
+- [eos 9大系统账户名称及作用](eosio.sysaccount.md)
 - [eos 同步数据及支持mongodb存储节点搭建](eosio.sync.md)
+- [eos多节点环境配置](eosio.multinode.md)
