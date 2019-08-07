@@ -18,3 +18,7 @@
 - [合约开发工具包 —— eosio.cdt](eosio.cdt.md)
 - [系统智能合约部署及转账](eosio.contract.md)
 - [hello智能合约](eosio.hello.md)
+
+### 扩展操作
+
+- [eos 同步数据及支持mongodb存储节点搭建](eosio.sync.md)
