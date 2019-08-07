@@ -70,6 +70,33 @@ nodeos -e \
 
 - [坑:generic server error](../../database/mongodb/mongo.keng1.md)
 
+### 2.4 查看mongodb数据
+
+```bash
+mongo localhost:27017
+
+> show dbs
+admin  0.000GB
+eos    0.024GB
+local  0.000GB
+> use eos
+switched to db eos
+> show tables
+pub_keys
+block_states
+transaction_traces
+blocks
+transactions
+action_traces
+account_controls
+accounts
+> db.accounts.find()
+{ "_id" : ObjectId("5d4a48c77b284e1551607d22"), "name" : "eosio", "createdAt" : ISODate("2019-08-07T03:43:03.502Z") }
+> db.accounts.find({name:{$eq:'eosio'}})
+{ "_id" : ObjectId("5d4a48c77b284e1551607d22"), "name" : "eosio", "createdAt" : ISODate("2019-08-07T03:43:03.502Z") }
+>
+```
+
 ## mongodb插件的其他参数
 
 参数 | 描述
@@ -79,5 +106,8 @@ nodeos -e \
 --mongodb-store-transactions | 存储所有交易, 默认 `=1` 开启
 --mongodb-store-transaction-traces | 存储所有交易痕迹, 默认 `=1` 开启
 --mongodb-store-action-traces | 存储所有action痕迹, 默认 `=1` 开启
+
+> --mongodb-store-* options all default to true.  
+> --mongodb-filter-* options currently only applies to the action_traces collection.
 
 > 建议头两项设为0，禁掉，这些区块数据造成占用空间最大，不停地往mongodb里写入，同时造成cpu基本满负荷的跑。
