@@ -47,7 +47,7 @@ mongodb-org | 总体包，包含以下四个包，安装这个包会自动安装
 mongodb-org-server | 包含mongod daemon、初始化脚本、配置文件等
 mongodb-org-mongos | 只包含mongod daemon
 mongodb-org-shell | 包含初始化脚本和配置文件
-mongodb-org-tools | 管理工具及客户端工具：mongoimport bsondump, mongodump, mongoexport, mongofiles, mongorestore, mongostat, and mongotop.
+mongodb-org-tools | 管理工具及客户端工具<br>  mongoimport bsondump<br>  mongodump<br>  mongoexport<br>  mongofiles<br>  mongorestore<br>  mongostat<br>  mongotop
 
 ## 2. 来自runboo的安装方式
 
