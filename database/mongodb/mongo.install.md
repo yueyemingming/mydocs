@@ -1,9 +1,9 @@
 # mongo ubuntu 安装
 
+## 1. 社区版本安装使用
+
 - [社区版本安装教程](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/)  
         <https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/>
-
-## 1. 社区版本安装使用
 
 ### 1.1 安装
 
@@ -49,7 +49,10 @@ mongodb-org-mongos | 只包含mongod daemon
 mongodb-org-shell | 包含初始化脚本和配置文件
 mongodb-org-tools | 管理工具及客户端工具<br>  mongoimport bsondump<br>  mongodump<br>  mongoexport<br>  mongofiles<br>  mongorestore<br>  mongostat<br>  mongotop
 
-## 2. 来自runboo的安装方式
+## 2. 第二种安装方式
+
+- [社区版本选择下载链接](https://www.mongodb.com/download-center/community)  
+        <https://www.mongodb.com/download-center/community>
 
 ```bash
 curl -O https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-3.0.6.tgz
