@@ -107,7 +107,7 @@ accounts
 --mongodb-store-transaction-traces | 存储所有交易痕迹, 默认 `=1` 开启
 --mongodb-store-action-traces | 存储所有action痕迹, 默认 `=1` 开启
 
-> --mongodb-store-* **默认都是开启 **  
+> --mongodb-store-* **默认都是开启**  
 > --mongodb-filter-* **目前默认只支持action_traces**
 
 > 建议头两项设为0，禁掉，这些区块数据造成占用空间最大，不停地往mongodb里写入，同时造成cpu基本满负荷的跑。
