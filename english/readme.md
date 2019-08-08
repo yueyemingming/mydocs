@@ -11,6 +11,8 @@
 
 ## 区块链
 
-- deposit      存款    /dɪ'pɑzɪt/
-- withdrawal   取款    /wɪð'drɔəl/
-- qualification    资质    /,kwɑləfə'keʃən/
+单词 | 含义 | 音标
+:--- | :--- | :---
+deposit | 存款 | /dɪ'pɑzɪt/
+withdrawal | 取款 | /wɪð'drɔəl/
+qualification | 资质 | /,kwɑləfə'keʃən/
