@@ -395,21 +395,14 @@ WriteResult({ "nRemoved" : 2 })           # 删除了两条数据
 
 remove() 方法已经过时了，现在官方推荐使用 deleteOne() 和 deleteMany() 方法。
 
-- 删除集合下全部文档：
-
 ```bash
+#删除集合下全部文档：
 db.inventory.deleteMany({})
-```
 
-- 删除 status 等于 A 的全部文档：
-
-```bash
+#删除 status 等于 A 的全部文档：
 db.inventory.deleteMany({ status : "A" })
-```
 
-- 删除 status 等于 D 的一个文档：
-
-```bash
+#删除 status 等于 D 的一个文档：
 db.inventory.deleteOne( { status: "D" } )
 ```
 
