@@ -14,9 +14,9 @@ Web 技术突飞猛进，但是有一个领域一直无法突破 ---- 游戏。
 
 ![002.jpg](002.jpg)
 
-# 一、asm.js 的简介
+## 1. asm.js 的简介
 
-## 1.1 原理
+### 1.1 原理
 
 C / C++ 编译成 JS 有两个最大的困难。
 
@@ -33,7 +33,7 @@ C / C++ 编译成 JS 有两个最大的困难。
 
 下面就依次介绍 asm.js 的两大语法特点。
 
-## 1.2 静态类型的变量
+### 1.2 静态类型的变量
 
 asm.js 只提供两种数据类型。
 
@@ -83,7 +83,7 @@ function add(x, y) {
 
 上面代码中，除了参数`x`和`y`需要声明类型，函数的返回值也需要声明类型。
 
-## 1.3 垃圾回收机制
+### 1.3 垃圾回收机制
 
 asm.js 没有垃圾回收机制，所有内存操作都由程序员自己控制。asm.js 通过 `TypedArray` 直接读写内存。
 
@@ -124,7 +124,7 @@ function strlen(ptr) {
 }
 ```
 
-## 1.4 asm.js 与 WebAssembly 的异同
+### 1.4 asm.js 与 WebAssembly 的异同
 
 如果你对 JS 比较了解，可能知道还有一种叫做 WebAssembly 的技术，也能将 C / C++ 转成 JS 引擎可以运行的代码。那么它与 asm.js 有何区别呢？
 
@@ -132,9 +132,9 @@ function strlen(ptr) {
 
 但是，这并不意味着 asm.js 肯定会被淘汰，因为它有两个优点：首先，它是文本，人类可读，比较直观；其次，所有浏览器都支持 asm.js，不会有兼容性问题。
 
-# 二、 Emscripten 编译器
+## 2. Emscripten 编译器
 
-## 2.1 Emscripten 简介
+### 2.1 Emscripten 简介
 
 虽然 asm.js 可以手写，但是它从来就是编译器的目标语言，要通过编译产生。目前，生成 asm.js 的主要工具是 Emscripten。
 
@@ -148,7 +148,7 @@ C/C++ ⇒ LLVM ==> LLVM IR ⇒ Emscripten ⇒ asm.js
 
 ![006.jpg](006.jpg)
 
-## 2.2 Emscripten 的安装
+### 2.2 Emscripten 的安装
 
 Emscripten 的安装可以根据官方文档。由于依赖较多，安装起来比较麻烦，我发现更方便的方法是安装 SDK。
 
@@ -164,7 +164,7 @@ source ./emsdk_env.sh
 
 注意，最后一行非常重要。每次重新登陆或者新建 Shell 窗口，都要执行一次这行命令`source ./emsdk_env.sh`。
 
-## 2.3 Hello World
+### 2.3 Hello World
 
 首先，新建一个最简单的 C++ 程序hello.cc。
 
@@ -202,9 +202,9 @@ emcc hello.c -o hello.js
 emcc hello.c -o hello.html
 ```
 
-# 三、Emscripten 语法
+## 3. Emscripten 语法
 
-## 3.1 C/C++ 调用 JavaScript
+### 3.1 C/C++ 调用 JavaScript
 
 Emscripten 允许 C / C++ 代码直接调用 JavaScript。
 
@@ -228,7 +228,7 @@ emcc example1.cc -o example1.html
 
 浏览器打开example1.html，就会跳出对话框Hello World!。
 
-## 3.2 C/C++ 与 JavaScript 的通信
+### 3.2 C/C++ 与 JavaScript 的通信
 
 Emscripten 允许 C / C++ 代码与 JavaScript 通信。
 
@@ -256,7 +256,7 @@ emcc example2.cc -o example2.html
 
 浏览器打开网页example2.html，会显示val2 == 42。
 
-## 3.3 EM_ASM 宏系列
+### 3.3 EM_ASM 宏系列
 
 Emscripten 提供以下宏。
 

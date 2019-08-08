@@ -62,6 +62,7 @@ nodeos -e \
 
 参数 | 描述
 :--- | :---
+-e | enable-stale-production出块使能
 -p eosio | 代表eosio系统账户出块
 --p2p-listen-endpoint=0.0.0.0:9876 | p2p节点数据同步服务
 --plugin eosio::mongo_db_plugin | 启动mongodb插件
