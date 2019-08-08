@@ -168,7 +168,7 @@ db.COLLECTION_NAME.insert(document)
     likes: 100
 })
 
-# 以上实例中 col 是我们的集合名，如果该集合不在该数据库中， MongoDB 会自动创建该集合并插入文档。
+#以上实例中 col 是我们的集合名，如果该集合不在该数据库中， MongoDB 会自动创建该集合并插入文档。
 
 #查看已插入文档：
 > db.col.find()
@@ -187,16 +187,12 @@ db.COLLECTION_NAME.insert(document)
 
 #执行后显示结果如下：
 {
-        "title" : "MongoDB 教程",
-        "description" : "MongoDB 是一个 Nosql 数据库",
-        "by" : "菜鸟教程",
-        "url" : "http://www.runoob.com",
-        "tags" : [
-                "mongodb",
-                "database",
-                "NoSQL"
-        ],
-        "likes" : 100
+    "title" : "MongoDB 教程",
+    "description" : "MongoDB 是一个 Nosql 数据库",
+    "by" : "菜鸟教程",
+    "url" : "http://www.runoob.com",
+    tags: ['mongodb', 'database', 'NoSQL'],
+    "likes" : 100
 }
 
 #执行插入操作：
@@ -400,13 +396,22 @@ WriteResult({ "nRemoved" : 2 })           # 删除了两条数据
 remove() 方法已经过时了，现在官方推荐使用 deleteOne() 和 deleteMany() 方法。
 
 - 删除集合下全部文档：
+
+```bash
 db.inventory.deleteMany({})
+```
 
 - 删除 status 等于 A 的全部文档：
+
+```bash
 db.inventory.deleteMany({ status : "A" })
+```
 
 - 删除 status 等于 D 的一个文档：
+
+```bash
 db.inventory.deleteOne( { status: "D" } )
+```
 
 remove() 方法 并不会真正释放空间。
 
