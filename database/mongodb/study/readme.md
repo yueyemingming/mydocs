@@ -427,9 +427,6 @@ remove() 方法 并不会真正释放空间。
 
 find() 方法以非结构化的方式来显示所有文档。
 
-语法
-MongoDB 查询数据的语法格式如下：
-
 ```bash
 db.collection.find(query, projection)
 ```
