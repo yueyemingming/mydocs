@@ -16,3 +16,9 @@
 deposit | 存款 | /dɪ'pɑzɪt/
 withdrawal | 取款 | /wɪð'drɔəl/
 qualification | 资质 | /,kwɑləfə'keʃən/
+predictable | 可语言的 | /prɪ'dɪktəbl/
+derive | 得到，派生 | /diˈraiv/
+benefit | 福利，效益 | /'bɛnəfɪt/
+irreversible | 不可逆 | /,ɪrɪ'vɝsəbl/
+reflect | 反射，反应，反省 | /rɪ'flɛkt/
+objective | 客观的 | /əb'dʒɛktɪv/
