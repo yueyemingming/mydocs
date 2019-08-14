@@ -22,3 +22,4 @@ benefit | 福利，效益 | /'bɛnəfɪt/
 irreversible | 不可逆 | /,ɪrɪ'vɝsəbl/
 reflect | 反射，反应，反省 | /rɪ'flɛkt/
 objective | 客观的 | /əb'dʒɛktɪv/
+consume | 消耗 | /kənˈsum/
