@@ -42,13 +42,11 @@ npm config set registry https://registry.cnpmjs.org     #或者设置cnpm源
 ### 2.2 手动设置安装源
 
 ```bash
-vim ~/.npmrc
-------------------------------------------------------------
-registry=https://registry.npm.taobao.org
-sass_binary_site=https://npm.taobao.org/mirrors/node-sass/
-phantomjs_cdnurl=http://npm.taobao.org/mirrors/phantomjs
-ELECTRON_MIRROR=http://npm.taobao.org/mirrors/electron/
-------------------------------------------------------------
+echo "" >> ~/.npmrc
+echo "registry=https://registry.npm.taobao.org" >> ~/.npmrc
+echo "sass_binary_site=https://npm.taobao.org/mirrors/node-sass/" >> ~/.npmrc
+echo "phantomjs_cdnurl=http://npm.taobao.org/mirrors/phantomjs" >> ~/.npmrc
+echo "ELECTRON_MIRROR=http://npm.taobao.org/mirrors/electron/" >> ~/.npmrc
 ```
 
 ## 3. 使用
