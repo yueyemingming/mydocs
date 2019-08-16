@@ -1,8 +1,0 @@
-git clone https://github.com/ipfs-shipyard/ipfs-webui
-
-ipfs bootstrap add /ip4/10.98.0.201/tcp/4001/ipfs/Qmf2bD3rsMrCBLKkTF3M5QyiQu3rXMcN2NmpxuQfZS8tLJ
-
-http://localhost:5001/webui
-
-010 69499524
-3388 6855 86412

@@ -1,9 +1,0 @@
-{
-    "server":"47.91.231.31",
-    "server_port":17295,
-    "local_address": "127.0.0.1",
-    "local_port":1080,
-    "password":"Bqex@1#I42",
-    "timeout":300,
-    "method":"aes-256-cfb"
-}
