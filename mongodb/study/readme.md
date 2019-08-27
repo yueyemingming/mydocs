@@ -1,16 +1,34 @@
 # mongo学习
 
+- [mongo学习](#mongo学习)
+  - [1. MongoDB 概念解析](#1-mongodb-概念解析)
+  - [2. 连接](#2-连接)
+  - [3. 创建数据库](#3-创建数据库)
+  - [4. 删除数据库](#4-删除数据库)
+  - [5. 创建集合](#5-创建集合)
+  - [6. 删除集合](#6-删除集合)
+  - [7. 插入文档](#7-插入文档)
+  - [8. 更新文档](#8-更新文档)
+    - [8.1 update() 方法](#81-update-方法)
+    - [8.2 save() 方法](#82-save-方法)
+  - [9. 删除文档](#9-删除文档)
+  - [10. 查询文档](#10-查询文档)
+    - [10.1 MongoDB 与 RDBMS Where 语句比较](#101-mongodb-与-rdbms-where-语句比较)
+    - [10.2 MongoDB AND 条件](#102-mongodb-and-条件)
+    - [10.3 MongoDB OR 条件](#103-mongodb-or-条件)
+    - [10.4 AND 和 OR 联合使用](#104-and-和-or-联合使用)
+
 ## 1. MongoDB 概念解析
 
-QL术语/概念 | MongoDB术语/概念 | 解释/说明
-:--- | :--- | :---
-database | database | 数据库
-table | collection | 数据库表/集合
-row | document | 数据记录行/文档
-column | field | 数据字段/域
-index | index | 索引
-table | joins | 表连接,MongoDB不支持
-primary key | primary key | 主键,MongoDB自动将_id字段设置为主键
+| QL术语/概念 | MongoDB术语/概念 | 解释/说明                           |
+|:------------|:-----------------|:------------------------------------|
+| database    | database         | 数据库                              |
+| table       | collection       | 数据库表/集合                       |
+| row         | document         | 数据记录行/文档                     |
+| column      | field            | 数据字段/域                         |
+| index       | index            | 索引                                |
+| table       | joins            | 表连接,MongoDB不支持                |
+| primary key | primary key      | 主键,MongoDB自动将_id字段设置为主键 |
 
 ## 2. 连接
 
@@ -102,12 +120,12 @@ switched to db runoob
 
 options 可以是如下参数：
 
-字段 | 类型 | 描述
-:--- | :--- | :---
-capped | 布尔 | （可选）如果为 true，则创建固定集合。<br>固定集合是指有着固定大小的集合，当达到最大值时，它会自动覆盖最早的文档。<br>当该值为 true 时，必须指定 size 参数。
-autoIndexId | 布尔 | （可选）如为 true，自动在 _id 字段创建索引。<br>默认为 false。
-size | 数值 | （可选）为固定集合指定一个最大值（以字节计）。<br>如果 capped 为 true，也需要指定该字段。
-max | 数值 | （可选）指定固定集合中包含文档的最大数量。
+| 字段        | 类型 | 描述                                                                                                                                                        |
+|:------------|:-----|:------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| capped      | 布尔 | （可选）如果为 true，则创建固定集合。<br>固定集合是指有着固定大小的集合，当达到最大值时，它会自动覆盖最早的文档。<br>当该值为 true 时，必须指定 size 参数。 |
+| autoIndexId | 布尔 | （可选）如为 true，自动在 _id 字段创建索引。<br>默认为 false。                                                                                              |
+| size        | 数值 | （可选）为固定集合指定一个最大值（以字节计）。<br>如果 capped 为 true，也需要指定该字段。                                                                   |
+| max         | 数值 | （可选）指定固定集合中包含文档的最大数量。                                                                                                                  |
 
 ```bash
 #创建集合
@@ -451,14 +469,14 @@ db.collection.find(query, projection)
 
 ### 10.1 MongoDB 与 RDBMS Where 语句比较
 
-操作 | 格式 | 范例 | RDBMS中的类似语句
-:--- | :--- | :--- | :---
-等于 | {\<key\>:\<value\>} | db.col.find({"by":"菜鸟教程"}).pretty() | where by = '菜鸟教程'
-小于 | {\<key\>:{$lt:\<value\>}} | db.col.find({"likes":{$lt:50}}).pretty() | where likes < 50
-小于或等于 | {\<key\>:{$lte:\<value\>}} | db.col.find({"likes":{$lte:50}}).pretty() | where likes <= 50
-大于 | {\<key\>:{$gt:\<value\>}} | db.col.find({"likes":{$gt:50}}).pretty() | where likes > 50
-大于或等于 | {\<key\>:{$gte:\<value\>}} | db.col.find({"likes":{$gte:50}}).pretty() | where likes >= 50
-不等于 | {\<key\>:{$ne:\<value\>}} | db.col.find({"likes":{$ne:50}}).pretty() | where likes != 50
+| 操作       | 格式                       | 范例                                      | RDBMS中的类似语句     |
+|:-----------|:---------------------------|:------------------------------------------|:----------------------|
+| 等于       | {\<key\>:\<value\>}        | db.col.find({"by":"菜鸟教程"}).pretty()   | where by = '菜鸟教程' |
+| 小于       | {\<key\>:{$lt:\<value\>}}  | db.col.find({"likes":{$lt:50}}).pretty()  | where likes < 50      |
+| 小于或等于 | {\<key\>:{$lte:\<value\>}} | db.col.find({"likes":{$lte:50}}).pretty() | where likes <= 50     |
+| 大于       | {\<key\>:{$gt:\<value\>}}  | db.col.find({"likes":{$gt:50}}).pretty()  | where likes > 50      |
+| 大于或等于 | {\<key\>:{$gte:\<value\>}} | db.col.find({"likes":{$gte:50}}).pretty() | where likes >= 50     |
+| 不等于     | {\<key\>:{$ne:\<value\>}}  | db.col.find({"likes":{$ne:50}}).pretty()  | where likes != 50     |
 
 ### 10.2 MongoDB AND 条件
 
