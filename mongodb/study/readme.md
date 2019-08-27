@@ -1,6 +1,6 @@
 # mongo学习
 
-## MongoDB 概念解析
+## 1. MongoDB 概念解析
 
 QL术语/概念 | MongoDB术语/概念 | 解释/说明
 :--- | :--- | :---
@@ -12,7 +12,7 @@ index | index | 索引
 table | joins | 表连接,MongoDB不支持
 primary key | primary key | 主键,MongoDB自动将_id字段设置为主键
 
-## 连接
+## 2. 连接
 
 ```bash
 $ ./mongo
@@ -56,7 +56,7 @@ mongodb://localhost/?safe=true
 mongodb://host1,host2,host3/?safe=true;w=2;wtimeoutMS=2000
 ```
 
-## 创建数据库
+## 3. 创建数据库
 
 ```bash
 > use runoob
@@ -83,7 +83,7 @@ runoob  0.000GB
 
 > 在 MongoDB 中，集合只有在内容插入后才会创建! 就是说，创建集合(数据表)后要再插入一个文档(记录)，集合才会真正创建。
 
-## 删除数据库
+## 4. 删除数据库
 
 ```bash
 #删除数据库
@@ -93,7 +93,7 @@ switched to db runoob
 { "dropped" : "runoob", "ok" : 1 }
 ```
 
-## 创建集合
+## 5. 创建集合
 
 语法：`db.createCollection(name, options)`
 
@@ -132,7 +132,7 @@ mycol2
 ...
 ```
 
-## 删除集合
+## 6. 删除集合
 
 语法格式：
 
@@ -150,7 +150,7 @@ runoob
 true
 ```
 
-## 插入文档
+## 7. 插入文档
 
 使用 insert() 或 save() 方法向集合中插入文档，语法如下：
 
@@ -219,9 +219,9 @@ WriteResult({ "nInserted" : 1 })
 }
 ```
 
-## 更新文档
+## 8. 更新文档
 
-### update() 方法
+### 8.1 update() 方法
 
 update() 方法用于更新已存在的文档。语法格式如下：
 
@@ -275,7 +275,7 @@ WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })   # 输出信�
 > db.col.update({'title':'MongoDB 教程'},{$set:{'title':'MongoDB'}},{multi:true})
 ```
 
-### save() 方法
+### 8.2 save() 方法
 
 save() 方法通过传入的文档来替换已有文档。语法格式如下：
 
@@ -338,7 +338,7 @@ db.collection.save(
 > db.col.update( { "count" : { $gt : 10 } } , { $inc : { "count" : 1} },false,false );
 ```
 
-## 删除文档
+## 9. 删除文档
 
 remove() 方法的基本语法格式如下所示：
 
@@ -416,7 +416,7 @@ remove() 方法 并不会真正释放空间。
 > db.runCommand({ repairDatabase: 1 })
 ```
 
-## 查询文档
+## 10. 查询文档
 
 find() 方法以非结构化的方式来显示所有文档。
 
@@ -449,7 +449,7 @@ db.collection.find(query, projection)
 
 除了 find() 方法之外，还有一个 findOne() 方法，它只返回一个文档。
 
-### MongoDB 与 RDBMS Where 语句比较
+### 10.1 MongoDB 与 RDBMS Where 语句比较
 
 操作 | 格式 | 范例 | RDBMS中的类似语句
 :--- | :--- | :--- | :---
@@ -460,7 +460,7 @@ db.collection.find(query, projection)
 大于或等于 | {\<key\>:{$gte:\<value\>}} | db.col.find({"likes":{$gte:50}}).pretty() | where likes >= 50
 不等于 | {\<key\>:{$ne:\<value\>}} | db.col.find({"likes":{$ne:50}}).pretty() | where likes != 50
 
-### MongoDB AND 条件
+### 10.2 MongoDB AND 条件
 
 MongoDB 的 find() 方法可以传入多个键(key)，每个键(key)以逗号隔开，即常规 SQL 的 AND 条件。
 
@@ -485,7 +485,7 @@ MongoDB 的 find() 方法可以传入多个键(key)，每个键(key)以逗号隔
 #以上实例中类似于 WHERE 语句：WHERE by='菜鸟教程' AND title='MongoDB 教程'
 ```
 
-### MongoDB OR 条件
+### 10.3 MongoDB OR 条件
 
 MongoDB OR 条件语句使用了关键字 $or,语法格式如下：
 
@@ -513,7 +513,7 @@ MongoDB OR 条件语句使用了关键字 $or,语法格式如下：
 }
 ```
 
-### AND 和 OR 联合使用
+### 10.4 AND 和 OR 联合使用
 
 ```bash
 以下实例演示了 AND 和 OR 联合使用，类似常规 SQL 语句为： 'where likes>50 AND (by = '菜鸟教程' OR title = 'MongoDB 教程')'
