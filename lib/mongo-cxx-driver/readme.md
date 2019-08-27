@@ -65,21 +65,21 @@ bsoncxx::document::value value = bsoncxx::from_json(bsoncxx::stdx::string_view{b
 
 // value -> view
 bsoncxx::document::view view = value.view();
-
 // view -> value
 bsoncxx::document::value value = bsoncxx::document::value{ view };
 
 // view[] -> eletment
 bsoncxx::document::element element = view["act"];
-
 // element -> sub_element
 bsoncxx::document::element sub_element = element.get_document().value["account"];
+// 级联
+bsoncxx::document::element sub_element = view["act"]["account"];
 
 // element -> string
 std::string str = sub_element.get_utf8().value.to_string() ;
 std::cout << str << std::endl ;
 
-//std::cout << "key() = " << element.key() << std::endl ;
+std::cout << "key() = " << element.key() << std::endl ;
 
 // view -> std::string
 bsoncxx::to_json(view);
