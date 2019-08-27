@@ -22,3 +22,60 @@ int main() {
     return 0 ;
 }
 ```
+
+```cpp
+//基本使用
+void test1() {
+    std::unique_ptr<int> uptr(new int(10));
+    //std::unique_ptr<int> uptr2 = uptr ;
+    //std::unique_ptr<int> uptr2(uptr);
+    std::unique_ptr<int> uptr2 = std::move(uptr);
+    uptr2.release();
+}
+
+
+//自动析构，再也不用delete了
+class Test {
+public:
+    Test() { std::cout << "Test()" << std::endl ; }
+    ~Test() { std::cout << "~Test()" << std::endl ; }
+};
+
+void test2() {
+    std::unique_ptr<Test> pTest(new Test) ;
+}
+
+
+int main() {
+    test1();
+    test2();
+
+    return 0;
+}
+```
+
+```cpp
+//测试在map, queue, vector等中，自动释放智能指针
+class Test
+{
+public:
+    Test() {
+        cout << "Test()" << endl ;
+    }
+    ~Test() {
+        cout << "~Test()" << endl ;
+    }
+};
+
+int main()
+{
+    map<int, shared_ptr<Test>> m;
+    std::shared_ptr<Test> pTest(new Test) ;
+    m[0] = pTest ;
+
+    queue<std::unique_ptr<Test>> q;
+    q.push(std::unique_ptr<Test>(new Test));
+
+    return 0;
+}
+```
