@@ -1,11 +1,11 @@
 # linux
 
-- [ubuntu](ubuntu/readme.md)
+- **ubuntu**
   - [root登陆](ubuntu/root.login.md)
   - [apt](ubuntu/apt.md)
   - [配置系统包](ubuntu/ubuntu.package.md)
 - [redhat](redhat/readme.md)
-- [系统配置](readme.md)
+- **系统配置**
   - [网络配置](linux.net.md)
   - [系统服务命令](service.md)
   - [防火墙](#防火墙)

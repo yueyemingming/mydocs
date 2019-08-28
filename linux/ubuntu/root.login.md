@@ -22,6 +22,6 @@ all-guest=false
 mesg n || true 替换为
 
 tty -s && mesg n || true
-```text
+```
 
 重启ubuntu，问题解决
