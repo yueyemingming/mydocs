@@ -10,7 +10,7 @@ function git-branch-name {
 }
 function git-branch-prompt {
   local branch=`git-branch-name`
-  if [ $branch ]; then printf "(%s)" $branch; fi
+  if [ $branch ]; then printf " (%s)" $branch; fi
 }
-PS1="\u@\h:\[\033[0;36m\]\w\[\033[0m\]\[\033[0;32m\]\$(git-branch-prompt)\[\033[0m\]# "
+PS1="\n\u@\h:\[\033[0;36m\]\w\[\033[0m\]\[\033[0;32m\]\$(git-branch-prompt)\[\033[0m\]\n# "
 ```
