@@ -6,6 +6,7 @@
   - [配置系统包](ubuntu/ubuntu.package.md)
 - [redhat](redhat/readme.md)
 - **系统配置**
+  - [bash显示git分支](bash.git-branch.md)
   - [网络配置](linux.net.md)
   - [系统服务命令](service.md)
   - [防火墙](#防火墙)
