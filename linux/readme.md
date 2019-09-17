@@ -10,6 +10,7 @@
   - [网络配置](linux.net.md)
   - [系统服务命令](service.md)
   - [防火墙](#防火墙)
+  - [开启swap分区](swap.md)
 - [命令使用](cmd/readme.md)  
   - [vim](cmd/vim/readme.md)
   - [ssh](cmd/ssh.md)
