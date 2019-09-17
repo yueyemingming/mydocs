@@ -9,6 +9,7 @@ dd if=/dev/zero of=/var/blockd.swap bs=1M count=10240
 # 格式化swap文件
 mkswap /var/blockd.swap
 
+# 配置到系统文件中
 echo "swapon /var/blockd.swap" >> /etc/rc.local
 echo "/var/blockd.swap swap swap default 0 0" >> /etc/fstab
 
@@ -20,6 +21,9 @@ sysctl vm.swappiness=60
 
 # 内存超过60%生效交换功能，永久生效
 echo "vm.swappiness=60" >> /etc/sysctl.conf
+
+# 挂载生效
+mount -a
 
 # 关闭交换功能
 swapoff /var/blockd.swap
