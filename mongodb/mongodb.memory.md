@@ -1,4 +1,14 @@
-# MongoDB 如何使用内存？为什么内存满了？
+# MongoDB 如何使用内存？为什么内存满了
+
+- [1. MongoDB 内存用在哪](#1-mongodb-内存用在哪)
+  - [1.1 存储引擎 Cache](#11-存储引擎-cache)
+  - [1.2 TCP 连接及请求处理](#12-tcp-连接及请求处理)
+- [2. 如何控制内存使用](#2-如何控制内存使用)
+  - [2.1 合理配置 WiredTiger cacheSizeGB](#21-合理配置-wiredtiger-cachesizegb)
+  - [2.2 控制并发连接数](#22-控制并发连接数)
+  - [2.3 是否应该配置 SWAP](#23-是否应该配置-swap)
+  - [2.4 其他](#24-其他)
+- [3. 作者简介](#3-作者简介)
 
 一月 8, 2019张友东的博客mongodb、swap、tcmalloc、tcp socket、内存zydcom
 最近接到多个MongoDB内存方面的线上case及社区问题咨询，主要集中在:
@@ -7,11 +17,11 @@
 - 一个机器上部署多个 Mongod 实例/进程，WiredTiger cache 应该如何配置？
 - MongoDB 是否应该使用 SWAP 空间来降低内存压力？
 
-## MongoDB 内存用在哪？
+## 1. MongoDB 内存用在哪
 
 Mongod 进程启动后，除了跟普通进程一样，加载 binary、依赖的各种library 到内存，其作为一个DBMS，还需要负责客户端连接管理，请求处理，数据库元数据、存储引擎等很多工作，这些工作都涉及内存的分配与释放，默认情况下，MongoDB 使用 Google tcmalloc 作为内存分配器，内存占用的大头主要是「存储引擎」与 「客户端连接及请求的处理」。
 
-### 存储引擎 Cache
+### 1.1 存储引擎 Cache
 
 MongoDB 3.2 及以后，默认使用 WiredTiger 存储引擎，可通过 cacheSizeGB 选项配置 WiredTiger 引擎使用内存的上限，一般建议配置在系统可用内存的60%左右（默认配置）。
 
@@ -28,7 +38,7 @@ MongoDB 3.2 及以后，默认使用 WiredTiger 存储引擎，可通过 cacheSi
 
 在这个规则下，一个正常运行的 MongoDB 实例，cache used 一般会在 0.8 * cacheSizeGB 及以下，偶尔超出问题不大；如果出现 used>=95% 或者 dirty>=20%，并一直持续，说明内存淘汰压力很大，用户的请求线程会阻塞参与page淘汰，请求延时就会增加，这时可以考虑「扩大内存」或者 「换更快的磁盘提升IO能力」。
 
-### TCP 连接及请求处理
+### 1.2 TCP 连接及请求处理
 
 MongoDB Driver 会跟 mongod 进程建立 tcp 连接，并在连接上发送数据库请求，接受应答，tcp 协议栈除了为连接维护socket元数据为，每个连接会有一个read buffer及write buffer，用户收发网络包，buffer的大小通过如下sysctl系统参数配置，分别是buffer的最小值、默认值以及最大值，详细解读可以google。
 
@@ -93,20 +103,20 @@ mymongo:PRIMARY&gt; db.serverStatus().tcmalloc
 }
 ```
 
-## 如何控制内存使用
+## 2. 如何控制内存使用
 
-### 合理配置 WiredTiger cacheSizeGB
+### 2.1 合理配置 WiredTiger cacheSizeGB
 
 - 如果一个机器上只部署 Mongod，mongod 可以使用所有可用内存，则是用默认配置即可。
 - 如果机器上多个mongod混部，或者mongod跟其他的一些进程一起部署，则需要根据分给mongod的内存配额来配置 cacheSizeGB，按配额的60%左右配置即可。
 
-### 控制并发连接数
+### 2.2 控制并发连接数
 
 TCP连接对 mongod 的内存开销上面已经详细分析了，很多同学对并发有一定误解，认为「并发连接数越高，数据库的QPS就越高」，实际上在大部分数据库的网络模型里，连接数过高都会使得后端内存压力变大、上下文切换开销变大，从而导致性能下降。
 
 MongoDB driver 在连接 mongod 时，会维护一个连接池（通常默认100），当有大量的客户端同时访问同一个mongod时，就需要考虑减小每个客户端连接池的大小。mongod 可以通过配置 net.maxIncomingConnections 配置项来限制最大的并发连接数量，防止数据库压力过载。
 
-### 是否应该配置 SWAP
+### 2.3 是否应该配置 SWAP
 
 官方文档上的建议如下，意思是配置一下swap，避免mongod因为内存使用太多而OOM。
 
@@ -120,12 +130,12 @@ Assign swap space for your systems. Allocating swap space can avoid issues with 
 
 是否开启SWAP，实际上是在「好死」与「赖活着」的选择，个人觉得，对于一些重要的业务场景来说，首先应该为数据库规划足够的内存，当内存不足时，「及时调整扩容」比「不可控的慢」更好。
 
-### 其他
+### 2.4 其他
 
 - 尽量减少内存排序的场景，内存排序一般需要更多的临时内存
 - 主备节点配置差距不要过大，备节点会维护一个buffer（默认最大256MB）用于存储拉取到oplog，后台从buffer里取oplog不断重放，当备同步慢的时候，这个buffer会持续使用最大内存。
 - 控制集合及索引的数量，减少databse管理元数据的内存开销；集合、索引太多，元数据内存开销是一方面的影响，更多的会影响启动加载的效率、以及运行时的性能。
 
-## 作者简介
+## 3. 作者简介
 
 张友东，阿里云高级技术专家，主要关注分布式存储与数据库等技术领域，先后参与淘宝分布式文件系统TFS、阿里云数据库（PolarDB、MySQL、MongoDB、Redis）等项目的开发工作，致力于让开发者用上最好的云数据库服务。
