@@ -54,9 +54,7 @@ openssl enc -ciphername [-in filename] [-out filename] [-pass arg] [-e]
 -kfile | 指定口令存放文件。可以从这个口令存放文件的第一行读取加密口令。
 -K key | 使用一个16进制的输入口令。如果仅指定-K key而没有指定-k password，必须用-iv选项指定IV。当-K key和-k password都指定时，用-K选项给定的key将会被使用，而使用password来产生初始化向量IV。不建议两者都指定。
 -iv IV | 手工指定初始化向量(IV)的值。IV值是16进制格式的。如果仅使用-K指定了key而没有使用-k指定password,那么就需要使用-iv手工指定IV值。如果使用-k指定了password，那么IV值会由这个password的值来产生。
--salt | 产生一个随机数，并与-k指定的password串联，然后计算其Hash值来防御字典攻击和rainbow table攻击。
-       rainbow table攻击：用户将密码使用单向函数得到Hash摘要并存入数据库中，验证时，使用同一种单向函数对用户输入口令进行Hash得到摘要信息。将得到的摘要信息和数据中该用户的摘要信息进行比对，一致则通过。考虑到多数人使用的密码为常见的组合，攻击者可以将所有密码的常见组合进行单向Hash，得到一个摘要组合。然后与数据库中的摘要进行比对即可获得对应的密码。
-      salt将随机数加入到密码中，然后对一整串进行单向Hash。攻击者就很难通过上面的方式来得到密码。
+-salt | 产生一个随机数，并与-k指定的password串联，然后计算其Hash值来防御字典攻击和rainbow table攻击。<br>rainbow table攻击：用户将密码使用单向函数得到Hash摘要并存入数据库中，验证时，使用同一种单向函数对用户输入口令进行Hash得到摘要信息。将得到的摘要信息和数据中该用户的摘要信息进行比对，一致则通过。考虑到多数人使用的密码为常见的组合，攻击者可以将所有密码的常见组合进行单向Hash，得到一个摘要组合。然后与数据库中的摘要进行比对即可获得对应的密码。<br>salt将随机数加入到密码中，然后对一整串进行单向Hash。攻击者就很难通过上面的方式来得到密码。
 -S salt | 使用16进制的salt。
 -nosalt | 表示不使用salt。
 -z | 压缩数据(前提是OpenSSL编译时加入了zip库)。
@@ -69,29 +67,20 @@ openssl enc -ciphername [-in filename] [-out filename] [-pass arg] [-e]
 -none | 不对数据进行加密操作。
 -engine | 指定硬件引擎。
 
-注意： 密码可以用来产生初始化密钥key和初始化向量IV。
-       新版的OpenSSL必须使用-salt选项。
+> 密码可以用来产生初始化密钥key和初始化向量IV。
+> 新版的OpenSSL必须使用-salt选项。
 
 OpenSSL支持的加密算法：des  des3  bf  cast cast5 rc2 rc4 rc5 aes等
 
 使用实例：
-对文件进行base64编码：
+
 
 ```bash
-which ls
-cp /bin/ls .
-file ls
-openssl base64 -in ls -out ls.b64
-file ls.b64
+openssl base64 -in testfile -out testfile.b64       #对文件进行base64编码
+openssl base64 -d -in testfile.b64 -out testfile    #对base64编码文件进行解码
 ```
 
-对base64编码文件进行解码：
 
-```bash
-rm -rf ls
-openssl base64 -d -in ls.b64 -out ls
-file ls
-```
 
 使用des3加密文件并在密码结果中加入salt:
 
