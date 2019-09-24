@@ -24,9 +24,6 @@ apt-get install -y mongodb-org=4.0.11 mongodb-org-server=4.0.11 mongodb-org-shel
 ```bash
 # 服务端
 service mongod start
-  [initandlisten] waiting for connections on port 27017
-  ...
-
 service mongod stop
 service mongod restart
 
