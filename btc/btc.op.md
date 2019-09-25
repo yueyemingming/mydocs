@@ -3,16 +3,16 @@
 ## 同步数据
 
 ```bash
-bitcoind -daemon -datadir=/opt/chain_data/.btc -server -txindex -rpcuser=root -rpcpassword=123456
-bitcoind -daemon -datadir=/alidata1/btc -server -txindex -rpcuser=root -rpcpassword=123456
-bitcoind -daemon -server -reindex -txindex -rpcuser=root -rpcpassword=123456
+bitcoind -daemon -datadir=/data -server -txindex -rpcuser=root -rpcpassword=123456
+bitcoind -daemon -datadir=/data -server -reindex -txindex -rpcuser=root -rpcpassword=123456
 ```
 
 ## 客户端命令
 
 ```bash
-bitcoin-cli   -rpcuser=root -rpcpassword=123456 getblockhash 170
-bitcoin-cli   -rpcuser=root -rpcpassword=123456 getblock 000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f 2
+bitcoin-cli
+bitcoin-cli -rpcuser=root -rpcpassword=123456 getblockhash 170
+bitcoin-cli -rpcuser=root -rpcpassword=123456 getblock 000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f 2
 ```
 
 ## rpc
