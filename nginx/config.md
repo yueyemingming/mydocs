@@ -2,7 +2,7 @@
 
 ##1. 基本结构
 
-```yaml
+```nginx
 #全局区
 worker_processes 1; #有1个工作的子进程,可以自行修改,但太大无益,因为要争夺CPU,一般设置为 CPU数*核数
 
@@ -25,7 +25,7 @@ http {  #这是配置http服务器的主要段
 
 ###1.1 基于域名的虚拟主机
 
-```js
+```nginx
 server {
     listen 80;  #监听端口
     server_name a.com; #监听域名
@@ -39,7 +39,7 @@ server {
 
 ###1.2 基于端口的虚拟主机配置
 
-```js
+```nginx
 server {
     listen 8080;
     server_name 192.168.1.204;
@@ -55,7 +55,7 @@ server {
 
 ###2.1 main日志格式
 
-```js
+```nginx
 log_format main '$remote_addr - $remote_user [$time_local] "$request" '
                   '$status $body_bytes_sent "$http_referer" '
                   '"$http_user_agent" "$http_x_forwarded_for"';
@@ -74,7 +74,7 @@ error_log /var/log/nginx/error.log;     #错误日志文件,默认main格式
 
 ###2.2 自定义日志格式
 
-```js
+```nginx
 log_format  mylog '$remote_addr- "$request" '
                      '$status $body_bytes_sent "$http_referer" '
                         '"$http_user_agent" "$http_x_forwarded_for"';
