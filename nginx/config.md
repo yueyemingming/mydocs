@@ -118,4 +118,4 @@ location [=|~|~*|^~] patt {
 - 精准匹配 `location = patt {}`
 - 正则匹配 `location ~ patt {}` , ~区分大小写，~*不区分大小写。
 
-! [location](location的解析过程.tif)
+![location](location的解析过程.tif)
