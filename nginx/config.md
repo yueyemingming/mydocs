@@ -297,5 +297,51 @@ location ~ \.js$ {
 
 ## 7. proxy 反向代理
 
+- 正向代理
+
+![zhengxiang](正向proxy.png)
+
+- 反向代理
+
+![fanxiang](反向proxy.png)
+
+```nginx
+location ~ \.(jpg|jpeg|png|gif)$ {          #把图片重写到 8080端口(既然能写到8080端口,就意味着可以写到其他独立服务器上)
+    proxy_pass http://192.168.1.204:8080;
+    expires 1d;
+}
+```
+
 ## 8. upstream 负载均衡
 
+### 8.1 负载均衡的具体方式
+
+1. 硬件上做负载均衡, F5 BIG-IP ,硬件负载均衡(很贵). 直接从TCP/IP的底层协议上,直接做数据包的中转.
+2. 软件负载均衡, LVS 
+3. 反向代理+负载均衡 nginx
+
+### 8.2 nginx负载均衡
+
+把多个服务器添加到一个upstream组中，再用proxy反向代理到组，即nginx负载均衡。
+
+```nginx
+upstream myserver {            #把用到的服务器集群,声明在一个组里
+    #这里可以添加负载策略
+    server localhost:11211;
+    server localhost:11212;
+}
+
+location / {
+    proxy_pass myserver;
+}
+```
+
+> nginx负载均衡，不只是支持http协议，还通过编译支持其他众多地方方协议。
+
+负载均衡是一种方案,实现办法有DNS轮询.
+
+![a.record](a.record.png)
+
+比如,我们在访问 news.163.com 时， DNS服务器允许一个域名有多个A记录, 即代表访问到的数据来自不同的服务器。
+
+那么在用户访问时,一般按地域返回一个较近的解析记录. 这样,全国不同的地区的用户,看到的163的主页,来自不同的服务器.
