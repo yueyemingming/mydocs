@@ -4,3 +4,4 @@
 - [nginx信号控制](signal.md)
 - [nginx系统变量](variable.md)
 - [nginx配置](config.md)
+- [nginx监控](status.md)
