@@ -121,10 +121,64 @@ location [=|~|~*|^~] patt {
 ### 3.1 命中规则
 
 1. 判断精准命中，如果命中，立即返回结果并结束解析过程
-2. 判断普通命中，如果有多个命中，”记录”下来”最长“的命中结果（注意：记录但不结束，最长的为准）
+2. 判断普通命中，如果有多个命中，"记录"下来"最长"的命中结果（注意：记录但不结束，最长的为准）
 3. 继续判断正则表达式的解析结果，按配置里的正则表达式顺序为准，由上到下开始匹配，一旦匹配成功 1 个，立即返回结果，并结束解析过程．
 4. 延伸分析
   - 普通命中, 顺序无所谓，按长短确定命中，长的有限命中。  
   - 正则命中, 顺序有所谓，按从前往后去定命中。
 
 ![location](location.png)
+
+### 3.2 例子1：精准命中和普通命中
+
+```nginx
+location = / {
+    root   /var/www/html/;
+    index  index.htm index.html;
+}
+
+location / {
+    root   /usr/local/nginx/html;
+    index  index.html index.htm;
+}
+```
+
+如果访问　　http://xxx.com/
+
+1. 精准匹配中"/", 得到index页为index.htm
+2. 再次访问"/index.htm", 此次命中普通命中，内部转跳uri已经是"/index.htm", 根目录为/usr/local/nginx/html
+3. 最终结果,访问了 /usr/local/nginx/html/index.htm
+
+### 3.2 例子2：普通命中和正则命中
+
+```nginx
+location / {
+    root   /usr/local/nginx/html;
+    index  index.html index.htm;
+}
+
+location ~ image {
+    root /var/www;
+    index index.html;
+}
+```
+
+如果我们访问 "http://xx.com/image/logo.png" ，此时, "/" 与 "/image/logo.png" 匹配，同时 "image"正则 与"image/logo.png"也能匹配,谁发挥作用? 正则表达式的成果将会使用，优先命中长的. 图片真正会访问 /var/www/image/logo.png 
+
+### 3.3 例子3: 普通命中
+
+```nginx
+location / {
+    root   /usr/local/nginx/html;
+    index  index.html index.htm;
+}
+
+location /foo {
+    root /var/www/html;
+    index index.html;
+}
+```
+
+访问 http://xxx.com/foo
+
+对于uri "/foo", 两个location的patt,都能匹配他们, 即 '/'能从左前缀匹配 '/foo', '/foo'也能左前缀匹配'/foo', 此时, 真正访问 /var/www/html/index.html , '/foo'匹配的更长,因此使用之.
