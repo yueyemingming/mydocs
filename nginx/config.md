@@ -182,3 +182,74 @@ location /foo {
 访问 http://xxx.com/foo
 
 对于uri "/foo", 两个location的patt,都能匹配他们, 即 '/'能从左前缀匹配 '/foo', '/foo'也能左前缀匹配'/foo', 此时, 真正访问 /var/www/html/index.html , '/foo'匹配的更长,因此使用之.
+
+## 4. rewrite
+
+```nginx
+if (条件){}  #设定条件,再进行重写 
+set         #设置变量
+return      #返回状态码 
+break       #跳出rewrite
+rewrite     #重写
+```
+
+### 4.1 if
+
+1. "="来判断相等, 用于字符串比较
+2. "~" 用正则来匹配(此处的正则区分大小写), "~*" 不区分大小写的正则
+3. -f -d -e 来判断是否为文件,为目录,是否存在.
+
+```nginx
+if ($remote_addr = 192.168.1.100) {
+    return 403;
+}
+
+if ($http_user_agent ~ MSIE) {
+    rewrite ^.*$ /ie.htm;
+    break;                      #不break会循环重定向
+}
+
+if (!-e $document_root$fastcgi_script_name) {
+    rewrite ^.*$ /404.html break;
+} 
+```
+
+### 4.2 rewrite语法
+
+```nginx
+Rewrite 正则表达式  定向后的位置 模式
+
+Goods-3.html ---->Goods.php?goods_id=3
+goods-([\d]+)\.html ---> goods.php?goods_id =$1  
+
+location /ecshop {
+    index index.php;
+    rewrite goods-([\d]+)\.html$ /ecshop/goods.php?id=$1;
+    rewrite article-([\d]+)\.html$ /ecshop/article.php?id=$1;
+    rewrite category-(\d+)-b(\d+)\.html /ecshop/category.php?id=$1&brand=$2;
+
+    rewrite category-(\d+)-b(\d+)-min(\d+)-max(\d+)-attr([\d\.]+)\.html /ecshop/category.php?id=$1&brand=$2&price_min=$3&price_max=$4&filter_attr=$5;
+
+    rewrite category-(\d+)-b(\d+)-min(\d+)-max(\d+)-attr([\d+\.])-(\d+)-([^-]+)-([^-]+)\.html /ecshop/category.php?id=$1&brand=$2&price_min=$3&price_max=$4&filter_attr=$5&page=$6&sort=$7&order=$8;
+}
+
+注意:用url重写时, 正则里如果有"{}",正则要用双引号包起来
+```
+
+## 5. 压缩传输优化
+
+配置 | 说明
+:--- | :---
+gzip on|off | 是否开启gzip
+gzip_buffers 32 4K| 16 8K | 缓冲(压缩在内存中缓冲几块? 每块多大?)
+gzip_comp_level [1-9] | 推荐6 压缩级别(级别越高,压的越小,越浪费CPU计算资源)
+gzip_disable | 正则匹配UA 什么样的Uri不进行gzip
+gzip_min_length 200 | 开始压缩的最小长度(再小就不要压缩了,意义不在)
+gzip_http_version 1.0|1.1 | 开始压缩的http协议版本(可以不设置,目前几乎全是1.1协议)
+gzip_proxied | 设置请求者代理服务器,该如何缓存内容
+gzip_types text/plain  application/xml | 对哪些类型的文件用压缩 如txt,xml,html ,css
+gzip_vary on|off | 是否传输gzip压缩标志
+
+
+> 图片/mp3这样的二进制文件,不必压缩, 因为压缩率比较小, 比如100->80字节,而且压缩也是耗费CPU资源的.
+> 比较小的文件不必压缩, 压缩后可能更大
