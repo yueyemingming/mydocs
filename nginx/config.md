@@ -158,7 +158,7 @@ location [=|~|~*|^~] patt {
 2. 判断普通命中，如果有多个命中，"记录"下来"最长"的命中结果（注意：记录但不结束，最长的为准）
 3. 继续判断正则表达式的解析结果，按配置里的正则表达式顺序为准，由上到下开始匹配，一旦匹配成功 1 个，立即返回结果，并结束解析过程．
 4. 延伸分析
-  - 普通命中, 顺序无所谓，按长短确定命中，长的有限命中。  
+  - 普通命中, 顺序无所谓，按长短确定命中，长的有限命中。
   - 正则命中, 顺序有所谓，按从前往后去定命中。
 
 ![location](location.png)
@@ -177,7 +177,7 @@ location / {
 }
 ```
 
-如果访问　　http://xxx.com/
+访问 http://xxx.com/
 
 1. 精准匹配中"/", 得到index页为index.htm
 2. 再次访问"/index.htm", 此次命中普通命中，内部转跳uri已经是"/index.htm", 根目录为/usr/local/nginx/html
@@ -197,7 +197,7 @@ location ~ image {
 }
 ```
 
-如果我们访问 "http://xx.com/image/logo.png" ，此时, "/" 与 "/image/logo.png" 匹配，同时 "image"正则 与"image/logo.png"也能匹配,谁发挥作用? 正则表达式的成果将会使用，优先命中长的. 图片真正会访问 /var/www/image/logo.png 
+如果我们访问 "http://xx.com/image/logo.png" ，此时, "/" 与 "/image/logo.png" 匹配，同时 "image"正则 与"image/logo.png"也能匹配,谁发挥作用? 正则表达式的成果将会使用，优先命中长的. 图片真正会访问 /var/www/image/logo.png
 
 ### 3.3 例子3: 普通命中
 
@@ -220,9 +220,9 @@ location /foo {
 ## 4. rewrite 重定向
 
 ```nginx
-if (条件){}  #设定条件,再进行重写 
+if (条件){}  #设定条件,再进行重写
 set         #设置变量
-return      #返回状态码 
+return      #返回状态码
 break       #跳出rewrite
 rewrite     #重写
 ```
@@ -245,7 +245,7 @@ if ($http_user_agent ~ MSIE) {
 
 if (!-e $document_root$fastcgi_script_name) {
     rewrite ^.*$ /404.html break;
-} 
+}
 ```
 
 ### 4.2 rewrite语法
@@ -323,7 +323,7 @@ location ~ \.js$ {
 
 ### **如果信息流动比较快,也可以不用expires指令, 用last_modified, etag, 304功能，也是一种很好的缓存手段**
 
-- 原理: 服务器响应文件内容是,同时响应etag标签(内容的签名,内容一变,他也变), 和 last_modified_since 2个标签值浏览器下次去请求时,头信息发送这两个标签, 服务器检测文件有没有发生变化,如无,直接头信息返回 etag,last_modified_since浏览器知道内容无改变,于是直接调用本地缓存.这个过程,也请求了服务器, 但是传着的内容极少. 对于变化周期较短的,如静态html,js,css,比较适于用这个方式. 
+- 原理: 服务器响应文件内容是,同时响应etag标签(内容的签名,内容一变,他也变), 和 last_modified_since 2个标签值浏览器下次去请求时,头信息发送这两个标签, 服务器检测文件有没有发生变化,如无,直接头信息返回 etag,last_modified_since浏览器知道内容无改变,于是直接调用本地缓存.这个过程,也请求了服务器, 但是传着的内容极少. 对于变化周期较短的,如静态html,js,css,比较适于用这个方式.
 - 响应: 计算响应内容的签名, etag 和 上次修改时间
 - 请求: 发送 etatg, If-Modified-Since 头信息.
 - 服务器收到后,判断etag是否一致, 最后修改时间是否大于if-Modifiled-Since. 如果监测到服务器的内容有变化,则返回304; 内容没变,直接用缓存.
@@ -355,7 +355,7 @@ location /test/ {
 ### 8.1 负载均衡的具体方式
 
 1. 硬件上做负载均衡, F5 BIG-IP ,硬件负载均衡(很贵). 直接从TCP/IP的底层协议上,直接做数据包的中转.
-2. 软件负载均衡, LVS 
+2. 软件负载均衡, LVS
 3. 反向代理+负载均衡 nginx
 
 ### 8.2 nginx负载均衡
