@@ -13,12 +13,23 @@ Event {
 
 #这是配置http服务器的主要段
 http {
-    Server1 {                   #这是虚拟主机段
-        Location {              #定位,把特殊的路径或文件再次定位 ,如image目录单独处理
+    sendfile on;
+    tcp_nopush on;
+    tcp_nodelay on;
+    keepalive_timeout 65;                   #keepalive时长
+    types_hash_max_size 2048;
+    include /etc/nginx/mime.types;          #支持的文件类型
+    default_type application/octet-stream;
+
+    server {                   #这是虚拟主机段
+        listen 8080;            #监听的端口
+        server_name www.fuck.com;   #服务器域名
+
+        location {              #定位,把特殊的路径或文件再次定位 ,如image目录单独处理
         }                       #/ 如.php单独处理
     }
 
-    Server2 {
+    server {
     }
 }
 ```
@@ -247,7 +258,7 @@ gzip_disable | 正则匹配UA 什么样的Uri不进行gzip
 gzip_min_length 200 | 开始压缩的最小长度(再小就不要压缩了,意义不在)
 gzip_http_version 1.0\|1.1 | 开始压缩的http协议版本(可以不设置,目前几乎全是1.1协议)
 gzip_proxied | 设置请求者代理服务器,该如何缓存内容
-gzip_types text/plain  application/xml | 对哪些类型的文件用压缩 如txt,xml,html ,css
+gzip_types text/plain application/x-javascript text/css application/xml text/javascript application/x-httpd-php application/javascript application/json | 对哪些类型的文件用压缩 如txt,xml,html ,css
 gzip_vary on\|off | 是否传输gzip压缩标志
 
 - 图片/mp3这样的二进制文件,不必压缩, 因为压缩率比较小, 比如100->80字节,而且压缩也是耗费CPU资源的.
@@ -310,6 +321,10 @@ location ~ \.(jpg|jpeg|png|gif)$ {          #把图片重写到 8080端口(既�
     proxy_pass http://192.168.1.204:8080;
     expires 1d;
 }
+
+location /test/ {
+    proxy_pass http://192.168.1.204/test/;
+}
 ```
 
 ## 8. upstream 负载均衡
@@ -342,6 +357,6 @@ location / {
 
 ![a.record](a.record.png)
 
-比如,我们在访问 news.163.com 时， DNS服务器允许一个域名有多个A记录, 即代表访问到的数据来自不同的服务器。
+比如, 我们在访问 news.163.com 时， DNS服务器允许一个域名有多个A记录, 即代表访问到的数据来自不同的服务器。
 
 那么在用户访问时,一般按地域返回一个较近的解析记录. 这样,全国不同的地区的用户,看到的163的主页,来自不同的服务器.
