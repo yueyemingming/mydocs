@@ -37,12 +37,12 @@ server accepts handled requests
 Reading: 0 Writing: 1 Waiting: 2
 ```
 
-- "Active connections: 3" 表示Nginx正在处理的活动连接数3个。
+- "Active connections: 3" 表示nginx正在处理的活动连接数3个。
 
 - "server accepts handled requests"  
   "8      8       67"
-  - 第一个 server 表示Nginx启动到现在共处理了 8 个连接
-  - 第二个 accepts 表示Nginx启动到现在共成功创建 8 次握手
+  - 第一个 server 表示nginx启动到现在共处理了 8 个连接
+  - 第二个 accepts 表示nginx启动到现在共成功创建 8 次握手
   - 第三个 handled requests 表示总共处理了 67 次请求
   - 请求丢失数 = 握手数 - 连接数 ，可以看出目前为止没有丢失请求
 
