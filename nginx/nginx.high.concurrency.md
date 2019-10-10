@@ -11,7 +11,7 @@
     - 洪水攻击 不做洪水抵御(synccookies)
 - 文件
   - nginx
-    - 子进程允许打开的文件  worker_limit_nofiles
+    - 子进程允许打开的文件(worker_limit_nofiles)
   - 系统
     - ulimit -n 设置一个比较大的值
 
