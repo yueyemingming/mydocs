@@ -8,12 +8,13 @@ tar xzvf go1.11.linux-amd64.tar.gz -C /opt
 
 vim ~/.bashrc
 
-export GOPATH=/opt/gopath
-export GOROOT=/opt/go
-#export GOARCH=amd64
-#export GOOS=linux
-export GOTOOLS=$GOROOT/pkg/tool
-export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
+echo "" >> ~/.bashrc
+echo "export GOPATH=/opt/gopath" >> ~/.bashrc
+echo "export GOROOT=/opt/go" >> ~/.bashrc
+echo "#export GOARCH=amd64" >> ~/.bashrc
+echo "#export GOOS=linux" >> ~/.bashrc
+echo "export GOTOOLS=$GOROOT/pkg/tool" >> ~/.bashrc
+echo "export PATH=$PATH:$GOROOT/bin:$GOPATH/bin" >> ~/.bashrc
 
 source ~/.bashrc
 ```
