@@ -11,6 +11,7 @@
   - [配置系统包](ubuntu/ubuntu.package.md)
 - **redhat**
   - [配置系统包](redhat/readme.md)
+- [gnome桌面美化](gnome.md)
 
 ## 系统配置
 
