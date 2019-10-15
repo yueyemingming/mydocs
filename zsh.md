@@ -29,5 +29,3 @@ chsh -s `which zsh`
 > 如果vscode中出现乱码，请将vscode的终端字体更改为 "Meslo for Powerline" .
 
 ! [vscode](vscode.png)
-
-
