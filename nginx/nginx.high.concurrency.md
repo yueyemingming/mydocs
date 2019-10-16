@@ -67,5 +67,5 @@ echo 0 > /proc/sys/net/ipv4/tcp_syncookies
 测试客户端设置文件最大打开个数
 
 ```bash
-ulimit -n <num>
+ulimit -n 65535
 ```
