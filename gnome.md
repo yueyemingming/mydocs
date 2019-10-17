@@ -4,9 +4,10 @@
 apt install gnome
 apt install gnome-tweak-tool
 
+#请用firefox打开
+https://extensions.gnome.org/extension/1160/dash-to-panel/
+
 mkdir -p ~/.local/share/gnome-shell/extensions/
-git clone https://github.com/home-sweet-gnome/dash-to-panel
-git clone https://github.com/micheleg/dash-to-dock.git
 
 #打开Gnome Tweaks应用程序
 gnome-tweak-tool
