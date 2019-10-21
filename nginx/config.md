@@ -370,7 +370,7 @@ upstream myserver {            #把用到的服务器集群,声明在一个组�
 }
 
 location / {
-    proxy_pass myserver;
+    proxy_pass http://myserver/;
 }
 ```
 
