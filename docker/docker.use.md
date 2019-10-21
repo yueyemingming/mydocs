@@ -1,5 +1,27 @@
 # docker命令使用
 
+- [1. 通用命令](#1-通用命令)
+- [2. 镜像](#2-镜像)
+  - [2.1 命令](#21-命令)
+  - [2.2 镜像使用大例子 -- web服务 -- 基于容器做镜像](#22-镜像使用大例子----web服务----基于容器做镜像)
+    - [2.2.1 打标签](#221-打标签)
+    - [2.2.2 提交](#222-提交)
+    - [2.2.3 推送镜像](#223-推送镜像)
+- [3. 容器](#3-容器)
+  - [3.1 命令](#31-命令)
+    - [3.1.1 基本命令](#311-基本命令)
+    - [3.1.2 创建新容器](#312-创建新容器)
+    - [3.1.3 启动](#313-启动)
+      - [3.1.3.1 从镜像启动容器](#3131-从镜像启动容器)
+      - [3.1.3.2 从停止容器启动容器](#3132-从停止容器启动容器)
+      - [3.1.3.3 从默认shell进入容器](#3133-从默认shell进入容器)
+        - [3.1.3.4 从新的shell进入容器](#3134-从新的shell进入容器)
+  - [3.2 容器使用大例子 -- web服务](#32-容器使用大例子----web服务)
+    - [3.2.1 运行容器](#321-运行容器)
+    - [3.2.2 启动web服务](#322-启动web服务)
+    - [3.2.3 查看状态](#323-查看状态)
+    - [3.2.4 启动另外一个容器及查看状态](#324-启动另外一个容器及查看状态)
+
 ## 1. 通用命令
 
 ```bash
@@ -15,6 +37,8 @@ docker network ls   #查看网络
 
 ## 2. 镜像
 
+### 2.1 命令
+
 ```bash
 docker images               #查看本地所有
 docker rmi [image-id]       #删除本地某个
@@ -27,9 +51,9 @@ docker pull [image-name]    #拉取
 docker commit -m="has update" -a="runoob" [image-id] runoob/ubuntu:v2
 ```
 
-### 镜像使用大例子 -- web服务 -- 基于容器做镜像
+### 2.2 镜像使用大例子 -- web服务 -- 基于容器做镜像
 
-#### 打标签
+#### 2.2.1 打标签
 
 ```bash
 docker images
@@ -48,7 +72,7 @@ docker tag ruitest/httpd:v0.1-1 ruitest/httpd:v0.1-2
 docker image rm xxxregistiry/httpd:v0.1-2                 #删除某个标签
 ```
 
-#### 提交
+#### 2.2.2 提交
 
 ```bash
 docker commit -h
@@ -66,7 +90,7 @@ ruitest/httpd       latest              e4db68de4ff2        2 weeks ago         
 ruitest/httpd       v0.1-1              e4db68de4ff2        2 weeks ago         1.22MB
 ```
 
-#### 推送镜像
+#### 2.2.3 推送镜像
 
 本地的镜像标签，一定要与远程仓库的标签保持一致，否则推送不上去。
 
@@ -92,6 +116,10 @@ docker push ruitest/httpd:v0.2
 ```
 
 ## 3. 容器
+
+### 3.1 命令
+
+#### 3.1.1 基本命令
 
 ```bash
 docker command --help               #某个命令的help
@@ -124,15 +152,67 @@ docker rm $(docker ps -aq)      #删除所有的容器
 docker container prune          #删除所有停止的容器
 ```
 
-### 容器使用大例子 -- web服务
+#### 3.1.2 创建新容器
 
-#### 运行容器
+`vim Dockerfile`
+
+```text
+FROM    ubuntu:16.04
+MAINTAINER      rui "yueyemingming@163.com"
+
+EXPOSE  22                         #默认打开的端口
+EXPOSE  80                         #默认打开的端口
+CMD     /usr/sbin/sshd -D          #默认打开的服务
+```
+
+```bash
+docker create --name mydocker nginx:latest      #创建但不启动
+docker build -t rui/ubuntu:16.04 .              #此处镜像名称rui/ubuntu
+docker build -t rui-ubuntu:16.04 .              #此处镜像名称rui-ubuntu
+docker build -t myfuck:16.04 .                  #此处镜像名称myfuck
+```
+
+#### 3.1.3 启动
+
+以busybox为例子，它的默认动作就是运行shell。
+
+##### 3.1.3.1 从镜像启动容器
 
 ```bash
 docker run --name h1 -it busybox:latest
 ```
 
-#### 启动web服务
+`exit`或Ctrl-D退出
+
+##### 3.1.3.2 从停止容器启动容器
+
+```bash
+docker start h1
+```
+
+##### 3.1.3.3 从默认shell进入容器
+
+```bash
+docker attach h1
+```
+
+由于默认操作就是运行shell，因此从这个shell退出时，会导致容器停止运行。
+
+##### 3.1.3.4 从新的shell进入容器
+
+```bash
+docker exec -it h1 /bin/sh
+```
+
+### 3.2 容器使用大例子 -- web服务
+
+#### 3.2.1 运行容器
+
+```bash
+docker run --name h1 -it busybox:latest
+```
+
+#### 3.2.2 启动web服务
 
 容器中运行
 
@@ -145,7 +225,7 @@ vi /data/html/index.html
 httpd -f -h /data/html/
 ```
 
-#### 查看状态
+#### 3.2.3 查看状态
 
 ```bash
 docker ps
@@ -203,7 +283,7 @@ docker logs h1      #日志来自于哪里没有弄明白呀???
   / \# httpd -f -h /data/html/
 ```
 
-#### 启动另外一个容器及查看状态
+#### 3.2.4 启动另外一个容器及查看状态
 
 ```bash
 docker run --name h2 h1                  #启动另外一个容器，通过某个容器
@@ -248,56 +328,4 @@ docker inspect h2
 
 curl 172.17.0.3
   busybox is running .
-```
-
-## 4. 创建新容器
-
-`vim Dockerfile`
-
-```text
-FROM    ubuntu:16.04
-MAINTAINER      rui "yueyemingming@163.com"
-
-EXPOSE  22                         #默认打开的端口
-EXPOSE  80                         #默认打开的端口
-CMD     /usr/sbin/sshd -D          #默认打开的服务
-```
-
-```bash
-docker create --name mydocker nginx:latest      #创建但不启动
-docker build -t rui/ubuntu:16.04 .              #此处镜像名称rui/ubuntu
-docker build -t rui-ubuntu:16.04 .              #此处镜像名称rui-ubuntu
-docker build -t myfuck:16.04 .                  #此处镜像名称myfuck
-```
-
-## 4. 启动
-
-以busybox为例子，它的默认动作就是运行shell。
-
-### 4.1 从镜像启动容器
-
-```bash
-docker run --name h1 -it busybox:latest
-```
-
-`exit`或Ctrl-D退出
-
-### 4.2 从停止容器启动容器
-
-```bash
-docker start h1
-```
-
-#### 4.2.1 从默认shell进入容器
-
-```bash
-docker attach h1
-```
-
-由于默认操作就是运行shell，因此从这个shell退出时，会导致容器停止运行。
-
-#### 4.2.2 从新的shell进入容器
-
-```bash
-docker exec -it h1 /bin/sh
 ```
