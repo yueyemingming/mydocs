@@ -9,6 +9,7 @@
   - [root登陆](ubuntu/root.login.md)
   - [apt](ubuntu/apt.md)
   - [配置系统包](ubuntu/ubuntu.package.md)
+  - [安装Cinnamon](ubuntu/ubuntu.cinnamon.md)
 - **redhat**
   - [配置系统包](redhat/readme.md)
 - [gnome桌面美化](gnome.md)
