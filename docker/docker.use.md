@@ -63,10 +63,6 @@ docker images
 docker tag 855440a99c63 ruitest/httpd:v0.1-1              #通过镜像id
 docker tag 855440a99c63 ruitest/httpd:v0.1-1              #通过镜像名称
 
-docker images
-  CONTAINER ID    IMAGE           COMMAND  CREATED          STATUS         PORTS     NAMES
-  855440a99c63    busybox:latest  "sh"     35 minutes ago   Up 35 minutes            h1
-
 docker tag ruitest/httpd:v0.1-1 ruitest/httpd:latest      #通过容器名称
 docker tag ruitest/httpd:v0.1-1 ruitest/httpd:v0.1-2
 docker image rm xxxregistiry/httpd:v0.1-2                 #删除某个标签
