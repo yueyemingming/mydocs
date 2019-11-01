@@ -47,7 +47,11 @@ public class    JniTest
 {
     static
     {
-        System.loadLibrary("JniTest") ;
+        system.load("/xxx/libJniTest.so");
+
+        // 这里请注意load和loadLibrary的区别
+        // system.load("/xxx/libJniTest.so"); // load时，直接指定动态库的全路径
+        // System.loadLibrary("JniTest") ;    // 需要在执行时指定libJniTest.so的绝对路径， export LD_LIBRARY_PATH=/xxx/ 或 java -Djava.library.path=/xxx JniTest
     }
 
     public native static void test() ;
@@ -67,7 +71,8 @@ javac  JniTest.java      # JniTest.class这就是最终的java可执行程序
 ### 2.5 生成c头文件 —— JniTest.h
 
 ```bash
-javah  JniTest.class
+#javah  JniTest.class  #新版本的jdk这种方式可能不行，换一种
+javah -d . JniTest
 ```
 
 ```c++
@@ -136,9 +141,10 @@ gcc -fPIC -shared JniTest.c -o libJniTest.so -I /opt/jdk1.6.0_45/include/ -I /op
 ### 2.8 运行
 
 ```bash
-export LD_LIBRARY_PATH=/myspace/jni/new/        (指定C库位置)
+#export LD_LIBRARY_PATH=/xxx/jni/        (如果java代码中用的时loadLibrary时，需要指定动态库库位置)
+#java -Djava.library.path=/xxx/jni/
 java JniTest
-  aaaaaaaaaaaaaaaaaa                              (运行成功)
+  aaaaaaaaaaaaaaaaaa                             (运行成功)
 ```
 
 ## 3. Android带包java程序jni头文件生成
