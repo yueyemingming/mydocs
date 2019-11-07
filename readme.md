@@ -1,12 +1,5 @@
-# c系
+# windows
 
-- [c](c/readme.md)
-- [c++](c++/readme.md)
-- [lib](lib/readme.md)
-  - [boost](lib/boost/readme.md)
-  - [asio](lib/asio/readme.md)
-  - [libcurl](lib/curl/readme.md)
-  - [protobuf](../message/protobuf/readme.md)
-- [compile](compile/readme.md)
-- [linux系统编程](apue/readme.md)
-- [debug](debug/readme.md)
+- [windows开发环境配置(msys2,vim,gcc,clang,cmake,make)](-)
+  - [msys2安装](msys2.install.md)
+  - [pacman基本使用](pacman.use.md)
