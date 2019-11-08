@@ -47,10 +47,10 @@ public class    JniTest
 {
     static
     {
-        system.load("/xxx/libJniTest.so");
+        System.load("/xxx/libJniTest.so");
 
         // 这里请注意load和loadLibrary的区别
-        // system.load("/xxx/libJniTest.so"); // load时，直接指定动态库的全路径
+        // System.load("/xxx/libJniTest.so"); // load时，直接指定动态库的全路径
         // System.loadLibrary("JniTest") ;    // 需要在执行时指定libJniTest.so的绝对路径， export LD_LIBRARY_PATH=/xxx/ 或 java -Djava.library.path=/xxx JniTest
     }
 
