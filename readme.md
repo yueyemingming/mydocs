@@ -3,6 +3,7 @@
 - [nosql](nosql/readme.md)
 - **mongodb**
   - [mongodb安装](mongodb/mongo.install.md)
+  - [mongo driver安装](mongodb/drivers.install.md)
   - [mongodb学习](mongodb/study/readme.md)
   - [坑:generic server error](mongodb/mongo.keng1.md)
   - [MongoDB数据导入导出和备份恢复](mongodb/mongodb.backup.md)
