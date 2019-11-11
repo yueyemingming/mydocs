@@ -24,5 +24,6 @@
 - [eos 9大系统账户名称及作用](eosio.sysaccount.md)
 - [eos 同步数据及支持mongodb存储节点搭建](eosio.sync.md)
 - [eos多节点环境配置](eosio.multinode.md)
+- [eos源码剖析](eosio.src.md)
 
 最后一个不可逆块(LIB)是最近被2/3的块生成器所承认的块。
