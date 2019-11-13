@@ -4,6 +4,7 @@
 - **STL**
   - [底层存储结构](stl/storage.struct/readme.md)
   - [string](stl/string/readme.md)
+  - [vector\<char\>与字符串的相互转换](stl/vecotr.char.convert.md)
 - [C++11](c++11/readme.md)
 - [Qt](qt/readme.md)
 - [mysql++](database/mysql++/readme.md)
