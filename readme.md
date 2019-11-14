@@ -10,3 +10,5 @@
   - [MongoDB如何使用内存？为什么内存满了？](mongodb/mongodb.memory.md)
   - [如何解决MongoDB内存过大问题](mongodb/mongodb.memory01.md)
 - [mysql](mysql/readme.md)
+- [postgresql](postgresql/readme.md)
+  - [安装](postgresql/progresql.install.md)
