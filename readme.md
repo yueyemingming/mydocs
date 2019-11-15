@@ -7,7 +7,7 @@
   - [boost](lib/boost/readme.md)
   - [asio](lib/asio/readme.md)
   - [libcurl](lib/curl/readme.md)
-  - [protobuf](lib/protobuf/readme.md)
+  - [protobuf](../blob/message/protobuf/readme.md)
   - [mongo-cxx-driver](lib/mongo-cxx-driver/readme.md)
 
 - [compile](compile/readme.md)
