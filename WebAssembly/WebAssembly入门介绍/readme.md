@@ -1,16 +1,14 @@
 # 让C代码在浏览器中运行——WebAssembly入门介绍
 
-WebAssembly作为一种新兴的Web技术，相关的资料和社区还不够丰富，但其为web开发提供了一种崭新的思路和工作方式，未来是很有可能大放光彩的。
+WebAssembly是一种新兴的Web技术，我们可以在浏览器中运行一些高性能、低级别的编程语言，如大型的C和C++代码库比如游戏、物理引擎甚至是桌面应用程序导入Web平台。
 
-使用WebAssembly，我们可以在浏览器中运行一些高性能、低级别的编程语言，可用它将大型的C和C++代码库比如游戏、物理引擎甚至是桌面应用程序导入Web平台。
-
-截至目前为止，我们已经可以在chrome、Firefox中使用WebAssembly，Edge和Safari对它的支持也基本完成。这意味着很快，就能在所有流行的浏览器中运行wasm了。
+截至目前为止，chrome、Firefox，Edge和Safari的支持基本完成。这意味着很快，就能在所有流行的浏览器中运行wasm了。
 
 在这篇文章中，我们将会演示如何将简单的C代码编译为wasm，并将其包含在网页中。在此之前，我们先来直观的了解下WebAssembly是如何工作的。
 
 ## 1. WebAssembly是如何工作的？
 
-这里不涉及过多技术性的问题。我们知道，在今天的浏览器中，JavaScript是在虚拟机（VM）中执行的，该虚拟机能够最大化地优化代码并压榨每一丝的性能，这也使得JavaScript称为速度最快的动态语言之一。但尽管如此，它还是无法与原生的C/C++代码相媲美。所以，WebAssembly就出现了。
+在今天的浏览器中，JavaScript是在虚拟机（VM）中执行的，该虚拟机能够最大化地优化代码并压榨每一丝的性能，这也使得JavaScript称为速度最快的动态语言之一。但尽管如此，它还是无法与原生的C/C++代码相媲美。所以，WebAssembly就出现了。
 
 Wasm同样在JavaScript虚拟机中运行，但是它表现得更好。两者可以自由交互、互不排斥，这样你就同时拥有了两者最大的优势——JavaScript巨大的生态系统和有好的语法，WebAssembly接近原生的表现性能。
 
@@ -18,22 +16,13 @@ Wasm同样在JavaScript虚拟机中运行，但是它表现得更好。两者可
 
 ![001.jpg](001.jpg)
 
-随着未来WebAssembly框架和本地wasm模块支持的发展，这一过程可能会有所缩短。
-
 ## 2. 开发前准备
 
-编写WebAssembly需要不少的工具，但作为一个程序员，下面的工具你应该大部分都已经有了。
+编写WebAssembly需要的工具。
 
-1、支持WebAssembly的浏览器，新版的Chrome或者Firefox均可。
-
-2、C到WebAssembly的编译器，推荐使用Emscripten。
-
-其官方网站为：<https://kripken.github.io/emscripten-site/docs/getting_started/downloads.html>
-安装这个工具费时费力费空间，但没办法，这是目前为止最好的选择，请仔细阅读安装说明，需占用约1GB的硬盘空间。
-
-3、一个C编译器/开发环境，比如Linux下的GCC，OS X下的Xcode，Windows下的Visual Studio。
-
-4、一个简单的本地web服务器，Linux/OS X下使用python -m SimpleHTTPServer 9000命令即可。
+1. 支持WebAssembly的浏览器，新版的Chrome或者Firefox均可。
+2. C到WebAssembly的编译器，推荐使用Emscripten。其官方网站为：<https://kripken.github.io/emscripten-site/docs/getting_started/downloads.html>
+3. 一个简单的本地web服务器，Linux/OS X下使用`python -m SimpleHTTPServer 9000`命令即可。
 
 ### 2.1 编写C代码
 
@@ -60,27 +49,21 @@ int EMSCRIPTEN_KEEPALIVE roll_dice() {
 
 当我们将其编译为wasm并且在浏览器中加载时，main函数会自动执行，其中的printf将会被翻译成console.log。
 
-我们想要roll_dice函数能够在JavaScript中随时调用，为此，我们需要在函数名前添加EMSCRIPTEN_KEEPALIVE标记以告诉Emscripten我们的意图。
-
 ### 2.2 将C编译为WebAssembly
-
-现在我们已经有了C代码，接下来需要将它编译成wasm，不仅如此，我们还需要生成相应的JavaScript胶接代码以便能够真正运行起来。
-
-这里我们必须使用Emscripten编译器，你会发现有大量的命令行参数和编译方法可选，经过实践，我们找到了下面这个最友好最实用的组合：
 
 `emcc dice-roll.c -s WASM=1 -O3 -o index.js`
 
 各个参数含义如下：
 
-* emcc —— 代表Emscripten编译器；
-* dice-roll.c —— 包含C代码的文件；
-* -s WASM=1 —— 指定使用WebAssembly；
-* -O3 —— 代码优化级别，3已经是很高的级别了；
-* -o index.js —— 指定生成包含wasm模块所需的全部胶接代码的JS文件；
+- emcc —— 代表Emscripten编译器；
+- dice-roll.c —— 包含C代码的文件；
+- -s WASM=1 —— 指定使用WebAssembly；
+- -O3 —— 代码优化级别，3已经是很高的级别了；
+- -o index.js —— 指定生成包含wasm模块所需的全部胶接代码的JS文件；
 
 ### 2.3 在浏览器中加载WebAssembly代码
 
-现在我们将回到熟悉的web开发领域，在当前文件夹创建index.html文件，引入相关的js文件与CSS文件。
+创建index.html文件，引入相关的js文件与CSS文件。
 
 ```html
 <!DOCTYPE html>
@@ -104,7 +87,7 @@ int EMSCRIPTEN_KEEPALIVE roll_dice() {
 
 至此，项目结构已经完整，如下：
 
-![002.png](002.png)
+![002.jpg](002.jpg)
 
 style.css简单设置一下页面样式：
 
@@ -147,7 +130,7 @@ dice-1.0.min.js是来自Github <https://github.com/diafygi/dice-css> 的一个�
 .dice-6{background-image: url("data:image/svg+xml,%3Csvg xmlns='http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg' version='1.1' viewBox='0 0 76.5 76.5' height='21.6' width='21.6'%3E%3Cstyle%3E.s0%7Bfill%3A%23000%3Bstroke-width%3A3%3Bstroke%3A%23000%3B%7D%3C%2Fstyle%3E%3Cg transform='translate(86.2%2C-500.6)'%3E%3Cg transform='matrix(0.5%2C0%2C0%2C0.5%2C-98.2%2C356.2)'%3E%3Crect x='25.5' y='290.4' width='150' height='150' ry='50' rx='50' style='fill%3A%23fff%3Bstroke-width%3A3%3Bstroke%3A%23000'%2F%3E%3Ccircle transform='translate(-261%2C101.5)' cx='325' cy='227.4' r='12.5' class='s0'%2F%3E%3Ccircle transform='translate(-261%2C173.5)' cx='325' cy='227.4' r='12.5' class='s0'%2F%3E%3Ccircle transform='translate(-261%2C137.5)' cx='325' cy='227.4' r='12.5' class='s0'%2F%3E%3Ccircle transform='translate(-189%2C101.5)' cx='325' cy='227.4' r='12.5' class='s0'%2F%3E%3Ccircle transform='translate(-189%2C173.5)' cx='325' cy='227.4' r='12.5' class='s0'%2F%3E%3Ccircle transform='translate(-189%2C137.5)' cx='325' cy='227.4' r='12.5' class='s0'%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E");}
 ```
 
-由于跨源问题的存在，我们需要一个本地服务器才能运行这个项目。在Linux/OS X系统中，可以在项目目录下运行如下命令：
+开启http服务
 
 `python -m SimpleHTTPServer 9000`
 
@@ -200,9 +183,3 @@ roll_dice函数无需任何参数，在JavaScript代码中调用十分简单：
 此时运行项目，即可看到结果：
 
 ![004.gif](004.gif)
-
-## 3. 总结
-
-虽然现在WebAssembly还在发展的初期，但从公布的新标准来看，潜力巨大。在浏览器中运行低级语言的能力，将会带来全新的应用程序与web体验，而这，是仅仅通过JavaScript无法使用的。
-
-诚然，使用WebAssembly在当前阶段还十分繁琐，文档需要分为多个部分，相应的工具也不容易使用，并且还需要JavaScript胶接代码才能使用wasm模块。但随着越来越多的人进入这个平台，所有这些问题都将会被解决。
