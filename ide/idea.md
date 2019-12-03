@@ -4,7 +4,7 @@
 
 * File -> Settings -> Plugins -> Browse repositories...
 
-![idea.plugins.png](idea.plugins.png)
+![picture](idea.plugins.png)
 
 ## 2. 好的插件
 

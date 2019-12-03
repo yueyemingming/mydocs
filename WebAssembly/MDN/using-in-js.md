@@ -91,7 +91,7 @@ fetch('simple.wasm').then(response =>
 
 在 Firefox 54+,  Developer Tool Debugger Panel 有用于公开网页中包含的任何 wasm 代码的文本表示的功能. 为了查看它们, 要查看它，您可以转到 Debugger Panel 然后单击 “xxx > wasm” .
 
-![002.png](002.png)
+![picture](002.png)
 
 从 Firfox 开始，除了将WebAssembly视为文本，开发者可以使用文本格式调试 (打断点, 检查调用堆栈, 单步调试等等.) WebAssembly 代码. 通过这个视频使用Firefox开发者工具调试WebAssembly预览。
 

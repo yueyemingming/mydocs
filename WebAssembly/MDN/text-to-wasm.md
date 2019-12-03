@@ -47,4 +47,4 @@ wast2wasm simple.wat -v
 
 这会在终端产生一个如下所示的输出：
 
-![003.png](003.png)
+![picture](003.png)

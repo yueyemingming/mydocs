@@ -9,11 +9,11 @@
 * 比较类排序：通过比较来决定元素间的相对次序，由于其时间复杂度不能突破O(nlogn)，因此也称为非线性时间比较类排序。
 * 非比较类排序：不通过比较来决定元素间的相对次序，它可以突破基于比较排序的时间下界，以线性时间运行，因此也称为线性时间非比较类排序。
 
-![分类](type.png)
+![picture](type.png)
 
 ### 0.2 算法复杂度
 
-![复杂度](o.png)
+![picture](o.png)
 
 ### 0.3 相关概念
 
@@ -35,7 +35,7 @@
 
 ### 1.2 动图演示
 
-![冒泡](冒泡.gif)
+![picture](冒泡.gif)
 
 ### 1.3 代码实现
 
@@ -68,7 +68,7 @@ n个记录的直接选择排序可经过n-1趟直接选择排序得到有序结�
 
 ### 2.2 动图演示
 
-![选择](选择.gif)
+![picture](选择.gif)
 
 ### 2.3 代码实现
 
@@ -110,7 +110,7 @@ func selection_sort(arr []int) {
 
 ### 3.2 动图演示
 
-![插入](插入.gif)
+![picture](插入.gif)
 
 ### 3.3 代码实现
 
@@ -146,7 +146,7 @@ func insert_sort(arr []int) {
 
 ### 4.2 动图演示
 
-![希尔](希尔.gif)
+![picture](希尔.gif)
 
 ### 4.3 代码实现
 
@@ -186,7 +186,7 @@ function shellSort(arr) {
 
 ### ### 5.2 动图演示
 
-![归并](归并.gif)
+![picture](归并.gif)
 
 ### 5.3 代码实现
 
@@ -241,7 +241,7 @@ function merge(left, right) {
 
 ### 6.2 动图演示
 
-![快速](快速.gif)
+![picture](快速.gif)
 
 ### 6.3 代码实现
 
@@ -298,7 +298,7 @@ func main() {
 
 ### 7.2 动图演示
 
-![堆](堆.gif)
+![picture](堆.gif)
 
 ### 7.3 代码实现
 
@@ -362,7 +362,7 @@ function heapSort(arr) {
 
 ### 8.2 动图演示
 
-![计数](计数.gif)
+![picture](计数.gif)
 
 ### 8.3 代码实现
 
@@ -408,7 +408,7 @@ function countingSort(arr, maxValue) {
 
 ### 9.2 图片演示
 
-![桶](桶.gif)
+![picture](桶.gif)
 
 ### 9.3 代码实现
 
@@ -471,7 +471,7 @@ function bucketSort(arr, bucketSize) {
 
 ### 10.2 动图演示
 
-![桶](桶.gif)
+![picture](桶.gif)
 
 ### 10.3 代码实现
 

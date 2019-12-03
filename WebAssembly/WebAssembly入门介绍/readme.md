@@ -14,7 +14,7 @@ Wasm同样在JavaScript虚拟机中运行，但是它表现得更好。两者可
 
 大多数程序员会选择使用C语言来编写WebAssembly模块，并将其编译成.wasm文件。这些.wasm文件并不能直接被浏览器识别，所以它们需要一种称为JavaScript胶接代码（glue code，用于连接相互不兼容的软件组件，详见：<http://whatis.techtarget.com/definition/glue-code> 的东西来加载。
 
-![001.jpg](001.jpg)
+![picture](001.jpg)
 
 ## 2. 开发前准备
 
@@ -87,7 +87,7 @@ int EMSCRIPTEN_KEEPALIVE roll_dice() {
 
 至此，项目结构已经完整，如下：
 
-![002.jpg](002.jpg)
+![picture](002.jpg)
 
 style.css简单设置一下页面样式：
 
@@ -138,7 +138,7 @@ dice-1.0.min.js是来自Github <https://github.com/diafygi/dice-css> 的一个�
 
 按F12打开控制台，即可看到我们在C代码中使用printf输出的问候语：
 
-![003.jpg](003.jpg)
+![picture](003.jpg)
 
 ### 2.4 调用WebAssembly函数
 
@@ -182,4 +182,4 @@ roll_dice函数无需任何参数，在JavaScript代码中调用十分简单：
 
 此时运行项目，即可看到结果：
 
-![004.gif](004.gif)
+![picture](004.gif)

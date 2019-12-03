@@ -30,7 +30,7 @@
 
 smplayer在进行播放多媒体时，其逻辑框架如如下：
 
-![001.png](001.png)
+![picture](001.png)
 
 由此可知，smplayer播放多媒体文件，实际的工作是由下层的mplayer、mplayer2或mpv来完成的。
 

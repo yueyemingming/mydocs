@@ -1,8 +1,6 @@
 # 生成 HTML
 
-## 1. 写代码
-
-`vim hello.c`
+## 1. 写代码 hello.c
 
 ```c++
 #include <stdio.h>
@@ -41,7 +39,7 @@ python -m SimpleHTTPServer 9000     # python的http服务器,其他服务也行
 
 在浏览器中打开localhost:9000，按F12打开控制台，查看结果：
 
-![001.jpg](001.jpg)
+![picture](001.jpg)
 
 ## 4. 直接编译为js代码
 
@@ -60,7 +58,7 @@ emcc hello.c -s WASM=1 -o hello.js
 └── hello.wasm
 ```
 
-<b><font color="red">不推荐这样做</font></b>。因为Emscripten需要大量的JavaScript“胶水”代码从而能够处理内存分配、内存泄漏以及大量的其他问题。这些问题都已经在提供的模板中得到了处理，使用模板要比自己编写模板要容易得多。
+**<font color="red">不推荐这样做</font>**。因为Emscripten需要大量的JavaScript“胶水”代码从而能够处理内存分配、内存泄漏以及大量的其他问题。这些问题都已经在提供的模板中得到了处理，使用模板要比自己编写模板要容易得多。
 
 ## 5. 带模板编译
 
@@ -70,6 +68,6 @@ cp ~/emsdk/emscripten/1.38.15/src/shell_minimal.html html_template
 emcc -o hello.html hello.c -O3 -s WASM=1 --shell-file html_template/shell_minimal.html
 ```
 
-内容和我们使用的模板非常相像，只不过多加了一些 js 胶水和加载wasm文件的代码。 
+内容和我们使用的模板非常相像，只不过多加了一些 js 胶水和加载wasm文件的代码。
 
 在浏览器中打开它，你会看到与上一个例子相同的输出。
