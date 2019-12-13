@@ -34,6 +34,7 @@
   - [tcpdump使用](cmd/tcpdump/use.md)
   - [tcpdump静态编译](cmd/tcpdump/static.compile.md)
 - [wget](cmd/wget.md)
+- [修改系统时间](linux.time.md)
 
 ## 知识点
 
