@@ -50,7 +50,7 @@ cleos set contract eosio.token . --abi eosio.token.abi -p eosio.token@active
 
 ## 5. 调用合约
 
-`cleos push acction` 这个动作也叫做 **调用合约**
+`cleos push action` 这个动作也叫做 **调用合约**
 
 ### 5.1 创建资产
 
