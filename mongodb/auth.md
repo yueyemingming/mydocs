@@ -39,15 +39,20 @@ service mongod restart    #重启
 
 ### 3.1 创建root/admin用户
 
+- 创建系统管理员
+
 ```js
-//创建系统管理员
 use admin
 db.createUser({user:"root",pwd:"password",roles:["root"]})
 ```
 
+- 创建eos的reader账户
+
 ```js
-//创建eos的reader账户
-use eos
+use admin   //注意这里是在admin库中，创建一个针对eos库操作的账户，这个账户只能读eos库
+db.createUser({user:"root",pwd:"password",roles:["root"]})
+
+use eos     //注意这里是在eos库中，创建一个读自身eos库操作的账户，这个账户只能读eos库
 db.createUser({
     user: "reader",
     pwd: "password",
@@ -89,4 +94,8 @@ use eos
 db.dropUser("reader");                      //删除用户(权限要求没有那么高，只删除本数据中的reader用户)
 ```
 
-
+```bash
+mongo admin --eval 'db.createUser({user:"root", pwd:"123456", roles:["root"]})'
+mongo admin --eval 'db.auth("root", "123456") ; db.createUser({user:"eoser", pwd:"123456", roles:[{role:"dbAdmin", db:"eos"}]})'
+mongo admin --eval 'db.auth("root", "123456") ; db.createUser({user:"aaa", pwd:"123456", roles:[{role:"dbOwnew", db:"eos"}]})'
+```
