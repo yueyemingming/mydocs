@@ -182,6 +182,8 @@ rd_kafka_msg_partitioner_consistent_random (
 ./rdkafka_example -L -t helloworld_kugou -b localhost:9092
 ```
 
+![002](002.png)
+
 从中我们可以看到helloworld_kugou主题只有一个partition，而helloworld_kugou1主题是有5个partition的，这个和我们预期的相符合。
 我们可以对已经创建的主题修改其分区
 
@@ -191,11 +193,15 @@ rd_kafka_msg_partitioner_consistent_random (
 
 修改完之后,我们可以看出，helloworld_kugou已经变为5个分区了。
 
+![003](003.png)
+
 ## 6. 具体示例
 
 创建topic为helloworld_kugou_test,5个partition。我们可以看到，在producer端进行输入之前，在预先设置好的log目录下是已经有5个partition
 
-producer端代码：
+![004](004.png)
+
+### 6.1 producer端代码
 
 ```lang=cpp
 class ExampleDeliveryReportCb : public RdKafka::DeliveryReportCb
@@ -365,7 +371,9 @@ void TestProducer()
 
 在Consumer端进行验证的时候，可以发现不同的partition确实写入了不同的数据。结果如下
 
-Consumer端代码：
+![005](005.png)
+
+### 6.2 Consumer端代码
 
 ```lang=c++
 void msg_consume(RdKafka::Message* message, void* opaque)
