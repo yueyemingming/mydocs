@@ -172,7 +172,7 @@ rd_kafka_msg_partitioner_consistent_random (
 
 在分配分区的时候，要注意。对于一个已经创建了分区的主题且已经指定了分区，那么之后的producer代码如果是直接修改partitioner部分的代码，直接引入key值进行分区的重新分配的话，是不行的，会继续按照之前的分区进行添加(之前的分区是分区0,只有一个)。此时如果在程序中查看partition_cnt我们是可以看到，该值并没有因为config/server.properties的修改而变化，这是因为此时的partition_cnt是针对该已经创建的主题topic的。
 
-而如果擅自单纯修改代码中的partition_cnt在用于计算分区值时候：djb_hash(key->c_str(), key->size()) % 5 是会得到如下结果的：提示分区不存在。
+而如果擅自单纯修改代码中的partition_cnt在用于计算分区值时候：`djb_hash(key->c_str(), key->size()) % 5` 是会得到如下结果的：提示分区不存在。
 
 ![001](001.png)
 
