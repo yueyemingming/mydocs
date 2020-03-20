@@ -92,68 +92,95 @@ rd_kafka_produce() 是一个非阻塞 API，该函数会将消息塞入一个内
 
 ### 2.2 Consumer的使用方法
 
-consumer API要比producer API多一些状态。 在使用RD_KAFKA_CONSUMER类型(调用rd_kafka_new时设置的函数参数)创建rd_kafka_t 对象，再通过调用rd_kafka_brokers_add对上述new出来的Kafka handle(rk)进行broker的添加(rd_kafka_brokers_add(rk, brokers)), 
-然后创建rd_kakfa_topic_t对象之后，
+consumer API要比producer API多一些状态。
 
-rd_kafka_query_watermark_offsets
+在使用RD_KAFKA_CONSUMER类型(调用rd_kafka_new时设置的函数参数)创建rd_kafka_t对象，再通过调用rd_kafka_brokers_add对上述new出来的Kafka handle(rk)进行broker的添加(rd_kafka_brokers_add(rk, brokers)).
 
-创建topic
+然后创建rd_kakfa_topic_t对象之后，rd_kafka_query_watermark_offsets
+
+#### 2.2.1 创建topic
+
 rtk = rd_kafka_topic_new(rk, topic, topic_conf)
 
-开始消费
+#### 2.2.2 开始消费
+
 调用rd_kafka_consumer_start()函数(rd_kafka_consume_start(rkt, partition, start_offset))启动对给定partition的consumer。
+
 调用rd_kafka_consumer_start需要的参数如下
-rkt ： 要消费的 topic ，之前通过rd_kafka_topic_new()创建。
-partition : 要消费的 partition。
-offset ： 消费开始的消息偏移量。可以是绝对的值或两种特殊的偏移量
-RD_KAFKA_OFFSET_BEGINNING 从该 partition 的队列的最开始消费（最早的消息）。
-RD_KAFKA_OFFSET_END 从该 partition 产生的下一个消息开始消费。
-RD_KAFKA_OFFSET_STORED 使用偏移量存储。
+
+- rkt ： 要消费的 topic ，之前通过rd_kafka_topic_new()创建。
+- partition : 要消费的 partition。
+- offset ： 消费开始的消息偏移量。可以是绝对的值或两种特殊的偏移量
+  - RD_KAFKA_OFFSET_BEGINNING 从该 partition 的队列的最开始消费（最早的消息）。
+  - RD_KAFKA_OFFSET_END 从该 partition 产生的下一个消息开始消费。
+  - RD_KAFKA_OFFSET_STORED 使用偏移量存储。
 
 当一个 topic+partition 消费者被启动，librdkafka 不断尝试从 broker 批量获取消息来保持本地队列有queued.min.messages数量的消息。
+
 本地消息队列通过 3 个不同的消费 API 向应用程序提供服务：
 
-    rd_kafka_consume() - 消费一个消息
-    rd_kafka_consume_batch() - 消费一个或多个消息
-    rd_kafka_consume_callback() - 消费本地队列中的所有消息，且每一个都调用回调函数
+- rd_kafka_consume() - 消费一个消息
+- rd_kafka_consume_batch() - 消费一个或多个消息
+- rd_kafka_consume_callback() - 消费本地队列中的所有消息，且每一个都调用回调函数
+
 这三个 API 的性能按照升序排列，rd_kafka_consume()最慢，rd_kafka_consume_callback()最快。不同的类型满足不同的应用需要。
-被上述函数消费的消息返回rd_kafka_message_t类型。
-rd_kafka_message_t的成员：
 
-* err - 返回给应用程序的错误信号。如果该值不是零，payload字段应该是一个错误的消息，err是一个错误码（rd_kafka_resp_err_t）。
-* rkt,partition - 消息的 topic 和 partition 或错误。
-* payload,len - 消息的数据或错误的消息 (err!=0)。
-* key,key_len - 可选的消息键，生产者指定。
-* offset - 消息偏移量。
+被上述函数消费的消息返回rd_kafka_message_t类型。rd_kafka_message_t的成员
+
+- err - 返回给应用程序的错误信号。如果该值不是零，payload字段应该是一个错误的消息，err是一个错误码（rd_kafka_resp_err_t）。
+- rkt,partition - 消息的 topic 和 partition 或错误。
+- payload,len - 消息的数据或错误的消息 (err!=0)。
+- key,key_len - 可选的消息键，生产者指定。
+- offset - 消息偏移量。
+
 不管是payload和key的内存，还是整个消息，都由 librdkafka 所拥有，且在rd_kafka_message_destroy()被调用后不要使用。
-librdkafka 为了避免消息集的多余拷贝，会为所有从内存缓存中接收的消息共享同一个消息集，这意味着如果应用程序保留单个rd_kafka_message_t，将会阻止内存释放并用于同一个消息集的其他消息。
-当应用程序从一个 topic+partition中消费完消息，应该调用rd_kafka_consume_stop()来结束消费。该函数同时会清空当前本地队列中的所有消息。
-提示: 见 examples/rdkafka_performance.c 获取消费者的使用。
 
-在Kafka broker中server.properties文件配置(参数log.dirs=/data2/logs/kafka/)使得写入到消息队列中的topic在该目录下对分区的形式进行存储。每个分区partition下是由segment file组成，而segment file包括2大部分：分别为index file和data file，此2个文件一一对应，成对出现，后缀”.index”和“.log”分别表示为segment索引文件、数据文件。
+librdkafka 为了避免消息集的多余拷贝，会为所有从内存缓存中接收的消息共享同一个消息集，这意味着如果应用程序保留单个rd_kafka_message_t，将会阻止内存释放并用于同一个消息集的其他消息。
+
+当应用程序从一个 topic+partition中消费完消息，应该调用rd_kafka_consume_stop()来结束消费。该函数同时会清空当前本地队列中的所有消息。
+
+> 见 examples/rdkafka_performance.c 获取消费者的使用。
+
+在Kafka broker中server.properties文件配置(参数log.dirs=/data2/logs/kafka/)使得写入到消息队列中的topic在该目录下对分区的形式进行存储。
+
+每个分区partition下是由segment file组成，而segment file包括2大部分：分别为index file和data file，此2个文件一一对应，成对出现，后缀”.index”和“.log”分别表示为segment索引文件、数据文件。
+
 segment文件命名规则：partion全局的第一个segment从0开始，后续每个segment文件名为上一个segment文件最后一条消息的offset值。数值最大为64位long大小，19位数字字符长度，没有数字用0填充。
 
 ## 5. 具体示例
 
 本文所采用的是cpp方式，和上述介绍的只是函数使用上的不同，业务逻辑是一样的。
-在producer过程中直接是使用PARTITION_UA 但是在消费的时候，不能够指定partition值为PARTITION_UA因为该值其实是-1，对于Consumer端来说，是无意义的。根据源码可以知道当不指定partitioner的时候，其实是有一个默认的partitioner，就是Consistent-Random partitioner所谓的一致性随机partitioner。一致性hash对关键字进行map映射之后到一个特定的partition。
+
+在producer过程中直接是使用PARTITION_UA。但是在消费的时候，不能够指定partition值为PARTITION_UA因为该值其实是-1，对于Consumer端来说，是无意义的。根据源码可以知道当不指定partitioner的时候，其实是有一个默认的partitioner，就是Consistent-Random partitioner所谓的一致性随机partitioner。一致性hash对关键字进行map映射之后到一个特定的partition。
+
 函数原型：
 
+```lang=c++
 rd_kafka_msg_partitioner_consistent_random (
            const rd_kafka_topic_t *rkt,
            const void *key, size_t keylen,
            int32_t partition_cnt,
            void *opaque, void *msg_opaque);
-PARTITION_UA其实是Unassigned partition的意思，即是未赋值的分区。RD_KAFKA_PARTITION_UA (unassigned)其实是自动采用topic下的partitioner函数，当然也可以直接采用固定的值。
+```
+
+- PARTITION_UA其实是Unassigned partition的意思，即是未赋值的分区。
+- RD_KAFKA_PARTITION_UA (unassigned)其实是自动采用topic下的partitioner函数，当然也可以直接采用固定的值。
+
 在配置文件config/server.properties中是可以设置partition的数量num.partitions。
 
-分配分区
-在分配分区的时候，要注意。对于一个已经创建了分区的主题且已经指定了分区，那么之后的producer代码如果是直接修改partitioner部分的代码，直接引入key值进行分区的重新分配的话，是不行的，会继续按照之前的分区进行添加(之前的分区是分区0,只有一个)。此时如果在程序中查看partition_cnt我们是可以看到，该值并没有因为config/server.properties的修改而变化，这是因为此时的partition_cnt是针对该已经创建的主题topic的。
-而如果尚自单纯修改代码中的partition_cnt在用于计算分区值时候：djb_hash(key->c_str(), key->size()) % 5 是会得到如下结果的：提示分区不存在。
- 
-我们可以通过rdkafka_example来查看某个topic下对应的partition数量的
-./rdkafka_example -L -t helloworld_kugou -b localhost:9092
+### 5.1 分配分区
 
+在分配分区的时候，要注意。对于一个已经创建了分区的主题且已经指定了分区，那么之后的producer代码如果是直接修改partitioner部分的代码，直接引入key值进行分区的重新分配的话，是不行的，会继续按照之前的分区进行添加(之前的分区是分区0,只有一个)。此时如果在程序中查看partition_cnt我们是可以看到，该值并没有因为config/server.properties的修改而变化，这是因为此时的partition_cnt是针对该已经创建的主题topic的。
+
+而如果尚自单纯修改代码中的partition_cnt在用于计算分区值时候：djb_hash(key->c_str(), key->size()) % 5 是会得到如下结果的：提示分区不存在。
+
+![001](001.png)
+
+我们可以通过rdkafka_example来查看某个topic下对应的partition数量的
+
+```bash
+./rdkafka_example -L -t helloworld_kugou -b localhost:9092
+```
 
 从中我们可以看到helloworld_kugou主题只有一个partition，而helloworld_kugou1主题是有5个partition的，这个和我们预期的相符合。
 我们可以对已经创建的主题修改其分区
