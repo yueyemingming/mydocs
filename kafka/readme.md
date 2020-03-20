@@ -6,7 +6,7 @@ librdkafka是一个开源的Kafka客户端C/C++实现，提供了Kafka生产者�
 
 ## 1. 安装librdkafka
 
-```lang=bash
+```bash
 cd librdkafka-master
 chmod 777 configure lds-gen.py
  ./configure && make && make install
@@ -18,7 +18,7 @@ chmod 777 configure lds-gen.py
 
 最终头文件和库文件会分别安装在
 
-```lang=bash
+```bash
 /usr/local/include/librdkafka
 /usr/local/lib
 ```
@@ -155,7 +155,7 @@ segment文件命名规则：partion全局的第一个segment从0开始，后续�
 
 函数原型：
 
-```lang=c++
+```cpp
 rd_kafka_msg_partitioner_consistent_random (
            const rd_kafka_topic_t *rkt,
            const void *key, size_t keylen,
@@ -203,7 +203,7 @@ rd_kafka_msg_partitioner_consistent_random (
 
 ### 6.1 producer端代码
 
-```lang=cpp
+```cpp
 class ExampleDeliveryReportCb : public RdKafka::DeliveryReportCb
 {
 public:
@@ -378,7 +378,7 @@ void TestProducer()
 
 ### 6.2 Consumer端代码
 
-```lang=c++
+```cpp
 void msg_consume(RdKafka::Message *message, void *opaque)
 {
     switch (message->err())
