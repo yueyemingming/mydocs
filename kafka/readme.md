@@ -74,12 +74,12 @@ rd_kafka_produce()函数接受如下参数
     - 如果设置为RD_KAFKA_PARTITION_UA（未赋值的），则会根据builtin partitioner去选择一个确定 partition。kafka会回调partitioner进行均衡选取，partitioner方法需要自己实现。可以轮询或者传入key进行hash。未实现则采用默认的随机方法rd_kafka_msg_partitioner_random随机选择。  
     - 可以尝试通过partitioner来设计partition的取值。
   3. msgflags ： 0 或下面的值
-    - RD_KAFKA_MSG_F_COPY 表示librdkafka 在信息发送前立即从 payload 做一份拷贝。如果 payload 是不稳定存储，如栈，需要使用这个参数。这是以防消息主体所在的缓存不是长久使用的，才预先将信息进行拷贝。
-    - RD_KAFKA_MSG_F_FREE 表示当 payload 使用完后，让 librdkafka 使用free(3)释放。 就是在使用完消息后，将释放消息缓存。
-    - 这两个标志互斥，如果都不设置，payload 既不会被拷贝也不会被 librdkafka 释放。
-    - 如果RD_KAFKA_MSG_F_COPY标志不设置，就不会有数据拷贝，librdkafka 将占用 payload 指针(消息主体)直到消息被发送或失败。librdkafka 处理完消息后，会调用发送报告回调函数，让应用程序重新获取 payload 的所有权。
+    - RD_KAFKA_MSG_F_COPY 表示librdkafka 在信息发送前立即从 payload 做一份拷贝。如果 payload 是不稳定存储，如栈，需要使用这个参数。这是以防消息主体所在的缓存不是长久使用的，才预先将信息进行拷贝。  
+    - RD_KAFKA_MSG_F_FREE 表示当 payload 使用完后，让 librdkafka 使用free(3)释放。 就是在使用完消息后，将释放消息缓存。  
+    - 这两个标志互斥，如果都不设置，payload 既不会被拷贝也不会被 librdkafka 释放。  
+    - 如果RD_KAFKA_MSG_F_COPY标志不设置，就不会有数据拷贝，librdkafka 将占用 payload 指针(消息主体)直到消息被发送或失败。librdkafka 处理完消息后，会调用发送报告回调函数，让应用程序重新获取 payload 的所有权。  
     - 如果设置了RD_KAFKA_MSG_F_FREE，应用程序就不要在发送报告回调函数中释放 payload。
-  4. payload,len ： 消息 payload(message payload，即值)，消息长度 
+  4. payload,len ： 消息 payload(message payload，即值)，消息长度。
   5. key,keylen ： 可选的消息键及其长度，用于分区。将会用于 topic 分区回调函数，如果有，会附加到消息中发送给 broker。
   6. msg_opaque ： 可选的，应用程序为每个消息提供的无类型指针，提供给消息发送回调函数，用于应用程序引用。
 
