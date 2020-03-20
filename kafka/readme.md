@@ -69,11 +69,13 @@ topic 对象保存 topic 级别的属性，并且维护一个映射，该映射�
 
 rd_kafka_produce()函数接受如下参数
 
-  1. rkt 待生产的topic，之前通过rd_kafka_topic_new()生成。
-  2. partition : 生产的 partition。
-    - 如果设置为RD_KAFKA_PARTITION_UA（未赋值的），则会根据builtin partitioner去选择一个确定 partition。kafka会回调partitioner进行均衡选取，partitioner方法需要自己实现。可以轮询或者传入key进行hash。未实现则采用默认的随机方法rd_kafka_msg_partitioner_random随机选择。  
-    - 可以尝试通过partitioner来设计partition的取值。
-  3. msgflags ： 0 或下面的值
+1. rkt 待生产的topic，之前通过rd_kafka_topic_new()生成。
+2. partition : 生产的 partition。
+
+- 如果设置为RD_KAFKA_PARTITION_UA（未赋值的），则会根据builtin partitioner去选择一个确定 partition。kafka会回调partitioner进行均衡选取，partitioner方法需要自己实现。可以轮询或者传入key进行hash。未实现则采用默认的随机方法rd_kafka_msg_partitioner_random随机选择。  
+- 可以尝试通过partitioner来设计partition的取值。
+
+3. msgflags ： 0 或下面的值
     - RD_KAFKA_MSG_F_COPY 表示librdkafka 在信息发送前立即从 payload 做一份拷贝。如果 payload 是不稳定存储，如栈，需要使用这个参数。这是以防消息主体所在的缓存不是长久使用的，才预先将信息进行拷贝。  
     - RD_KAFKA_MSG_F_FREE 表示当 payload 使用完后，让 librdkafka 使用free(3)释放。 就是在使用完消息后，将释放消息缓存。  
     - 这两个标志互斥，如果都不设置，payload 既不会被拷贝也不会被 librdkafka 释放。  
