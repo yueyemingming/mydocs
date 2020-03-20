@@ -42,7 +42,7 @@ chmod 777 configure lds-gen.py
 
 #### 2.1.3 创建producer实例
 
-- 初始化
+##### 2.1.3.1 初始化
 
 应用程序需要初始化一个顶层对象（rd_kafka_t）的基础容器，用于全局配置和共享状态。
 
@@ -50,7 +50,7 @@ chmod 777 configure lds-gen.py
 
 创建之后，该实例就占有了conf对象，所以conf对象们在rd_kafka_new()调用之后是不能被再次使用的，而且在rd_kafka_new()调用之后也不需要释放配置资源的。
 
-- 创建topic
+##### 2.1.3.2 创建topic
 
 创建的topic对象是可以复用的(producer的实例化对象(rd_kafka_t)也是允许复用的,所以这两者就没有必要频繁创建)。
 
@@ -63,7 +63,7 @@ topic 对象保存 topic 级别的属性，并且维护一个映射，该映射�
 > rd_kafka_t 和 rd_kafka_topic_t都源于可选的配置 API。
 > 不使用该 API 将导致 librdkafka 使用列在文档CONFIGURATION.md中的默认配置。
 
-- Producer API
+##### 2.1.3.3 Producer API
 
 通过调用RD_KAFKA_PRODUCER设置一个或多个rd_kafka_topic_t对象,就可以准备好接收消息，并组装和发送到 broker。
 
