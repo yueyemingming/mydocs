@@ -3,7 +3,7 @@
 - [nosql](nosql/readme.md)
 - **mongodb**
   - [官网](https://www.mongodb.com/) —— <https://www.mongodb.com/>
-  - [命令api](https://api.mongodb.com/js/current/) —— <https://api.mongodb.com/js/current/>    
+  - [命令api](https://api.mongodb.com/js/current/) —— <https://api.mongodb.com/js/current/>
   - [安装](mongodb/mongo.install.md)
   - [对c,c++的driver安装](mongodb/drivers.install.md)
   - [学习](mongodb/study/readme.md)
