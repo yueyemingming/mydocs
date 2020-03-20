@@ -70,7 +70,7 @@ topic 对象保存 topic 级别的属性，并且维护一个映射，该映射�
 rd_kafka_produce()函数接受如下参数
 
   1. rkt 待生产的topic，之前通过rd_kafka_topic_new()生成。
-  2. partition : 生产的 partition。  
+  2. partition : 生产的 partition。
     - 如果设置为RD_KAFKA_PARTITION_UA（未赋值的），则会根据builtin partitioner去选择一个确定 partition。kafka会回调partitioner进行均衡选取，partitioner方法需要自己实现。可以轮询或者传入key进行hash。未实现则采用默认的随机方法rd_kafka_msg_partitioner_random随机选择。  
     - 可以尝试通过partitioner来设计partition的取值。
   3. msgflags ： 0 或下面的值
