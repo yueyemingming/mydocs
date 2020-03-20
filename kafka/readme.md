@@ -84,8 +84,10 @@ rd_kafka_produce()函数接受如下参数
   6. msg_opaque ： 可选的，应用程序为每个消息提供的无类型指针，提供给消息发送回调函数，用于应用程序引用。
 
 rd_kafka_produce() 是一个非阻塞 API，该函数会将消息塞入一个内部队列并立即返回。
+
 如果队列中的消息数超过queue.buffering.max.messages属性配置的值，rd_kafka_produce()通过返回 -1，并将errno设置为ENOBUFS这样的错误码来反馈错误。
-提示: 见 examples/rdkafka_performance.c 获取生产者的使用。
+
+> 见 examples/rdkafka_performance.c 获取生产者的使用。
 
 ### 4.2 Consumer的使用方法
 
