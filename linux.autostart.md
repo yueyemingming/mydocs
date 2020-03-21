@@ -98,17 +98,14 @@ exit 0
 
 ```ini
 [Desktop Entry]
-Version=0.0.1
-Name=名人堂
-Comment=hall of fame
-Exec=/path/process /path/
-keywords=process;hall;
-OnlyShowIn=GNOME;Unity;
+Name=clion
+Comment=clion
+Exec=/opt/clion-2018.1.1/bin/clion.sh
+keywords=clion;
 StartupNotify=true
 Terminal=false
 Type=Application
-Categories=GNOME;GTK;Utility;
-#Categories=GNOME;GTK;Core;Documentation;Utility;
+Categories=Application;System;
 Hidden=false
-Icon=/usr/share/pixmaps/jinyuan.png
+Icon=/opt/clion-2018.1.1/bin/clion.png
 ```
