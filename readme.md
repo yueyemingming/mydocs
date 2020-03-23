@@ -27,7 +27,7 @@
 - [随系统启动](sysconf/linux.autostart.md)
 - [bash显示git分支](sysconf/bash.git-branch.md)
 - [zsh](sysconf/zsh.md)
-- [添加到桌面系统菜单](desktop.icon.md)
+- [添加到桌面系统菜单](sysconf/desktop.icon.md)
 - [解决存储设备自动挂载及挂载是umask为0000的问题](sysconf/linux.fstab.md)
 - [修改系统时间](sysconf/linux.time.md)
 - [smplayer开启硬解码的方面](../multimedia/smplayer/readme.md)
