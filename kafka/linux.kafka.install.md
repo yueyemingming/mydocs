@@ -11,13 +11,15 @@ cd kafka_2.13-2.4.1
 
 #起一个终端
 bin/zookeeper-server-start.sh config/zookeeper.properties
+#bin/zookeeper-server-start.sh -daemon config/zookeeper.properties
 #开始监听2181端口
 [2020-03-23 10:22:06,165] INFO binding to port 0.0.0.0/0.0.0.0:2181 (org.apache.zookeeper.server.NIOServerCnxnFactory)
 
 #起一个终端
 vim config/server.properties
-listeners=PLAINTEXT://localhost:9092    #添加
+listeners=PLAINTEXT://:9092    #将31行的注释去掉,//后面也可以填入ip地址
 bin/kafka-server-start.sh config/server.properties
+#bin/kafka-server-start.sh -daemon config/server.properties
 ```
 
 ## 测试
