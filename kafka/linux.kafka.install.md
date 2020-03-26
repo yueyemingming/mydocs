@@ -26,7 +26,7 @@ bin/kafka-server-start.sh config/server.properties
 
 ```bash
 #创建一个topic
-bin/kafka-topics.sh --zookeeper localhost:2181 --create --topic test1 --partitions 3 --replication-factor 1
+bin/kafka-topics.sh --zookeeper localhost:2181 --partitions 3 --replication-factor 1 --create --topic test1
 
 #查看topic描述，可以看到启动了3个partition
 bin/kafka-topics.sh --zookeeper localhost:2181 --describe --topic test1
