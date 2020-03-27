@@ -49,4 +49,10 @@ bin/kafka-topics.sh --create --zookeeper 192.168.1.181:2181 --replication-factor
 bin/kafka-topics.sh --list --zookeeper 192.168.1.181:2181
 bin/kafka-console-producer.sh --broker-list 192.168.1.181:9092 --topic test
 bin/kafka-console-consumer.sh --bootstrap-server 192.168.1.181:9092 --topic test --from-beginning
+
+
+bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 3 --topic test
+bin/kafka-topics.sh --list --zookeeper localhost:2181
+bin/kafka-console-producer.sh --broker-list localhost:9092 --topic test
+bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic test --from-beginning
 ```
