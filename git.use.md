@@ -88,3 +88,9 @@ vim /etc/inputrc
 set output-meta on
 set convert-meta off
 ```
+
+## 6. 清除远端已删除的分支
+
+```bash
+git remote prune origin
+```
