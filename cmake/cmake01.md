@@ -4,7 +4,7 @@
 
 主要有隐式定义和显式定义两种。
 
-* 隐式定义的一个例子是PROJECT指令，它会隐式的定义`**<projectname>_BINARY_DIR**`和`**<projectname>_SOURCE_DIR**`两个变量；
+* 隐式定义的一个例子是PROJECT指令，它会隐式的定义`<projectname>_BINARY_DIR`和`<projectname>_SOURCE_DIR`两个变量；
 * 显式定义使用SET指令构建自定义变量，比如:SET(HELLO_SRC main.c)就可以通过${HELLO_SRC}来引用这个自定义变量了。
 
 ## 2. 变量引用方式
@@ -14,123 +14,69 @@
 
 ## 3. 常用变量
 
-### **CMAKE_BINARY_DIR**、**PROJECT_BINARY_DIR**、**\<projectname\>_BINARY_DIR**
+编译方式 | 含义
+:--- | :---
+out-of-source编译 | 不在CMakeLists.txt所在目录进行编译
+in-source编译相对 | 指是在CMakeLists.txt所在目录进行编译
 
-    这三个变量指代的内容是一致的，如果是in-source编译，指得就是工程顶层目录；  
-    如果是out-of-source编译，指的是工程编译发生的目录。  
-    PROJECT_BINARY_DIR跟其它指令稍有区别，目前可以认为它们是一致的。  
 
-CMAKE_SOURCE_DIR
-PROJECT_SOURCE_DIR
-<projectname>_SOURCE_DIR
+变量 | in-source编译 | out-of-source编译
+:--- | :--- | :---
+CMAKE_BINARY_DIR | 工程顶层目录 | 工程编译发生的目录
+PROJECT_BINARY_DIR | 工程顶层目录 | 工程编译发生的目录
+\<projectname\>_BINARY_DIR | 工程顶层目录 | 工程编译发生的目录
 
-这三个变量指代的内容是一致的，不论采用何种编译方式，都是工程顶层目录。
-也就是在in-source编译时,他跟CMAKE_BINARY_DIR等变量一致。PROJECT_SOURCE_DIR跟其它指令稍有区别,目前可以认为它们是一致的。
-（out-of-source build与in-source build相对，指是否在CMakeLists.txt所在目录进行编译。）
+CMAKE_SOURCE_DIR | 工程顶层目录 | 同
+PROJECT_SOURCE_DIR | 工程顶层目录 | 同
+<projectname>_SOURCE_DIR | 工程顶层目录 | 同
 
-CMAKE_CURRENT_SOURCE_DIR
-当前处理的CMakeLists.txt所在的路径，比如上面我们提到的src子目录。
+CMAKE_CURRENT_SOURCE_DIR | CMakeLists.txt所在的路径 | 同，ADD_SUBDIRECTORY(src bin)可以更改这个变量的值
+CMAKE_CURRRENT_BINARY_DIR | CMakeLists.txt所在的路径 | target编译目录，ADD_SUBDIRECTORY(src bin)可以更改这个变量的值
 
-CMAKE_CURRRENT_BINARY_DIR
-如果是in-source编译，它跟CMAKE_CURRENT_SOURCE_DIR一致；如果是out-of-source编译，指的是target编译目录。
-使用ADD_SUBDIRECTORY(src bin)可以更改这个变量的值。
-使用SET(EXECUTABLE_OUTPUT_PATH <新路径>)并不会对这个变量造成影响,它仅仅修改了最终目标文件存放的路径。
+变量 | 含义
+:--- | :--- 
+CMAKE_CURRENT_LIST_FILE | 输出调用这个变量的CMakeLists.txt的完整路径
+CMAKE_CURRENT_LIST_LINE | 输出这个变量所在的行
+CMAKE_MODULE_PATH | 指定cmake模块所在的路径。如SET(CMAKE_MODULE_PATH,${PROJECT_SOURCE_DIR}/cmake)，这时候就可以通过INCLUDE指令来调用自己的模块了。
+EXECUTABLE_OUTPUT_PATH | 新定义最终结果的存放目录
+LIBRARY_OUTPUT_PATH | 新定义最终结果的存放目录
 
-CMAKE_CURRENT_LIST_FILE
-输出调用这个变量的CMakeLists.txt的完整路径
+PROJECT_NAME | 返回通过PROJECT指令定义的项目名称。
+CMAKE_INCLUDE_CURRENT_DIR | 
+自动添加CMAKE_CURRENT_BINARY_DIR和CMAKE_CURRENT_SOURCE_DIR到当前处理的CMakeLists.txt，相当于在每个CMakeLists.txt加入：INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
+CMAKE_INCLUDE_DIRECTORIES_PROJECT_BEFORE | 将工程提供的头文件目录始终置于系统头文件目录的前面,当定义的头文件确实跟系统发生冲突时可以提供一些帮助。
 
-CMAKE_CURRENT_LIST_LINE
-输出这个变量所在的行
-
-CMAKE_MODULE_PATH
-这个变量用来定义自己的cmake模块所在的路径。如果工程比较复杂，有可能会自己编写一些cmake模块，这些cmake模块是随工程发布的，为了让cmake在处理CMakeLists.txt时找到这些模块，你需要通过SET指令将cmake模块路径设置一下。比如SET(CMAKE_MODULE_PATH,${PROJECT_SOURCE_DIR}/cmake) 
-这时候就可以通过INCLUDE指令来调用自己的模块了。
-
-EXECUTABLE_OUTPUT_PATH
-新定义最终结果的存放目录
-
-LIBRARY_OUTPUT_PATH
-新定义最终结果的存放目录
-
-PROJECT_NAME
-返回通过PROJECT指令定义的项目名称。
 cmake调用环境变量的方式
 使用$ENV{NAME}指令就可以调用系统的环境变量了。比如MESSAGE(STATUS "HOME dir: $ENV{HOME}")设置环境变量的方式是SET(ENV{变量名} 值)。
-CMAKE_INCLUDE_CURRENT_DIR
-自动添加CMAKE_CURRENT_BINARY_DIR和CMAKE_CURRENT_SOURCE_DIR到当前处理的CMakeLists.txt，相当于在每个CMakeLists.txt加入：INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
 
-CMAKE_INCLUDE_DIRECTORIES_PROJECT_BEFORE 
-将工程提供的头文件目录始终置于系统头文件目录的前面,当定义的头文件确实跟系统发生冲突时可以提供一些帮助。
 
-CMAKE_INCLUDE_PATH和CMAKE_LIBRARY_PATH
-系统信息
-CMAKE_MAJOR_VERSION，CMAKE主版本号，比如2.4.6中的2
-CMAKE_MINOR_VERSION，CMAKE次版本号，比如2.4.6中的4
-CMAKE_PATCH_VERSION，CMAKE补丁等级，比如2.4.6中的6
-CMAKE_SYSTEM，系统名称，比如Linux-2.6.22
-CMAKE_SYSTEM_NAME，不包含版本的系统名，比如Linux
-CMAKE_SYSTEM_VERSION，系统版本，比如2.6.22
-CMAKE_SYSTEM_PROCESSOR，处理器名称，比如i686
-UNIX，在所有的类Unix平台为TRUE，包括OSX和cygwin
-WIN32，在所有的Win32平台为TRUE，包括cygwin
-主要的开关选项
-CMAKE_ALLOW_LOOSE_LOOP_CONSTRUCTS 
-用来控制IF ELSE语句的书写方式。
-BUILD_SHARED_LIBS 
-这个开关用来控制默认的库编译方式。如果不进行设置，使用ADD_LIBRARY并没有指定库类型的情况下，默认编译生成的库都是静态库；如果SET(BUILD_SHARED_LIBSON)后,默认生成的为动态库。
-CMAKE_C_FLAGS 
-设置C编译选项，也可以通过指令ADD_DEFINITIONS()添加。
-MAKE_CXX_FLAGS 
-设置C++编译选项，也可以通过指令ADD_DEFINITIONS()添加。
+CMAKE_INCLUDE_PATH和CMAKE_LIBRARY_PATH | 系统信息
+CMAKE_MAJOR_VERSION，| CMAKE主版本号，比如2.4.6中的2
+CMAKE_MINOR_VERSION，| CMAKE次版本号，比如2.4.6中的4
+CMAKE_PATCH_VERSION，| CMAKE补丁等级，比如2.4.6中的6
+CMAKE_SYSTEM，| 系统名称，比如Linux-2.6.22
+CMAKE_SYSTEM_NAME，| 不包含版本的系统名，比如Linux
+CMAKE_SYSTEM_VERSION，| 系统版本，比如2.6.22
+CMAKE_SYSTEM_PROCESSOR，| 处理器名称，比如i686 UNIX，在所有的类Unix平台为TRUE，包括OSX和cygwinWIN32，在所有的Win32平台为TRUE，包括cygwin主要的开关选项
+CMAKE_ALLOW_LOOSE_LOOP_CONSTRUCTS | 用来控制IF ELSE语句的书写方式。
+BUILD_SHARED_LIBS | 这个开关用来控制默认的库编译方式。如果不进行设置，使用ADD_LIBRARY并没有指定库类型的情况下，**默认编译生成的库都是静态库**；如果SET(BUILD_SHARED_LIBSON)后,默认生成的为动态库。
+CMAKE_C_FLAGS | 设置C编译选项，也可以通过指令ADD_DEFINITIONS()添加。
+MAKE_CXX_FLAGS | 设置C++编译选项，也可以通过指令ADD_DEFINITIONS()添加。
+
 CMake常用指令
-这里引入更多的cmake指令,为了编写的方便,将按照cmake man page 的顺序介绍各种指令，不再推荐使用的指令将不再介绍。
+
 基本指令
-PROJECT(HELLO) 
-指定项目名称，生成的VC项目的名称，使用${HELLO_SOURCE_DIR}表示项目根目录。
-
-INCLUDE_DIRECTORIES
-指定头文件的搜索路径，相当于指定gcc的-I参数 
-INCLUDE_DIRECTORIES(${HELLO_SOURCE_DIR}/Hello) #增加Hello为include目录
-
-TARGET_LINK_LIBRARIES
-添加链接库，相同于指定-l参数 
-TARGET_LINK_LIBRARIES(demoHello) #将可执行文件与Hello连接成最终文件demo
-
-LINK_DIRECTORIES
-动态链接库或静态链接库的搜索路径，相当于gcc的-L参数 
-LINK_DIRECTORIES(${HELLO_BINARY_DIR}/Hello)#增加Hello为link目录
-
-ADD_DEFINITIONS
-向C/C++编译器添加-D定义，比如：
-ADD_DEFINITIONS(-DENABLE_DEBUG-DABC)
-参数之间用空格分割。如果代码中定义了:
-#ifdef ENABLE_DEBUG
-
-#endif
-这个代码块就会生效。如果要添加其他的编译器开关,可以通过CMAKE_C_FLAGS变量和CMAKE_CXX_FLAGS变量设置。
-
-ADD_DEPENDENCIES*
-定义target依赖的其它target，确保在编译本target之前，其它的target已经被构建。
-ADD_DEPENDENCIES(target-name depend-target1 depend-target2 ...)
-
-ADD_EXECUTABLE
-ADD_EXECUTABLE(helloDemo demo.cxx demo_b.cxx) 
-指定编译，好像也可以添加.o文件，将cxx编译成可执行文件
-
-ADD_LIBRARY
-ADD_LIBRARY(Hellohello.cxx) #将hello.cxx编译成静态库如libHello.a
-
-ADD_SUBDIRECTORY
-ADD_SUBDIRECTORY(Hello) #包含子目录
-
-ADD_TEST/ENABLE_TESTING
-ENABLE_TESTING指令用来控制Makefile是否构建test目标，涉及工程所有目录。语法很简单，没有任何参数，ENABLE_TESTING()一般放在工程的主CMakeLists.txt中。 
-ADD_TEST指令的语法是:ADD_TEST(testnameExename arg1 arg2 …) 
-testname是自定义的test名称，Exename可以是构建的目标文件也可以是外部脚本等等，后面连接传递给可执行文件的参数。
-如果没有在同一个CMakeLists.txt中打开ENABLE_TESTING()指令，任何ADD_TEST都是无效的。比如前面的Helloworld例子,可以在工程主CMakeLists.txt中添加
-ADD_TEST(mytest ${PROJECT_BINARY_DIR}/bin/main)
-ENABLE_TESTING
-生成Makefile后，就可以运行make test来执行测试了。
+PROJECT(HELLO) | 指定项目名称，使用${HELLO_SOURCE_DIR}表示项目根目录。
+INCLUDE_DIRECTORIES | 指定头文件的搜索路径，相当于指定gcc的-I参数 
+INCLUDE_DIRECTORIES(${HELLO_SOURCE_DIR}/Hello) | 增加Hello为include目录
+TARGET_LINK_LIBRARIES | 添加链接库，相同于指定-l参数
+LINK_DIRECTORIES | 动态链接库或静态链接库的搜索路径，相当于gcc的-L参数 
+ADD_DEFINITIONS | 向C/C++编译器添加-D定义，比如：ADD_DEFINITIONS(-DENABLE_DEBUG-DABC)
+参数之间用空格分割。如果代码中定义了: #ifdef ENABLE_DEBUG   #endif 这个代码块就会生效。
+ADD_DEPENDENCIES | 定义target依赖的其它target，确保在编译本target之前，其它的target已经被构建。
+ADD_EXECUTABLE | 将cxx编译成可执行文件
+ADD_LIBRARY | 编译成静态库如libHello.a
+ADD_SUBDIRECTORY | 包含CMakeLists.txt子目录
 
 AUX_SOURCE_DIRECTORY
 基本语法是:AUX_SOURCE_DIRECTORY(dir VARIABLE)，作用是发现一个目录下所有的源代码文件并将列表存储在一个变量中，这个指令临时被用来自动构建源文件列表，因为目前cmake还不能自动发现新添加的源文件。比如：
