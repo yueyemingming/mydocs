@@ -10,6 +10,7 @@
   - [用户角色配置](mongodb/auth.md)
   - [坑:generic server error](mongodb/mongo.keng1.md)
   - [MongoDB数据导入导出和备份恢复](mongodb/mongodb.backup.md)
+  - [mongodb监控的关键命令](mongodb/cmd.memory.md)
   - [mongodb哪些数据在占用内存](mongodb/data.memory.md)
   - [MongoDB如何使用内存？为什么内存满了？](mongodb/mongodb.memory.md)
   - [如何解决MongoDB内存过大问题](mongodb/mongodb.memory01.md)
