@@ -2,9 +2,9 @@
 
 namespace逐渐替代static。
 
+- [auto](auto.md)
 - [初始化列表](initializer_list.md)
 - [for](for.md)
-- [auto](auto.md)
 - [constexpr](constexpr.md)
 - [类型转换函数](operator.md)
 - [函数对象](function.md)
