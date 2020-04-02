@@ -3,6 +3,7 @@
 namespace逐渐替代static。
 
 - [auto](auto.md)
+- [decltype](decltype.md)
 - [初始化列表](initializer_list.md)
 - [for](for.md)
 - [constexpr](constexpr.md)
