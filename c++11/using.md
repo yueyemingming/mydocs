@@ -1,5 +1,7 @@
 # using代替typedef
 
+- using替换typedef所有功能
+- 类型替换
 ```cpp
 // 函数指针
 void f() {}
@@ -8,7 +10,9 @@ int main() {
     using FunctionPtr = void (*)();
     FunctionPtr ptr = f;
 }
-
+```
+- 函数指针
+```c++
 // 类型
 typedef unsigned char u1;
 typedef unsigned short u2;
