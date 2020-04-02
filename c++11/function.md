@@ -1,110 +1,103 @@
 # 函数对象
 
-```cpp
-class print {
-public:
-    print() {
-        std::cout << "construct()" << std::endl;
-    }
+## 1. 函数对象种类
 
-    void operator()(){
-        std::cout << "operator()" << std::endl;
-    }
-};
+### 1.1 函数指针
 
-int main()
-{
-    print p;
-    p();
-}
+```c++
+void func() {}
+
+void (*p)(void) = &func;	//加不加&都行
+p();						//p() == func()
 ```
 
-```cpp
-//1. 原始方式
-void fun(const int i)
-{
-    std::cout << i << std::endl;
-}
-
-void test1()
-{
-    std::vector<int> v(10, 1);
-
-    std::vector<int>::iterator iter = v.begin();
-    for( ; iter != v.end() ; ++iter) {
-        fun(*iter);
-    }
-}
-
-
-//2. 实现for_each模板
-template<class Iter, class T>
-void for_each(Iter first, Iter last, T f) {     // T的类型是 void (*)(const int); 模板不支持这种类型
-    for( ; first != last ; ++first ){
-        f(*first);
-    }
-}
-
-void test2()
-{
-    std::vector<int> v(10, 1);
-    for_each(iter.begin(), iter.end(), fun) ;   // fun的类型是 void (*)(const int); 模板不支持这种类型
-}
-
-
-
-//3. 函数对象
-struct print {
-    void operator()(int x) {                    //()这个是函数对象的关键
-        std::cout << x << std::endl;
-    }
-};
-
-void test3()
-{
-    std::vector<int> a = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10} ;
-    const int length = a.size();
-    for_each(a.begin(), a.end(), print());
-}
-
-int main()
-{
-    test1();
-    test2();
-    test3();
-
-    return 0;
-}
-```
+### 1.2 函数对象
 
 ```cpp
-
-//结构体函数对象定义
-struct aaa {
-public:
-    void operator()(int i) {
-        std::cout << i << " struct function object" << std::endl;
-    }
+struct Foo {
+    void operator()(){}
 };
 
-//类函数对象定义
-class print {
-public:
-    void operator()() {
-        std::cout << "class function object" << std::endl; 
-    }
-} ;
-
-
-int main()
-{
-    //函数对象调用
-    aaa a;
-    a(3);
-
-    //函数对象调用
-    print p;
-    p();
-    return 0 ;
-}
+Foo f;
+f();
 ```
+
+### 1.3 可被转换为函数指针的的类对象
+
+```c++
+void func() {}
+
+struct Foo {
+	using p = void(*)(void);
+    operator f(void) { return func; }
+};
+
+Foo f;
+f();		//f() == func()
+```
+
+## 2. std::function
+
+```c++
+#include <functional>
+```
+
+### 2.1 绑定普通函数
+
+```c++
+void func() {}
+function<void()> p = func;
+p();
+```
+
+### 2.2 绑定类静态成员函数
+
+```c++
+class Foo {
+public:
+    static void func() {}
+};
+
+function<void()> p = Foo::func;
+p();
+```
+
+### 2.3 绑定函数对象
+
+```c++
+class Foo {
+public :
+    void operator ()() {}
+};
+
+Foo foo
+function<void()> p = foo;
+p();
+```
+
+  ## 3. std::function的主要作用，回调
+
+```c++
+void output(int x) { cout << x << endl; }
+
+//void print(int x, function<void(int)> o) {
+void print(int x, const function<void(int)> &o) {	//这两种方式都可以，但const&的方式效率更高，避免函数拷贝
+    cout << "msg -> ";
+    o(x);
+}
+
+int main() {
+    int a[] = {1, 2, 3, 4, 5};
+
+    for (auto i : a)
+        print(i, output);
+}
+
+//-------------
+msg -> 1
+msg -> 2
+msg -> 3
+msg -> 4
+msg -> 5
+```
+
