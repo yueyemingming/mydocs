@@ -10,6 +10,7 @@ namespace逐渐替代static。
 - [for](for.md)
 - [函数对象](function.md)
 - [lambda](lambda.md)
+- [左值，右值，转移语义move，完美转发forword](left.right.value.md)
 - [constexpr](constexpr.md)
 - [类型转换函数](operator.md)
 - [线程](thread.md)
