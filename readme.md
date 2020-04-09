@@ -36,7 +36,7 @@
 ## 命令使用
 
 - [source, sh, exec, .号的区别](cmd/source.sh.exec.md)
-- [查看进程占用](cmd/see.process.md)
+- [进程相关命令](cmd/see.process.md)
 - [vim](cmd/vim/readme.md)
 - [ssh](cmd/ssh.md)
 - [find](cmd/find.md)
