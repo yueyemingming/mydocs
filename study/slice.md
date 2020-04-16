@@ -1,5 +1,7 @@
 # 切片
 
+[TOC]
+
 * 引用类型,数组的引用,不需要取地址就可以更改切片内容
 * 动态数组，长度可变
 * 切片没有长度，[]必须为空
@@ -69,26 +71,25 @@ if(slice == nil)            //与nil比较
 如果想增加切片的容量，我们必须创建一个新的更大的切片并把原分片的内容都拷贝过来。
 
 ```go
-/* 允许追加空切片 */
+//允许追加空切片
 slice = append(slice, 0)
 
-/* 向切片添加一个元素 */
+//向切片添加一个元素
 slice = append(slice, 1)
 
-/* 同时添加多个元素 */
+//同时添加多个元素
 slice = append(slice, 2,3,4)
 
-/* 创建切片 slice1 是之前切片的两倍容量*/
+//创建切片 slice1 是之前切片的两倍容量
 slice1 := make([]int, len(slice), (cap(slice))*2)
 
-/* 拷贝 slice 的内容到 slice1 */
+//拷贝 slice 的内容到 slice1
 copy(slice1,slice)
 ```
 
 ## 5. 切片的实现
 
 ```go
-
 type myslice struct {
     ptr *[10]int
     len int

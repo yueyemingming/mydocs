@@ -2,15 +2,17 @@
 
 [TOC]
 
-## 1. 基本类型
+## 1. [基础](start.md)
 
-- [变量](golang.datatype.md#1-变量)
-- [常量](golang.datatype.md#2-常量)
-- [布尔](golang.datatype.md#3-布尔)
-- [数字](golang.datatype.md#4-数字)
-- [字符串](golang.datatype.md#5-字符串)
+## 2. 基本类型
 
-## 2. 派生类型
+- [变量](datatype.md#1-变量)
+- [常量](datatype.md#2-常量)
+- [布尔](datatype.md#3-布尔)
+- [数字](datatype.md#4-数字)
+- [字符串](datatype.md#5-字符串)
+
+## 3. 派生类型
 
 > **切片, 字典, 通道 是<引用类型>，即指针, 其他的都是<值类型>**
 >
@@ -27,19 +29,10 @@
 - [接口 (interface)](interface.md)
 - [通道 (channel) —— 引用类型](goroute.channel.md)
 
-## 3. 基本扩展
+## 4. 基本扩展
 
 - [panic,recorver,defer](panic.recorver.defer.md)
 - [锁](lock.md)
 - [range](range.md)
 - [自定义类型](type.md)
 - [反射](reflect.md)
-
-## 4. 应用扩展
-
-- [带缓冲的终端读写](bufio.md)
-- [文件读写](file.md)
-- [命令行参数](cmd.args.md)
-- [json序列化](json.md)
-- [定时器](timer.md)
-- [http](http.md)
