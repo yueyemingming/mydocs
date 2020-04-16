@@ -2,7 +2,7 @@
 
 ## 互斥锁
 
-```golang
+```go
 import "sync"     //引入包
 
 func main() {
@@ -29,7 +29,7 @@ func main() {
 
 ## 读写锁
 
-```golang
+```go
 import "sync"     //引入包
 
 var rwlock sync.RWMutex     //创建锁
@@ -43,7 +43,7 @@ rwlock.WUnlock()
 
 ## 原子操作
 
-```golang
+```go
 import "sync/atomic"
 
 var count int32

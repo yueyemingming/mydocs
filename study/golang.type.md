@@ -10,11 +10,11 @@
 
 ### 1.1 go中所有类型转换都需要强制转换
 
-```golang
+```go
 typename(value)
 ```
 
-```golang
+```go
 type integer int
 
 var i int = 3
@@ -25,7 +25,7 @@ var intg integer = integer(i)
 
 - [接口类型转换](golang.interface.md#2-空接口及与普通类型的转换)
 
-```golang
+```go
 y := a.(int)        //转换为int
 y, ok := a.(int)    //转换为int，带检测
 ```
@@ -36,7 +36,7 @@ y, ok := a.(int)    //转换为int，带检测
 
 `.(type)` 获取类型信息
 
-```golang
+```go
 func test(items ...interface{}) {
     for _, x := range items {
         switch x.(type) {
@@ -79,7 +79,7 @@ func main() {
 
 ## 3. 为新类型添加成员函数
 
-```golang
+```go
 type integer int
 
 func (i integer) print() {  //方法名首字母大写才能被外部访问

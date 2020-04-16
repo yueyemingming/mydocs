@@ -4,7 +4,7 @@ range 用于 for 循环中迭代数组(array)、切片(slice)、通道(channel)�
 
 * 数组或切片
 
-```golang
+```go
 nums := []int{2, 3, 4}
 for i, num := range nums {
     fmt.Println("index:", i, " num:", num)
@@ -13,7 +13,7 @@ for i, num := range nums {
 
 * map
 
-```golang
+```go
 kvs := map[string]string{"a": "apple", "b": "banana"}
 for k, v := range kvs {
     fmt.Printf("%s -> %s\n", k, v)
@@ -22,7 +22,7 @@ for k, v := range kvs {
 
 * unicode字符串
 
-```golang
+```go
 //range也可以用来枚举Unicode字符串
 //第一个参数是字符的索引
 //第二个是字符（Unicode的值）本身。

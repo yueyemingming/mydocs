@@ -18,7 +18,7 @@
 `reflect.Value.Kind` | 获取变量类别 | `一个常量`, Kind类型请查看 <https://go-zh.org/pkg/reflect/#Kind>
 `reflect.Value.Interface()` | 转换为接口| `interface{}`
 
-```golang
+```go
 type Student struct{}
 
 func main() {
@@ -54,7 +54,7 @@ func main() {
 
 ## 2. 获取变量某种类型的值
 
-```golang
+```go
 reflect.ValueOf(x).Float()
 reflect.ValueOf(x).Int()
 reflect.ValueOf(x).String()
@@ -64,7 +64,7 @@ reflect.ValueOf(x).Bool()
 
 ## 3. 设置变量某种类型的值
 
-```golang
+```go
 reflect.ValueOf(x).SetFloat(..)
 reflect.ValueOf(x).SetInt(..)
 reflect.ValueOf(x).SetString(..)
@@ -75,7 +75,7 @@ reflect.ValueOf(x).SetBool(..)
 - `指针Value` 转换为 `值Value` 用Elem()
 - 设置值时，Value类型必须是**指针**Value
 
-```golang
+```go
 func main() {
     a := 10
     pv := reflect.ValueOf(&a)       //必须获取指针Value, 才能调用SetXXX方法进行修改
@@ -86,7 +86,7 @@ func main() {
 
 ## 4. 结构体的解析及调用
 
-```golang
+```go
 type Student struct {
     Name string `json:"student_name"` //要通过反射修改结构体对象的值，成员要求必须是导出的，即首字母要大写
     Age  int

@@ -1,6 +1,6 @@
 # defer, panic, recorver
 
-```golang
+```go
 func initConfig() error {
     return errors.New("init config error")    //手动产生两个一个错误
 }

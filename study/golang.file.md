@@ -4,7 +4,7 @@
 
 ## 1. 普通读写方式
 
-```golang
+```go
 func main() {
     file, err := os.OpenFile("test.txt", os.O_CREATE|os.O_WRONLY, 0664)
     if err != nil {
@@ -20,7 +20,7 @@ func main() {
 
 ## 2. ioutil包读写方式
 
-```golang
+```go
 func main() {
     buf, _ := ioutil.ReadFile("test.txt")
     fmt.Println(buf)
@@ -30,7 +30,7 @@ func main() {
 
 ## 3. 压缩文件读写
 
-```golang
+```go
 func main() {
     file, err := os.Open("test.txt.gz")
     if err != nil {

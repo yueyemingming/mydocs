@@ -8,20 +8,20 @@ Map 是使用 hash 表来实现的, 因此它是无序的。
 
 ***声明是不会分配内存的，初始化需要make***
 
-```golang
+```go
 var a map[string]string     //声明, 默认nil
 a = make(map[string]string) //创建空间
 a["key"] = "value"
 ```
 
-```golang
+```go
 a := make(map[string]string)    //自动推导类型
 a["key"] = "value"
 ```
 
 ### 1.2 直接初始化
 
-```golang
+```go
 var a map[string]string = map[string]string{
     "key" : "value",
 }
@@ -29,7 +29,7 @@ var a map[string]string = map[string]string{
 
 ### 1.3 二维map
 
-```golang
+```go
 func main() {
     a := make(map[string]map[string]string)
     a["key1"] = make(map[string]string)
@@ -51,13 +51,13 @@ map[key1:map[k1:v1 k2:v2 k3:v3]]
 
 ### 2.1 插入和更新
 
-```golang
+```go
 a [ "aaa" ] = "AAA"
 ```
 
 ### 2.2 查找
 
-```golang
+```go
 value, ok := a [ "xxx" ]
 if (ok) {
     fmt.Println("exist")
@@ -68,7 +68,7 @@ if (ok) {
 
 ### 2.3 遍历
 
-```golang
+```go
 for key := range a {
     fmt.Println(key, "value is ", a[key])
 }
@@ -76,12 +76,12 @@ for key := range a {
 
 ### 2.4 删除
 
-```golang
+```go
 delete(a, "aaa")
 ```
 
 ### 2.5 长度
 
-```golang
+```go
 len(a)
 ```

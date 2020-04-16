@@ -10,7 +10,7 @@
 
 **make** 用来分配内存，主要用来分配引用类型变量，比如chan，map，slice
 
-```golang
+```go
 func main() {
     s1 := make([]int, 10)   //生成空间，同时返回引用
     fmt.Println(s1)         //[0 0 0 0 0 0 0 0 0 0]

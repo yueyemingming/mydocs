@@ -19,7 +19,7 @@
 
 ## 2. 通道
 
-```golang
+```go
 func write(ch chan int) {
     for i := 0; i < 10; i++ {
         ch <- i
@@ -53,7 +53,7 @@ func main() {
 
 结果如下：
 
-```golang
+```go
 write :  0
 write :  1
 write :  2
@@ -83,7 +83,7 @@ write :  9
 
 * 产生死锁： 不带缓冲的通道，要求存在一个goroutine在实时监听，否则死锁
 
-```golang
+```go
 func main() {
     ch := make(chan int)    //不带缓冲的通道
     ch <- 1                 //写入时，没有其他goroutine在等待读，因此产生死锁
@@ -95,7 +95,7 @@ func main() {
 
 修改如下:
 
-```golang
+```go
 func main() {
     ch := make(chan int, 1) //带缓冲
     ch <- 1                 //只可以暂存一个，可以后起一个goroutine来读，或者后面代码读一次
@@ -107,7 +107,7 @@ func main() {
 
 * 产生死锁： 带缓冲的通道，在没有其他goroutine的情况下，读取和写入都最多只能有缓冲个数次，否则死锁
 
-```golang
+```go
 func main() {
     ch := make(chan int, 1) //带缓冲, 但缓冲个数只一个, 写入两个，或者读取两个都会死锁
     ch <- 1
@@ -119,7 +119,7 @@ func main() {
 }
 ```
 
-```golang
+```go
 func main() {
     ch := make(chan int, 1)
     ch <- 1
@@ -135,7 +135,7 @@ func main() {
 
 * select 必须配合channel使用
 
-```golang
+```go
 func main() {
     ch := make(chan int, 1)
     ch <- 1

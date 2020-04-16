@@ -17,7 +17,7 @@
 
 * [安装第三方包]
 
-  ```golang
+  ```go
   go get github.com/go-sql-driver/mysql
   ```
 

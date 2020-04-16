@@ -11,7 +11,7 @@
 
 ## 1. 序列化int
 
-```golang
+```go
 func main() {
     data, _ := json.Marshal(10)
     fmt.Println(string(data))       //10
@@ -25,7 +25,7 @@ func main() {
 
 ## 2. 序列化map
 
-```golang
+```go
 func main() {
     v := make(map[string]map[string]string)
     v["key1"] = make(map[string]string)
@@ -46,7 +46,7 @@ func main() {
 
 ## 3. 序列化结构体
 
-```golang
+```go
 type Student struct {
     Name string                 //首字母必须大写才能被json导出
     Age  int
@@ -66,7 +66,7 @@ func main() {
 
 - 利用tag修改json字段名称
 
-```golang
+```go
 type Student struct {
     Name string `json:"student_name"`
     Age  int    `json:"student_age"`

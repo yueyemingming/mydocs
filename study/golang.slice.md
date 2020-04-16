@@ -8,14 +8,14 @@
 
 * 声明
 
-```golang
+```go
 var slice [] int   //[]切片，必须为空
 var array [5] int  //[]数组，要指定长度
 ```
 
 * 创建
 
-```golang
+```go
 var slice []type = make([]type, len)    //声明并创建, 通过make创建
 slice := make([]type, length)           //创建, 通过make创建
 slice := make([]type, length, capacity) //创建, 通过make创建
@@ -23,7 +23,7 @@ slice := make([]type, length, capacity) //创建, 通过make创建
 
 * 声明, 创建, 同时通过数组初始化
 
-```golang
+```go
 slice := [] int {1,2,3 }
 slice := arr[start:end]
 slice := arr[start:]
@@ -36,7 +36,7 @@ slice := arr[:end]
 * cap() 容量最大大小
 * 0 <= len(slice) <= cap(slice)
 
-```golang
+```go
 func main() {
     array := [...]int{1, 2, 3, 4, 5}
 
@@ -60,7 +60,7 @@ func main() {
 
 ## 3. 判断空
 
-```golang
+```go
 if(slice == nil)            //与nil比较
 ```
 
@@ -68,7 +68,7 @@ if(slice == nil)            //与nil比较
 
 如果想增加切片的容量，我们必须创建一个新的更大的切片并把原分片的内容都拷贝过来。
 
-```golang
+```go
 /* 允许追加空切片 */
 slice = append(slice, 0)
 
@@ -87,7 +87,7 @@ copy(slice1,slice)
 
 ## 5. 切片的实现
 
-```golang
+```go
 
 type myslice struct {
     ptr *[10]int
@@ -112,7 +112,7 @@ func main() {
 
 ## 6. string
 
-```golang
+```go
 func main() {
     s := "中aaa"
     s1 := []byte(s)    //此处应该是rune
@@ -127,7 +127,7 @@ func main() {
 [98 184 173 97 97 97]     //这不是我们要的结果, 修改如下
 ```
 
-```golang
+```go
 func main() {
     s := "中aaa"
     s1 := []rune(s)

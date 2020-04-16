@@ -5,7 +5,7 @@
 * 只定义方法，且不需要实现
 * 不含任意变量
 
-```golang
+```go
 /* 定义接口 */
 type 接口名称 interface {
    方法名1 [返回值列表]
@@ -22,7 +22,7 @@ func (变量名 *结构体名) 方法名1() [返回值列表] {}       //接口�
 
 * eg01 .
 
-```golang
+```go
 type Test interface {
     Print()
 }
@@ -50,7 +50,7 @@ func main() {
 
 * eg02 .
 
-```golang
+```go
 type Phone interface {
     call()
 }
@@ -82,7 +82,7 @@ func main() {
 
 * 错误接口
 
-```golang
+```go
 func Sqrt(f float64) (float64, error) {
     if f < 0 {
         return 0, errors.New("math: square root of negative number")
@@ -100,7 +100,7 @@ if err != nil {            //与nil进行比较
 
 `var i interface{}`     空接口可以被任何对象赋值
 
-```golang
+```go
 func main() {
     a := 10
     var i interface{} = a       //空接口赋值
@@ -119,7 +119,7 @@ func test(i interface{}) {
 
 ## 3. 接口嵌套
 
-```golang
+```go
 type Interface1 interface { fun1() }
 type Interface2 interface { fun2() }
 type Interface3 interface {
@@ -129,7 +129,7 @@ type Interface3 interface {
 }
 ```
 
-```golang
+```go
 type Reader interface {
     Read()
 }

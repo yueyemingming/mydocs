@@ -2,14 +2,14 @@
 
 定时器对象：`Ticker`和`Timer`
 
-```golang
+```go
 type Ticker struct {
         C <-chan Time // The channel on which the ticks are delivered.
         // contains filtered or unexported fields
 }
 ```
 
-```golang
+```go
 type Timer struct {
         C <-chan Time
         // contains filtered or unexported fields
@@ -22,7 +22,7 @@ type Timer struct {
 
 * 定时器必须要停止，否则会产生内存泄漏
 
-```golang
+```go
 func main() {
     t := time.NewTicker(time.Second)    //每秒产生一个事件, 请参照 <https://golang.org/pkg/time/#Ticker>
     for v := range t.C {                //这是一个time.Time时间类型的channel，因此它的输出是时间内容
@@ -43,7 +43,7 @@ hello,  2019-01-31 15:58:49.4989561 +0800 CST m=+4.009230301
 
 ## 内存泄漏
 
-```golang
+```go
 func main() {
     for {
         select {
@@ -56,7 +56,7 @@ func main() {
 
 修改如下：
 
-```golang
+```go
 func main() {
     for {
         t := time.NewTicker(time.Second)

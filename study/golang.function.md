@@ -2,11 +2,11 @@
 
 ## 1. 函数基本用法
 
-```golang
+```go
 func 函数名( [参数列表] ) [`返回值列表`] { ... }
 ```
 
-```golang
+```go
 func test(a, b int) (int, int) {    //两个返回值
     return a, b
 }
@@ -20,11 +20,11 @@ func test(a string, b int) string { //一个返回值
 
 ## 2. 函数类型
 
-```golang
+```go
 type 函数类型名 func(int, int) int     //func(int, int) int, 这是函数签名
 ```
 
-```golang
+```go
 func add(a, b int) int {
     return a + b
 }
@@ -41,7 +41,7 @@ func main() {
 
 使用 `type` 定义如下
 
-```golang
+```go
 
 type fun_type func(int, int) int     //函数类型声明
 
@@ -61,7 +61,7 @@ func main() {
 
 ## 3. 可变参函数
 
-```golang
+```go
 func add(arg ...int) int {   //...代表可变参，事实上这个arg相当于是个数组
     sum := 0
 
@@ -79,7 +79,7 @@ func main() {
 
 ## 4. 匿名函数
 
-```golang
+```go
 func main() {
     fun := func(a, b int) int {     //定义一个匿名函数,赋值给fun，fun就是事实上函数名，但没有调用
         return a + b
@@ -101,7 +101,7 @@ func main() {
 
 ### eg.01
 
-```golang
+```go
 func Adder() func(int) int {        //把闭包看成是个类,  'func(int) int'代表返回值是个函数
     var x int                       //把闭包内变量看成是类成员变量
     fmt.Println("Adder.x = ", x)    //只调用一次
@@ -137,7 +137,7 @@ Adder.func.x =  111
 
 ### eg.02
 
-```golang
+```go
 func makeSuffixFunc(suffix string) func(string) string {   //相当于类, ‘suffix’是类成员变量, "func(string) string"是成员函数
 
     return func(name string) string {

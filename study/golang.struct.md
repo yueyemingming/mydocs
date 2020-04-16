@@ -4,7 +4,7 @@
 
 ## 1. 声明
 
-```golang
+```go
 type User struct {
     Name string   //首字母大写可被外部打包
     age int       //首字母小写不可被外部打包
@@ -15,7 +15,7 @@ type U User   //类型别名
 
 ## 2. 定义
 
-```golang
+```go
 var u User
 var u *User = new (User)    //new的操作，go中没有delete对应，go回自动垃圾回收，new完直接用就行
 var u *User = &User{ "fuck", 20 }
@@ -29,7 +29,7 @@ fmt.Println(User{title: "username"})
 
 ## 3. 访问成员
 
-```golang
+```go
 var u User
 u.name = "username"
 u.age = 20
@@ -37,7 +37,7 @@ u.age = 20
 
 - 指针访问结构体成员, 不同于c, 不用`->`, 而依旧是`.`操作符
 
-```golang
+```go
 var up *User
 up = &u
 up.name = "username"
@@ -48,7 +48,7 @@ up.age = 20
 
 tag 主要是描述性内容，但是在json打包时起到了json字段的功能
 
-```golang
+```go
 type Student struct {
   name string
   age  int
@@ -81,7 +81,7 @@ func main() {
 
 - 利用tag修改json的字段名
 
-```golang
+```go
 type Student struct {
   Name string `json:"student_name"`
   Age  int    `json:"student_age"`
@@ -113,7 +113,7 @@ func main() {
 
 ## 5. 匿名字段
 
-```golang
+```go
 
 type Car struct {
   name string
@@ -161,11 +161,11 @@ func main() {
 
 ## 6. 成员函数
 
-```golang
+```go
 func (对象 结构体) 函数名(参数列表) [`返回值列表`]{ ... }
 ```
 
-```golang
+```go
 type Circle struct {
   radius int
 }
@@ -191,7 +191,7 @@ func main() {
 
 如果一个变量实现了 `String()` 这个方法，那么 `fmt.Println()` 默认会调用这个变量的 `String()` 方法进行输出。
 
-```golang
+```go
 
 type Test struct {
     m int

@@ -8,7 +8,7 @@
 
 ### 1.1 一维数组
 
-```golang
+```go
 var a [10] int          //声明直接创建空间，同时初始化为0
 var a = [5] float32 {1000.0, 2.0, 3.4, 7.0, 50.0}
 var a = [...] float32 {1000.0, 2.0, 3.4, 7.0, 50.0}  //自动计算数组长度
@@ -18,7 +18,7 @@ a := make([]int, 10)    //用make创建空间，同时初始化为0
 
 ### 1.2 二维数组
 
-```golang
+```go
 a := [3][4] int {
     {0, 1, 2, 3} ,
     {4, 5, 6, 7} ,
@@ -28,25 +28,25 @@ a := [3][4] int {
 
 ### 1.3 多维数组
 
-```golang
+```go
 var a [5][10][4] int        //声明直接创建空间，同时初始化为0
 ```
 
 ## 2. 遍历
 
-```golang
+```go
 for i := 0 ; i < len(a) ; i++ {
 }
 ```
 
-```golang
+```go
 for index, value := range a {
 }
 ```
 
 二维数组的遍历
 
-```golang
+```go
 func main() {
     a := [...][5]int{
         {1, 2, 3, 4, 5},
@@ -64,7 +64,7 @@ func main() {
 
 ## 3. 地址越界panic
 
-```golang
+```go
 func main() {
     var a [10]int
     a[0] = 10
@@ -85,7 +85,7 @@ func main() {
 
 > golang数组本身是值传递，而C中默认是首地址，是指针传递.
 
-```golang
+```go
 func test(arr *[5]int) {
     (*arr)[0] = 10
 }

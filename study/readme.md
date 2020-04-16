@@ -1,16 +1,14 @@
 # golang语法
 
-- [1. 基本类型](#1-基本类型)
-- [2. 派生类型](#2-派生类型)
-- [3. 基本扩展](#3-基本扩展)
-- [4. 应用扩展](#4-应用扩展)
+[TOC]
 
-## [1. 基本类型](golang.datatype.md)
+## 1. 基本类型
 
-- [变量常量](golang.datatype.md#1-变量常量)
-- [布尔](golang.datatype.md#2-布尔)
-- [数字](golang.datatype.md#3-数字)
-- [字符串](golang.datatype.md#4-字符串)
+- [变量](golang.datatype.md#1-变量)
+- [常量](golang.datatype.md#2-常量)
+- [布尔](golang.datatype.md#3-布尔)
+- [数字](golang.datatype.md#4-数字)
+- [字符串](golang.datatype.md#5-字符串)
 
 ## 2. 派生类型
 
