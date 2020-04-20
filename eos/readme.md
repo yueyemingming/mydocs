@@ -4,6 +4,7 @@
 - github —— <https://github.com/EOSIO/eos>
 - eos中文社区 —— <https://eosfans.io/>
 - 某个区块浏览器 —— <https://eospark.com/>
+- EOS开发系列目录_币乎 —— https://bihu.com/article/293974
 
 ## eos架构图
 
@@ -22,8 +23,15 @@
 ### 扩展操作
 
 - [eos 9大系统账户名称及作用](eosio.sysaccount.md)
+
 - [eos 同步数据及支持mongodb存储节点搭建](eosio.sync.md)
+
 - [eos多节点环境配置](eosio.multinode.md)
-- [eos源码剖析](eosio.src.md)
+
+### 源码学习
+
+- [EOS系列 - 源码框架剖析（v1.7.2）](eosio.src.md)
+- **EOS代码架构及分析**
+  - [01](eosio.src/01.md)
 
 最后一个不可逆块(LIB)是最近被2/3的块生成器所承认的块。
