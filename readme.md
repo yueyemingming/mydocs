@@ -11,6 +11,7 @@
 - [apt](ubuntu/apt.md)
 - [配置系统包](ubuntu/ubuntu.package.md)
 - [安装Cinnamon](ubuntu/ubuntu.cinnamon.md)
+- [调整cpu使用](ubuntu/cpu.md)
 
 ### redhat
 
