@@ -48,8 +48,8 @@ cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_available_governor
 ```bash
 vim /etc/default/grub
 
-#修改GRUB_CMDLINE_LINUX_DEFAULT="quietsplash" 为
-GRUB_CMDLINE_LINUX_DEFAULT="quietsplash intel_pstate=disable"
+#修改GRUB_CMDLINE_LINUX_DEFAULT="quiet splash" 为
+GRUB_CMDLINE_LINUX_DEFAULT="quiet splash intel_pstate=disable"
 ```
 
 ```bash
