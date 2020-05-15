@@ -32,6 +32,8 @@
 
   - [用asio开发过的软件——弗锐思名人堂测试软件(私有仓库需rui-space登录)](https://github.com/rui-space/myfrs.halloffame/tree/master/halloffame.test)
 
+  - [线程池](asio/thread_pool.md)
+
 - [libcurl](curl/readme.md)
 
 - [protobuf](https://github.com/yueyemingming/mydocs/blob/message/protobuf/readme.md)
