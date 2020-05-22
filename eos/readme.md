@@ -5,6 +5,7 @@
 - eos中文社区 —— <https://eosfans.io/>
 - 某个区块浏览器 —— <https://eospark.com/>
 - EOS开发系列目录_币乎 —— https://bihu.com/article/293974
+- EOS.IO中文文档 —— https://eos.readthedocs.io/zh_CN/latest/
 
 ## eos架构图
 
