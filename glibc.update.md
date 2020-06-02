@@ -1,0 +1,5 @@
+# 升级glibc
+
+```bash
+strings /usr/lib/x86_64-linux-gnu/libstdc++.so.6 | grep GLIBCXX
+```
