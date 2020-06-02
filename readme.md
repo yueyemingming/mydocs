@@ -48,7 +48,3 @@
   - [线程池](asio/thread_pool.md)
 
 - [Qt](qt/readme.md)
-
-- [mysql++](database/mysql++/readme.md)
-
-- [odb](database/odb/readme.md)
