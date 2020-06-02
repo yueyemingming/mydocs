@@ -48,3 +48,5 @@
   - [线程池](asio/thread_pool.md)
 
 - [Qt](qt/readme.md)
+
+- [[C++11 并发指南系列](https://www.cnblogs.com/haippy/p/3284540.html)
