@@ -70,7 +70,7 @@ public :
     void operator ()() {}
 };
 
-Foo foo
+Foo foo;
 function<void()> p = foo;
 p();
 ```
@@ -81,7 +81,8 @@ p();
 void output(int x) { cout << x << endl; }
 
 //void print(int x, function<void(int)> o) {
-void print(int x, const function<void(int)> &o) {	//这两种方式都可以，但const&的方式效率更高，避免函数拷贝
+void print(int x, const function<void(int)> &o) {
+    //这两种方式都可以，但const&的方式效率更高，避免函数拷贝
     cout << "msg -> ";
     o(x);
 }
