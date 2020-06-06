@@ -14,7 +14,7 @@ namespace逐渐替代static。
 
 - [for](for.md)
 
-- [函数对象](function.md)
+- [函数对象function](function.md)
 
 - [lambda](lambda.md)
 
