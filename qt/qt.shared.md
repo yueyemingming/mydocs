@@ -1,5 +1,9 @@
 # Qt5 库创建及使用
 
+[源码](qt.lib/qt.lib.zip)
+
+
+
 ## 1. 创建
 
 ![image](D:\mydocs\qt\qt.lib\create.lib\001.png)
