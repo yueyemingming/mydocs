@@ -7,3 +7,6 @@
 * [ubuntu16.04 64位 Qt5.12.3 中使用mysql](qt.driver.not.loaded.md)
 * [浅谈Qt中UDP之UdpSocket通信实例](qt.udp.md)
 * [QMake的 .pro 文件 转成CMake的 CMakeLists.txt 文件](../../compile/cmake/eg/readme.md)
+
+* [创建动态链接库及使用](qt.shared.md)
+
