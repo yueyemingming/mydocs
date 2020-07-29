@@ -8,6 +8,13 @@ git config --global credential.helper store
 
 提交时第一次仍需要输入密码，后面再git push就不需要输入密码了。
 
+git bash上，如果输入错误，windows也会保存凭证，此时只能不使用凭证，重新输入。
+
+```
+git config --system --unset credential.helper
+```
+
+
 ## 2. 子模块
 
 ### 2.1 下载所有子模块
