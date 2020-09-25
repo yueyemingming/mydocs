@@ -1,12 +1,16 @@
-# docker 仓库命令使用方法
+# docker 仓库命令 login,pull,push,search
 
-## 登录 login
+## - login 登录
 
-`docker login -u <user>`
+```bash
+docker login -u <user>
+```
 
-## 拉取镜像 pull
+## - pull 拉取镜像
 
-`docker pull <registry>[:<port>]/[<namespace>/]<name>:<tag>`
+```bash
+docker pull <registry>[:<port>]/[<namespace>/]<name>:<tag>
+```
 
 ```bash
 #默认拉取最新latest，以下二者相同
@@ -17,13 +21,14 @@ docker pull quay.io/coreos/flannel:latest
 docker pull quay.io/coreos/flannel:v0.9.1
 ```
 
-## 推送镜像 push
+## - push 推送镜像
 
 ```bash
-docker exec -it docker_registry /bin/sh
+docker push ruispace/httpd			#推送httpd所有标签镜像
+docker push ruispace/httpd:v0.1-2	#推送httpd指定标签镜像
 ```
 
-## 镜像查找 search
+## - search 镜像查找
 
 ```bash
 docker search [image-name]    #从Docker Hub查找镜像

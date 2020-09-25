@@ -100,3 +100,39 @@
   325d185dff74  ruispace/httpd:v0.1-1 "sh"                    t1
   74da64496f33  busybox               "sh"                    b1
   ```
+
+
+
+- 查看容器ip地址
+
+  ```bash
+  # docker inspect t2
+  
+  ...
+  "Networks": {
+                  "bridge": {
+                      "IPAMConfig": null,
+                      "Links": null,
+                      "Aliases": null,
+                      "NetworkID": "93568b54bd94c3dbfadc038edb798dae896e5c7de8430437bd1e0b5895c51652",
+                      "EndpointID": "8c5d6589a0dc03cc6a3433b748d4b92cda5c390c5e1068eeefee159996255a8c",
+                      "Gateway": "172.17.0.1",
+                      "IPAddress": "172.17.0.5",                      <---
+                      "IPPrefixLen": 16,
+                      "IPv6Gateway": "",
+                      "GlobalIPv6Address": "",
+                      "GlobalIPv6PrefixLen": 0,
+                      "MacAddress": "02:42:ac:11:00:05",
+                      "DriverOpts": null
+                  }
+              }
+          }
+      }
+  ]
+  ```
+- 访问网站
+
+  ```bash
+  # curl 172.17.0.5
+  <h1>hello world</h1>
+  ```
