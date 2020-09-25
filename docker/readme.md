@@ -10,6 +10,7 @@ docker exec -it u16 /bin/bash
   - [镜像命令](docker.use.md#2-镜像)
   - [容器命令](docker.use.md#3-容器)
 - [容器 --> 镜像 : docker commit](op/commit.md)
+- [镜像 -->  容器: docker run](op/run.md)
 - [打标签 : docker tag](op/tag.md)
 - [范例：下载镜像，修改容器，创建新镜像，推送镜像](docker.eg.md)
 - [仓库]

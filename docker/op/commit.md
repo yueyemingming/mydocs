@@ -27,23 +27,21 @@
 
   ```bash
   # docker image ls
-  REPOSITORY   TAG         IMAGE ID            CREATED             SIZE
-  ubuntu       16.04       c871c45b1573        7 days ago          127MB
-  busybox      latest      6858809bf669        2 weeks ago         1.23MB
+  REPOSITORY   TAG         IMAGE ID            CREATED       SIZE
+  busybox      latest      6858809bf669        2 weeks ago   1.23MB
   ```
-
-  创建镜像时，不需要停止容器，-p 选项，会暂停容器。
-
-  ```bash
+  
+创建镜像时，不需要停止容器，-p 选项，会暂停容器。
+  
+```bash
   # docker commit -p b1
   sha256:b97a6b02560e25bc89ee71de1d5794e02996933ddd72a796324a4d8c5d869464
   ```
-
-  ```bash
+  
+```bash
   # docker image ls
   REPOSITORY     TAG        IMAGE ID        CREATED         SIZE
-  <none>         <none>     b97a6b02560e    3 seconds ago   1.23MB  # 新创建
-  ubuntu         16.04      c871c45b1573    7 days ago      127MB
+  <none>         <none>     b97a6b02560e    3 seconds ago   1.23MB   <---
   busybox        latest     6858809bf669    2 weeks ago     1.23MB
   ```
 
