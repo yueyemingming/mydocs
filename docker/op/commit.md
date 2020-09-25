@@ -1,6 +1,6 @@
 # 容器 --> 镜像 : docker commit
 
-## 1. 例子1
+## 1. 普通制作镜像
 
 ### 1.1 运行容器
 
@@ -31,19 +31,41 @@
   busybox      latest      6858809bf669        2 weeks ago   1.23MB
   ```
   
+
 创建镜像时，不需要停止容器，-p 选项，会暂停容器。
-  
-```bash
+
+  ```bash
   # docker commit -p b1
   sha256:b97a6b02560e25bc89ee71de1d5794e02996933ddd72a796324a4d8c5d869464
   ```
-  
-```bash
+
+  ```bash
   # docker image ls
   REPOSITORY     TAG        IMAGE ID        CREATED         SIZE
   <none>         <none>     b97a6b02560e    3 seconds ago   1.23MB   <---
   busybox        latest     6858809bf669    2 weeks ago     1.23MB
   ```
 
-## 2. 列子2
+## 2. 修改默认的命令制作的镜像
+
+  ```bash
+  # docker image ls
+  REPOSITORY     TAG        IMAGE ID            CREATED             SIZE
+  ruispace/httpd latest     b97a6b02560e    5 seconds ago   1.23MB   <---
+  ruispace/httpd v0.1-1     b97a6b02560e   3 seconds ago   1.23MB
+  busybox            latest      6858809bf669    2 weeks ago      1.23MB
+```
+
+  ```bash
+  # docker commit -a "user<user@email.com>" -c 'CMD ["/bin/httpd","-f","-h","/data/html"]' -p h1 ruitest/httpd:v0.2
+  ```
+
+  ```bash
+  # docker image ls
+  REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+  ruitest/httpd       v0.1                988a144e6316        4 seconds ago       1.22MB
+  busybox             latest              e4db68de4ff2        2 weeks ago         1.22MB
+```
+
+
 

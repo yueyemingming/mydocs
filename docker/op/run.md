@@ -21,6 +21,6 @@ docker run --name t1 -it ruispace/httpd:v0.1-1
 ```bash
 #docker container ls -a
 CONTAINER ID IMAGE    COMMAND  CREATED        STATUS      PORTS   NAMES
-325d185dff74 ruispace/httpd:v0.1-1   "sh"  17 seconds ago  Up 16 seconds t1
+325d185dff74 ruispace/httpd:v0.1-1   "sh"  17 seconds ago  Up 16 seconds t1   <---
 74da64496f33 busybox  "sh"     19 hours ago  Up 25 seconds        b1
 ```
