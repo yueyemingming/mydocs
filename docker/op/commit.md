@@ -14,7 +14,7 @@
   Status: Downloaded newer image for busybox:latest
   ```
   
-- 启动httpd服务
+- 编辑httpd网页文件
 
   ```bash
   / # mkdir -p /data/html
@@ -23,21 +23,22 @@
   <h1>hello world</h1>
   ```
 
-- 通过容器创建镜像
+- 查看镜像列表
 
   ```bash
   # docker image ls
   REPOSITORY   TAG         IMAGE ID            CREATED       SIZE
   busybox      latest      6858809bf669        2 weeks ago   1.23MB
   ```
-  
 
-创建镜像时，不需要停止容器，-p 选项，会暂停容器。
+- **通过容器创建镜像，创建镜像时，不需要停止容器，-p 选项，会暂停容器。**
 
   ```bash
   # docker commit -p b1
   sha256:b97a6b02560e25bc89ee71de1d5794e02996933ddd72a796324a4d8c5d869464
   ```
+
+- 查看镜像列表
 
   ```bash
   # docker image ls
@@ -48,24 +49,54 @@
 
 ## 2. 修改默认的命令制作的镜像
 
-  ```bash
-  # docker image ls
-  REPOSITORY     TAG        IMAGE ID            CREATED             SIZE
-  ruispace/httpd latest     b97a6b02560e    5 seconds ago   1.23MB   <---
-  ruispace/httpd v0.1-1     b97a6b02560e   3 seconds ago   1.23MB
-  busybox            latest      6858809bf669    2 weeks ago      1.23MB
-```
+- 查看镜像列表
 
   ```bash
-  # docker commit -a "user<user@email.com>" -c 'CMD ["/bin/httpd","-f","-h","/data/html"]' -p h1 ruitest/httpd:v0.2
+  # docker image ls
+  REPOSITORY     TAG        IMAGE ID            CREATED         SIZE
+  ruispace/httpd latest     b97a6b02560e        5 seconds ago   1.23MB   <---
+  ruispace/httpd v0.1-1     b97a6b02560e        3 seconds ago   1.23MB
+  busybox        latest     6858809bf669        2 weeks ago     1.23MB
   ```
 
+- 查看容器
+
+  ```bash
+  # docker container ls -a
+  CONTAINER ID  IMAGE                 COMMAND  NAMES
+  325d185dff74  ruispace/httpd:v0.1-1 "sh"     t1   <---
+  74da64496f33  busybox               "sh"     b1
+  ```
+
+- **可以看到容器中启动的都是 "sh"。 现在修改掉这个"sh"，改为启动httpd服务。制作镜像。**
+
+  ```bash
+  docker commit -a "user<user@email.com>" -c 'CMD ["/bin/httpd","-f","-h","/data/html"]' -p t1 ruispace/httpd:v0.2
+  ```
+
+- 查看镜像列表
+  
   ```bash
   # docker image ls
-  REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
-  ruitest/httpd       v0.1                988a144e6316        4 seconds ago       1.22MB
-  busybox             latest              e4db68de4ff2        2 weeks ago         1.22MB
-```
+  REPOSITORY          TAG            IMAGE ID            SIZE
+  ruispace/httpd      v0.2           da9b69f6dcbd        1.23MB   <---
+  ruispace/httpd      latest         b97a6b02560e        1.23MB
+  ruispace/httpd      v0.1-1         b97a6b02560e        1.23MB
+  busybox             latest         6858809bf669        1.23MB
+  ```
 
+- **后台启动容器**
 
+  ```bash
+  docker run --name t2 -itd ruispace/httpd:v0.2
+  ```
+  
+- 查看容器列表
 
+  ```bash
+  # docker container ls -a
+  CONTAINER ID  IMAGE                 COMMAND                 NAMES
+  7373696fbde1  ruispace/httpd:v0.2   "/bin/httpd -f -h /d…"  t2   <---
+  325d185dff74  ruispace/httpd:v0.1-1 "sh"                    t1
+  74da64496f33  busybox               "sh"                    b1
+  ```
