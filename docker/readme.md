@@ -36,3 +36,5 @@ docker exec -it u16 /bin/bash
   - [harbor搭建docker镜像仓库](docker.harbor.registry.md)
 - [错误](error.md)
 - [Dockerfile文件详解](dockerfile.md)
+  - [RUN与CMD的区别](dockerfile.cmd.run.md)
+  - [CMD与ENTRYPOINT的区别](dockerfile.cmd.entrypoint.md)

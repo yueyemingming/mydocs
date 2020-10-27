@@ -8,4 +8,5 @@
 - [jenkins](jenkins/readme.md)
 - [zookeeper](zookeeper/readme.md)
 - [kafka](kafka/readme.md)
+- [supervisor](supervisor/readme.md)
 
