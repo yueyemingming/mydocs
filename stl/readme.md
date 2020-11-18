@@ -5,3 +5,4 @@
 - [vector\<char\>与字符串的相互转换](vecotr.char.convert.md)
 - [map](map.md)
 - [C++11 并发指南系列](concurrency/readme.md)
+- [内存分配器](allocator/readme.md)
