@@ -24,7 +24,6 @@ Fruit.getPrice()    # 调用方式1
 Fruit.getColor()    # 调用方式2
 ```
 
-
 ## classmethod 绑定到实例
 
 ```python
