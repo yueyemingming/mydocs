@@ -8,7 +8,7 @@
 void func() {}
 
 void (*p)(void) = &func;	//加不加&都行
-p();						//p() == func()
+p();				//p() == func()
 ```
 
 ### 1.2 函数对象
@@ -28,12 +28,12 @@ f();
 void func() {}
 
 struct Foo {
-	using p = void(*)(void);
+    using f = void(*)(void);
     operator f(void) { return func; }
 };
 
 Foo f;
-f();		//f() == func()
+f();	//f() == func()
 ```
 
 ## 2. std::function
