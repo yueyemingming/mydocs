@@ -43,9 +43,12 @@ git add file            #添加单个文件或文件夹到暂存区，支持sh�
 git add .               #添加所有文件到暂存区
 echo "zh" > .gitignore  #设置不需要添加到暂存区的内容
 git rm file             #从暂存区中删除单个文件或文件夹
+git rm --cache file     #取消暂存文件但不删除
+git rm --cache -r path  #取消暂存文件夹但不删除
+git rm -f file          #强制删除本地文件
 git mv file1 file2      #从暂存区中改名
 git status              #查看暂存区状态
-git reset HEAD file     #取消暂存文件或文件件
+git reset HEAD file     #取消暂存文件或文件夹的修改
 ```
 
 ## 4. 提取与提交
