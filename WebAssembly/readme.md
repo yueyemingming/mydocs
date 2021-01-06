@@ -1,4 +1,10 @@
-# WebAssembly
+# WebAssembly —— 缩写Wasm
+
+WebAssembly是一种基于堆栈的虚拟机的 **二进制指令格式**。
+
+目前WebAssembly比较好的编译器是LLVM。
+
+目前Wasm支持Firefox，chrome，IE以及Safari浏览器。
 
 - [WebAssembly官网中国](http://webassembly.org.cn) —— <http://webassembly.org.cn>
 - [WebAssembly官网](http://webassembly.org) ——  <http://webassembly.org>
@@ -15,8 +21,3 @@
 - [WebAssembly入门介绍——让C代码在浏览器中运行](WebAssembly入门介绍/readme.md)
 - [WebAssembly系列](WebAssembly系列/readme.md)
 
-WebAssembly(缩写Wasm)是一种基于堆栈的虚拟机的二进制指令格式。目前WebAssembly比较好的编译器是LLVM。
-
-Wasm设计作为一个便携式的针对高级语言的编译器，例如C/C++/Rust，使各种客户端或服务端应用程序都能够在web中部署。
-
-目前Wasm支持Firefox，chrome，IE以及Safari浏览器。
