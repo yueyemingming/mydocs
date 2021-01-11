@@ -122,7 +122,7 @@ http://www.kernel.org
 - 完全脱离用户态C库
   - 内核自己实现了完备的C库,其头文件都在include目录中.
   - linux/string.h	lib/string.c
-  - 体系结构相关的头文件位于	arch/<architecture>/include/asm	目录下
+  - 体系结构相关的头文件位于	**arch/<architecture>/include/asm**	目录下
   - printk取代printf
 - 必须使用GNU C 
   - 内核开发者使用的C语言涵盖了ISO C99标准和GNU C扩展。
@@ -133,7 +133,7 @@ http://www.kernel.org
     - unlikely(error)	错误较少发生时使用, error绝大多数为0.
     - likely(success)	正确较多发生时使用, success绝大多数不为0.
 - 内核编程本身缺乏像用户空间那样的内存保护机制
-  -用户空间进程访问非法地址空间时，内核对其保护，会发送SIGSEGV信号，结束进程。
+  - 用户空间进程访问非法地址空间时，内核对其保护，会发送SIGSEGV信号，结束进程。
   - 而内核自己非法访问内存时，没有谁能对其提供保护，导致oops系统崩溃。
 - 难以执行浮点运算
 - 内核给每个进程只有一个很小的定长堆栈
@@ -144,50 +144,64 @@ http://www.kernel.org
 
 ### 3.1 进程
 进程	处于执行期的程序以及相关的资源的总称
+
 进程资源包括打开的文件，挂起的信号，内核内部数据，处理器状态，内存地址，执行线程等诸多方面的内容。
+
 内核调度的是线程，而不是进程。linux中，线程进程并不区分，线程是特殊的进程。
+
 现代操作系统的两中虚拟机制：虚拟处理器和虚拟内存
-    虚拟处理器：给各个进程造成假象貌似独占处理器。
-    虚拟内存：给各个进程造成假象貌似独占所有内存。
+
+- **虚拟处理器**：给各个进程造成假象貌似独占处理器。
+
+- **虚拟内存**：给各个进程造成假象貌似独占所有内存。
+
 同一进程中的各个线程可以共享虚拟内存，但每个都拥有各自的虚拟处理器。
 
 ### 3.2 进程描述符及任务结构
-1) 进程描述符
-a) 进程描述符
-    内核中用进程描述符表示一个具体进程的所有信息(进程资源).
-    结构体为 struct task_struct	<linux/sched.h>，此结构体较大，在32位机上大小约1.7KB.
-        struct task_struct {
-            volatile long state;	/* -1 unrunnable, 0 runnable, >0 stopped */
-                /* 当前进程的状态。系统中的每个进程比处于以下五种状态之一：
-                    * TASK_RUNNING		可执行的，它或在执行，或处于运行队列中等待执行。
-                    * TASK_INTERRUPTIBLE	正在睡眠，可被唤醒。
-                    * TASK_UNINTERRUPTIBLE	正在睡眠，不可被唤醒。很少用。
-                    * __TASK_TRACED		被其他进程跟踪。例如通过ptrace对调试程序进行跟踪。
-                    * __TASK_STOPPED		应该说是暂停执行。比如收到SIGSTOP，SIGTSTP，SIGTTIN，SIGTTOU等信号时。另外在调试期间接受到任何信号，都会使进程进入这种状态。
-                    *
-                    * 状态设置函数	
-                    * 	set_task_state( task, state ) 和 set_current_state( task, state ) 
-                    *	二者相同，功能类似于 task->state=state , 但尽量使用函数, 函数在有必要的时候，会设置内存屏障来强制其他处理器做重新排序(SMP有效时)
-                    */
-            void *stack;	// 指向当前进程的内核栈空间首地址
-            ...
-            pid_t	pid ;	// 进程id，最大个数32768, root用户也可以通过修改/proc/sys/kernel/pid_max来提高上限.
-            ...
-            struct task_struct *parent; /* recipient of SIGCHLD, wait4() reports */	// 父进程指针
-            struct list_head children;	/* list of my children */ // 子进程链表
-            struct list_head sibling;	/* linkage in my parent's children list */	// 兄弟进程链表
-            ...
-        } ;
-    slab分配器对task_struct结构体对象分配内存空间(预先分配且重复使用task_struct内存空间，而非动态分配和释放.)
+#### 3.2.1 进程描述符
 
+##### 3.2.1.1 进程描述符
 
-b) 进程内核栈
-    进程在 用户态 和 内核态 都有各自独立的 栈空间。
-    进程内核栈结构体
-        union thread_union {
-            struct thread_info thread_info;
-            unsigned long stack[THREAD_SIZE/sizeof(long)];		// 此处可以看到这个栈空间是静态分配的，且大小固定有限(4k或8k，依据处理器不同而不同).
-        };
+内核中用进程描述符表示一个具体进程的所有信息(进程资源).
+
+结构体为 **struct task_struct	<linux/sched.h>**，此结构体较大，在32位机上大小约1.7KB.
+
+```c
+struct task_struct {
+    volatile long state;	/* -1 unrunnable, 0 runnable, >0 stopped */
+    /* 当前进程的状态。系统中的每个进程比处于以下五种状态之一：
+	 * TASK_RUNNING		可执行的，它或在执行，或处于运行队列中等待执行。
+	 * TASK_INTERRUPTIBLE	正在睡眠，可被唤醒。
+	 * TASK_UNINTERRUPTIBLE	正在睡眠，不可被唤醒。很少用。
+	 * __TASK_TRACED		被其他进程跟踪。例如通过ptrace对调试程序进行跟踪。
+	 * __TASK_STOPPED		应该说是暂停执行。比如收到SIGSTOP，SIGTSTP，SIGTTIN，SIGTTOU等信号时。另外在调试期间接受到任何信号，都会使进程进入这种状态。
+	 *
+	 * 状态设置函数	
+	 * 	set_task_state( task, state ) 和 set_current_state( task, state ) 
+	 *	二者相同，功能类似于 task->state=state , 但尽量使用函数, 函数在有必要的时候，会设置内存屏障来强制其他处理器做重新排序(SMP有效时)
+	 */
+
+    void *stack;	// 指向当前进程的内核栈空间首地址
+    ...
+    pid_t	pid ;	// 进程id，最大个数32768, root用户也可以通过修改/proc/sys/kernel/pid_max来提高上限.
+    ...
+    struct task_struct *parent; /* recipient of SIGCHLD, wait4() reports */	// 父进程指针
+    struct list_head children;	/* list of my children */ // 子进程链表
+    struct list_head sibling;	/* linkage in my parent's children list */	// 兄弟进程链表
+    ...
+} ;
+```
+
+slab分配器对task_struct结构体对象分配内存空间(预先分配且重复使用task_struct内存空间，而非动态分配和释放.)
+
+##### 3.2.1.2 进程内核栈
+
+​    进程在 用户态 和 内核态 都有各自独立的 栈空间。
+​    进程内核栈结构体
+​        union thread_union {
+​            struct thread_info thread_info;
+​            unsigned long stack[THREAD_SIZE/sizeof(long)];		// 此处可以看到这个栈空间是静态分配的，且大小固定有限(4k或8k，依据处理器不同而不同).
+​        };
 
         struct thread_info {
             struct task_struct *task;	/* main task structure */	// 这个这个task是有slab分配器分配的空间，前有叙述。
@@ -203,10 +217,10 @@ b) 进程内核栈
         由上述内容，可以看出，在内核栈空间中的有个成员是thread_info。而thread_info有个成员是task。 而task有个成员stack最终又指向了其内核栈空间手地址.即相当于如下:
             thread_union.thread_info->task->stack == &thread_union ;
 
+##### 3.2.1.3 任务队列
 
-c) 任务队列
-    内核中用双向循环链表任务队列来管理所有的进程，其节点就是进程描述符。
-    任务队列名称	task_list	<linux/wait.h>
+​    内核中用双向循环链表任务队列来管理所有的进程，其节点就是进程描述符。
+​    任务队列名称	task_list	<linux/wait.h>
 
 
 正在运行的进程的进程描述符
@@ -220,9 +234,9 @@ c) 任务队列
             对于专门寄存器存储的方式：直接获取相应寄存器的值，此值就是内存上当前进程task_struct结构体对象的首地址.
             对于无专门寄存器存储方式：正在运行的当前这个进程的内核栈首地址是被存储在某个寄存器中的(x86_32是esp寄存器中), 因为内核栈跟thread_info共用空间，也就是说内核栈首地址就是thread_info首地址. 因此thread_info->task就是要查找的进程描述符。
 
+##### 3.2.1.4 进程家族树
 
-d) 进程家族树
-    内核在系统启动的最后阶段启动init进程。
+​    内核在系统启动的最后阶段启动init进程。
 
     系统中每个进程都必须有一个父进程，有0个或多个子进程。同一个父进程的所有进程称作兄弟.
     
@@ -242,14 +256,14 @@ d) 进程家族树
     struct list_head children;	// 子进程链表
     struct list_head sibling;	// 兄弟进程链表
 
+##### 3.2.1.5 进程描述符各种访问方式
 
-e) 进程描述符各种访问方式
-    直接队列访问方式
-        相邻后一个节点
-            struct task_struct*	the_next = list_entry( some_task->tasks.next. struct task_struct, tasks ) ;
-            内核中已提供next_task宏
-                #define next_task(p) \
-                list_entry_rcu((p)->tasks.next, struct task_struct, tasks)
+​    直接队列访问方式
+​        相邻后一个节点
+​            struct task_struct*	the_next = list_entry( some_task->tasks.next. struct task_struct, tasks ) ;
+​            内核中已提供next_task宏
+​                #define next_task(p) \
+​                list_entry_rcu((p)->tasks.next, struct task_struct, tasks)
 
         相邻前一个节点
             struct task_struct*	the_prev = list_entry( some_task->tasks.prev. struct task_struct, tasks ) ;
@@ -282,8 +296,8 @@ e) 进程描述符各种访问方式
             /* 此时task指向某个子进程描述符 */
         }
 
+#### 3.2.2 进程创建
 
-2) 进程创建
 unix进程创建方式与众不同
     其他系统	首先在新的地址空间里创建进程，读入可执行文件，最后开始执行。
     unix系统	分解为两个单独的函数去执行：fork()和exec()
@@ -384,8 +398,8 @@ fork()
 ​		终止
 ​			int kthread_stop(struct task_struct *k);  或 do_exit() ;
 
+#### 3.2.3 进程终结
 
-3) 进程终结
 do_exit() <kernel/exit.c>完成资源释放后，调用schedule()切换到新的进程，并使自己处于EXIT_ZOMBIE(僵尸)状态。
 父进程用wait4()负责收尸，最后释放子进程的task_struct和thread_info以及内核栈空间等。
 
