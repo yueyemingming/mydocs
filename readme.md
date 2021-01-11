@@ -1,3 +1,3 @@
-# 嵌入式
+# linux内核
 
-* [uboot](uboot/readme.md)
+* [linux内核设计与实现](design.and.implement/readme.md)
