@@ -170,7 +170,7 @@ http://www.kernel.org
 struct task_struct {
     volatile long state;	/* -1 unrunnable, 0 runnable, >0 stopped */
     /* 当前进程的状态。系统中的每个进程比处于以下五种状态之一：
-	 * TASK_RUNNING		可执行的，它或在执行，或处于运行队列中等待执行。
+	 * TASK_RUNNING		    可执行的，它或在执行，或处于运行队列中等待执行。
 	 * TASK_INTERRUPTIBLE	正在睡眠，可被唤醒。
 	 * TASK_UNINTERRUPTIBLE	正在睡眠，不可被唤醒。很少用。
 	 * __TASK_TRACED		被其他进程跟踪。例如通过ptrace对调试程序进行跟踪。
@@ -196,26 +196,32 @@ slab分配器对task_struct结构体对象分配内存空间(预先分配且重�
 
 ##### 3.2.1.2 进程内核栈
 
-​    进程在 用户态 和 内核态 都有各自独立的 栈空间。
-​    进程内核栈结构体
-​        union thread_union {
-​            struct thread_info thread_info;
-​            unsigned long stack[THREAD_SIZE/sizeof(long)];		// 此处可以看到这个栈空间是静态分配的，且大小固定有限(4k或8k，依据处理器不同而不同).
-​        };
+进程在 **用户态** 和 **内核态** 都有各自独立的 栈空间。
 
-        struct thread_info {
-            struct task_struct *task;	/* main task structure */	// 这个这个task是有slab分配器分配的空间，前有叙述。
-            struct exec_domain *exec_domain;/* execution domain */
-            unsigned long flags;		/* thread_info flags (see TIF_*) */
-            mm_segment_t addr_limit;	/* user-level address space limit */
-            __u32 cpu;			/* current CPU */
-            int preempt_count;		/* 0=premptable, <0=BUG; will also serve as bh-counter */
-            struct restart_block restart_block;
-        };
-        由以上两个结构体可以看出，thread_info结构体本身存在于内核栈空间内。
-    
-        由上述内容，可以看出，在内核栈空间中的有个成员是thread_info。而thread_info有个成员是task。 而task有个成员stack最终又指向了其内核栈空间手地址.即相当于如下:
-            thread_union.thread_info->task->stack == &thread_union ;
+进程内核栈结构体
+
+```c
+union thread_union {
+    struct thread_info thread_info;
+    unsigned long stack[THREAD_SIZE/sizeof(long)];		// 此处可以看到这个栈空间是静态分配的，且大小固定有限(4k或8k，依据处理器不同而不同).
+};
+```
+
+```c
+struct thread_info {
+    struct task_struct *task;	/* main task structure */	// 这个这个task是有slab分配器分配的空间，前有叙述。
+    struct exec_domain *exec_domain;/* execution domain */
+    unsigned long flags;		/* thread_info flags (see TIF_*) */
+    mm_segment_t addr_limit;	/* user-level address space limit */
+    __u32 cpu;			/* current CPU */
+    int preempt_count;		/* 0=premptable, <0=BUG; will also serve as bh-counter */
+    struct restart_block restart_block;
+};
+```
+
+由上述内容，可以看出，在内核栈空间中的有个成员是thread_info。而thread_info有个成员是task。 而task有个成员stack最终又指向了其内核栈空间手地址.即相当于如下:
+
+`thread_union.thread_info->task->stack == &thread_union ;`
 
 ##### 3.2.1.3 任务队列
 
