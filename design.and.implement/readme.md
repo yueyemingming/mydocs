@@ -2,95 +2,113 @@
 
 此书基于linux 2.6.34
 
-## 第一章	linux内核简介
+## 1. linux内核简介
 
 ### 1. unix历史
 
-贝尔实验室	Dennis Ritchie， Ken Thompson,1969年,1973年用C语言重写
-加州大学伯克利分校	BSD
+贝尔实验室 Dennis Ritchie， Ken Thompson,1969年,1973年用C语言重写
+
+加州大学伯克利分校 BSD
 
 ### 2. linux历史
 
-芬兰赫尔辛基大学	Linus Torvalds	1991年
+芬兰赫尔辛基大学 Linus Torvalds 1991年
+
 - linux设计理念同unix，但源代码完全重写，实现不同。
 - linux是自由软件，但也不是无限自由，遵循GNU GPL(General Public License)2.
 
 ### 3. 内核简介
-linux系统	用户空间+内核空间
-上下文	指内核活动范畴
+linux系统 用户空间+内核空间
+
+**上下文** 指内核活动范畴
+
 任何时间点上，处理器活动于以下三种情况：
+
 - 运行于用户空间，执行用户进程。
 - 运行于内核空间，处于进程上下文，代表某个特定的进程执行。
 - 运行于内核空间，处于中断上下文，与任何进程无关，处理某个特定的中断。
 
 ### 4. 内核类型
-分为两种：
-    单内核	单一的静态二进制文件形式存储于磁盘中，内核是一个大的过程。内核中所有服务集成于内核态中，运行于同一地址空间，因此它们之间的通信直接函数调用实现。简单且效率高，扩展性差。UNIX为典型代表。
-    微内核	所有服务被切分为不同的小的过程，过程运行于用户空间。它们之间的通信通过消息传递实现。消息传递机制开销远大于函数调用，需要频繁上下文切换。早期的windows NT(XP,Vista,win7)和MAC OS，近期的不再将各个服务过程放在用户空间中了。
 
-linux属于单内核形式，但也汲取了微内核精华，模块化设计、抢占式、支持内核线程以及动态装载模块等。（由此可以看出linux的系统调用虽然很unix基本相同，但底层实现已经大不相同了）
+- 单内核
+
+  单一的静态二进制文件形式存储于磁盘中，内核是一个大的过程。内核中所有服务集成于内核态中，运行于同一地址空间，因此它们之间的通信直接函数调用实现。简单且效率高，扩展性差。UNIX为典型代表。
+
+- 微内核
+
+  所有服务被切分为不同的小的过程，过程运行于用户空间。它们之间的通信通过消息传递实现。消息传递机制开销远大于函数调用，需要频繁上下文切换。早期的windows NT(XP,Vista,win7)和MAC OS，近期的不再将各个服务过程放在用户空间中了。
+
+linux属于**单内核**形式，但也汲取了微内核精华，模块化设计、抢占式、支持内核线程以及动态装载模块等。（由此可以看出linux的系统调用虽然很unix基本相同，但底层实现已经大不相同了）
 
 ### 5. linux内核版本
 主版本号.从版本号.修订版本号.稳定版本号
-稳定版本号为偶数，其为稳定版本；否则为开发版。2.6.26.1是开发版本，非稳定版本.
+
+稳定版本号为偶数，其为稳定版本；否则为开发版。
+
+2.6.26.1是开发版本，非稳定版本.
 
 ### 6. linux内核开发者社区
 lkml		linux kernel mailing list		http://vegr.kernel.org
 
 [注]. 本书大多代码以intel x86/x86_64系统架构为例
 
-## 第二章	从内核出发
+## 2. 从内核出发
 
 ### 1. 获取源码
 http://www.kernel.org
 
-1. bzip2	$tar xjvf linux-x.y.z.tar.bz2
-2. gzip		$ tar xzvf linux-x.y.z.tar.gz
-3. git		git clone git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux-2.6.git
-        git pull 可用于更新你的分支
+| 操作  | 说明                                                         |
+| ----- | ------------------------------------------------------------ |
+| bzip2 | `tar xjvf linux-x.y.z.tar.bz2`                               |
+| gzip  | `tar xzvf linux-x.y.z.tar.gz`                                |
+| git   | `git clone git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux-2.6.git` |
+| patch | `$ patch -p1 < ../patch-x.y.z`                               |
 
-补丁		$ patch -p1 < ../patch-x.y.z
 
 ### 2. 内核源码树
-目录相关
-    arch		特定体系结构的源码
-    block		块设备I/O层
-    crypto		加密API
-    Documentation	内核源码文档
-    drivers	设备驱动程序
-    firmware	使用某些驱动程序而需要的设备固件
-    fs		VFS和各种文件文件系统
-    include	内核头文件
-    init		内核引导和初始化
-    ipc		进程间通信
-    kernel		像调度程序这样的核心子系统
-    lib		通用内核函数
-    mm		内核管理子系统和VM
-    net		网络子系统
-    samples		示例代码
-    scripts		编译内核所用的脚本
-    security	Linux安全模块
-    sound		语音子系统
-    usr		早期用户空间代码(所谓的initramfs)
-    tools		在Linux开发中用的工具
-    virt		虚拟化基础结构
-文件相关
-    COPYING		内核许可证(GNU GPL v2)
-    CREDITS	具有贡献的开发者列表
-    MAINTAINERS	维护者列表，他们负责维护内核子系统和驱动程序
-    Makefile	编译内核的Makefile
+| 文件或目录    | 说明                                         |
+| ------------- | -------------------------------------------- |
+| arch          | 特定体系结构的源码                           |
+| block         | 块设备I/O层                                  |
+| crypto        | 加密API                                      |
+| Documentation | 内核源码文档                                 |
+| drivers       | 设备驱动程序                                 |
+| firmware      | 使用某些驱动程序而需要的设备固件             |
+| fs            | VFS和各种文件文件系统                        |
+| include       | 内核头文件                                   |
+| init          | 内核引导和初始化                             |
+| ipc           | 进程间通信                                   |
+| kernel        | 像调度程序这样的核心子系统                   |
+| lib           | 通用内核函数                                 |
+| mm            | 内核管理子系统和VMnet网络子系统              |
+| samples       | 示例代码                                     |
+| scripts       | 编译内核所用的脚本                           |
+| security      | Linux安全模块                                |
+| sound         | 语音子系统                                   |
+| usr           | 早期用户空间代码(所谓的initramfs)            |
+| tools         | 在Linux开发中用的工具                        |
+| virt          | 虚拟化基础结构                               |
+| COPYING       | 内核许可证(GNU GPL v2)                       |
+| CREDITS       | 具有贡献的开发者列表                         |
+| MAINTAINERS   | 维护者列表，他们负责维护内核子系统和驱动程序 |
+| Makefile      | 编译内核的Makefile                           |
 
 ### 3. 内核构建
 配置
-make config	命令交互方式
-make menuconfig	ncursue方式
-make gconfig	gnome图形方式
-make defconfig	缺省值内核配置
-make oldconfig	使用老配置文件
+
+|                 |                |
+| --------------- | -------------- |
+| make config     | 命令交互方式   |
+| make menuconfig | ncursue方式    |
+| make gconfig    | gnome图形方式  |
+| make defconfig  | 缺省值内核配置 |
+| make oldconfig  | 使用老配置文件 |
+|                 |                |
+
 以上几种方式任选其一，最终在内核源码根目录下生成  .config 文件，这就是最终的配置文件。
-CONFIG_SMP	对称多处理器支持
-CONFIG_PREEMPT	内核抢占功能支持
-　　
+- CONFIG_SMP —— 对称多处理器支持
+- CONFIG_PREEMPT —— 内核抢占功能支持
+
 编译
 make	[-jn]		n个线程同时编译
 arch/<architecture>/boot/bzImage就是最终编译出的内核文件.
@@ -126,7 +144,7 @@ System.map	内核符号与内存地址的对照表
 必须时刻注意同步和并发
 需要注意可移植性
 
-## 第三章	进程管理
+## 3. 进程管理
 
 ### 1. 进程
 进程	处于执行期的程序以及相关的资源的总称
@@ -389,7 +407,7 @@ do_exit() <kernel/exit.c>完成资源释放后，调用schedule()切换到新的
                         -->  收尸
 
 
-## 第四章	进程调度
+## 4. 进程调度
 调度程序的任务是在一组处于可运行状态的进程中选择一个来执行。
 多任务分类	非抢占式任务 和 抢占式任务
 让步	非抢占模式中，进程主动挂起自己
@@ -425,7 +443,7 @@ linux进程优先级
 
 
 
-第五章	系统调用
+5. 系统调用
 在linux中，系统调用是用户空间访问内核的唯一手段；除异常和陷入外，它们是内核唯一的合法入口。
 标准C或posix   -->  系统调用  --> 内核
 在Unix世界里，最流行的应用编程接口是基于Posix标准的。
@@ -543,7 +561,7 @@ eg.	实现系统调用long foo() ;
 
 ​	
 
-## 第六章	内核数据结构
+## 6. 内核数据结构
 链表类型
     单向链表
     单向循环链表
@@ -739,17 +757,17 @@ kfifo结构体
 ​    static inline unsigned int kfifo_size(struct kfifo *fifo) ;
 ​    获取fifo容量
 ​    
-    static inline unsigned int kfifo_len(struct kfifo *fifo) ;
-    获取fifo中数据大小
-    
-    static inline unsigned int kfifo_avail(struct kfifo *fifo) ;
-    获取fifo中剩余空间
-    
-    static inline int kfifo_is_empty(struct kfifo *fifo) ;
-    非0值代表空，0代表非空。
-    
-    static inline int kfifo_is_full(struct kfifo *fifo) ;
-    非0值代表满，0代表不满。
+​    static inline unsigned int kfifo_len(struct kfifo *fifo) ;
+​    获取fifo中数据大小
+​    
+​    static inline unsigned int kfifo_avail(struct kfifo *fifo) ;
+​    获取fifo中剩余空间
+​    
+​    static inline int kfifo_is_empty(struct kfifo *fifo) ;
+​    非0值代表空，0代表非空。
+​    
+​    static inline int kfifo_is_full(struct kfifo *fifo) ;
+​    非0值代表满，0代表不满。
 
 
 ### 3. 映射			 
@@ -758,7 +776,7 @@ kfifo结构体
             
 
 
-## 第七章	中断和中断处理
+## 7. 中断和中断处理
 
 ### 1. 中断			 
 中断控制器是个简单的电子芯片，其作用是将多路中断管线，采用复用技术只通过一个和处理器连接的管线与处理器通信。当接收到一个中断后，中断控制器会给处理器发送一个电信号。
@@ -870,21 +888,21 @@ XT-PIC为PC上标准的可编程控制器，在具有I/O APIC的系统上，大�
 ​            ret = action->handler(irq, action->dev_id);
 ​            trace_irq_handler_exit(irq, action, ret);
 ​    
-            switch (ret) {
-            case IRQ_WAKE_THREAD:
-                ... ...
-            case IRQ_HANDLED:
-                ... ...
-            default:
-                break;
-            }
-    
-            retval |= ret;
-            action = action->next; 
-        } while (action);
-        ... ... 
-        return retval;
-    }
+​            switch (ret) {
+​            case IRQ_WAKE_THREAD:
+​                ... ...
+​            case IRQ_HANDLED:
+​                ... ...
+​            default:
+​                break;
+​            }
+​    
+​            retval |= ret;
+​            action = action->next; 
+​        } while (action);
+​        ... ... 
+​        return retval;
+​    }
 由上可知，中断响应将当前中断线上注册的所有共享的中断处理程序都遍历一遍，找到匹配的中断处理程序，进而运行。
 
 ### 4. 中断控制
@@ -913,7 +931,7 @@ XT-PIC为PC上标准的可编程控制器，在具有I/O APIC的系统上，大�
     in_irq()	当前正在执行中断处理程序返回非0值。
 
 
-## 第八章	下半部和推后执行的工作
+## 8. 下半部和推后执行的工作
 
 ### 1. 概述
 不仅仅是linux，许多操作系统也把处理硬件中断的过程分为两个部分。上半部简单快速，执行的时候禁止一些或者全部中断；下半部稍后执行，执行期间可以响应所有中断。 这种设计科使系统处于中断屏蔽的时间尽可能短，以提高系统的响应能力。
@@ -1031,15 +1049,15 @@ softirq_vec数组最大32个元素, 全局变量irq_stat的__softirq_pending成�
 它是32位的数据，某位为1，代表某位被触发标记过, 软中断执行时响应的软中断处理函数可以得到执行.
 下面我们称之为pending。
 ​    
-    <arch/x86/include/asm/hardirq.h>	
-    #define set_softirq_pending(x)	percpu_write(irq_stat.__softirq_pending, (x))	// irq_stat.__softirq_pending = x ; 
-    设置位图pending取值为x，为0时代表清除所有触发标记。
-        
-    #define or_softirq_pending(x)	percpu_or(irq_stat.__softirq_pending, (x))		// irq_stat.__softirq_pending |= x ; 
-    再原在的位图pending基础上或上x，即添加新的触发标记.
-        
-    #define local_softirq_pending()	percpu_read(irq_stat.__softirq_pending)		// return irq_stat.__softirq_pending ;
-    获取所有软中断处理对象标记位图pending。
+​    <arch/x86/include/asm/hardirq.h>	
+​    #define set_softirq_pending(x)	percpu_write(irq_stat.__softirq_pending, (x))	// irq_stat.__softirq_pending = x ; 
+​    设置位图pending取值为x，为0时代表清除所有触发标记。
+​        
+​    #define or_softirq_pending(x)	percpu_or(irq_stat.__softirq_pending, (x))		// irq_stat.__softirq_pending |= x ; 
+​    再原在的位图pending基础上或上x，即添加新的触发标记.
+​        
+​    #define local_softirq_pending()	percpu_read(irq_stat.__softirq_pending)		// return irq_stat.__softirq_pending ;
+​    获取所有软中断处理对象标记位图pending。
 
 软中断触发接口
     <include/linux/interrupt.h>
@@ -1231,13 +1249,13 @@ tasklet调度	= 添加新tasklet对象入链 + 触发标记tasklet软中断。
 ​        {
 ​            unsigned long flags;
 ​        
-            local_irq_save(flags);
-            t->next = NULL;
-            *__get_cpu_var(tasklet_hi_vec).tail = t;
-            __get_cpu_var(tasklet_hi_vec).tail = &(t->next);		// 将新的对象加入链尾部
-            raise_softirq_irqoff(HI_SOFTIRQ);						// 触发标记，以便下次软中断运行时其得到运行
-            local_irq_restore(flags);
-        }
+​            local_irq_save(flags);
+​            t->next = NULL;
+​            *__get_cpu_var(tasklet_hi_vec).tail = t;
+​            __get_cpu_var(tasklet_hi_vec).tail = &(t->next);		// 将新的对象加入链尾部
+​            raise_softirq_irqoff(HI_SOFTIRQ);						// 触发标记，以便下次软中断运行时其得到运行
+​            local_irq_restore(flags);
+​        }
 
 3) 删除对象
     void tasklet_kill(struct tasklet_struct *t) ;
@@ -1431,7 +1449,7 @@ void local_bh_disable(void) ;	禁止本地处理器核软中断和tasklet
 void local_bh_enable(void) ;	激活本地处理器核软中断和tasklet
 
 
-## 第九章	内核同步介绍
+## 9. 内核同步介绍
 
 临界区	访问和操作共享数据的代码段
 竞争条件	两个线程处于同一临界区执行
@@ -1455,7 +1473,7 @@ i++
 加锁粒度	包括 精细化保护数据的规模变小 和 全部处理器加锁到各处理器核加锁，用以提高效率。
 
 
-## 第十章	内核同步方法
+## 10. 内核同步方法
 
 ### 1. 原子操作
 原子操作可以保证指令以原子方式执行——执行过程不被打断。
@@ -1664,16 +1682,16 @@ eg. 自旋锁原理
 ​        int spin_trylock(spinlock_t *lock)
 ​        如果未获取则返回非0
 ​    
-    判断是否上锁
-        int spin_is_locked(spinlock_t *lock) ;
-        如果指定的锁当前正在被获取则返回非0，否则返回0
-    
-    禁止所有下半部的执行，并获取指定的锁.
-        void spin_lock_bh(spinlock_t *lock) ;
-        函数底层调用了preempt_disable();
-    
-    释放指定的锁，允许下半部的执行
-        void spin_unlock_bh(spinlock_t *lock) ;
+​    判断是否上锁
+​        int spin_is_locked(spinlock_t *lock) ;
+​        如果指定的锁当前正在被获取则返回非0，否则返回0
+​    
+​    禁止所有下半部的执行，并获取指定的锁.
+​        void spin_lock_bh(spinlock_t *lock) ;
+​        函数底层调用了preempt_disable();
+​    
+​    释放指定的锁，允许下半部的执行
+​        void spin_unlock_bh(spinlock_t *lock) ;
 
 当下半部和进程上下文共享数据时，需要加锁的同时还要禁止下半部执行；当中断处理程序和下半部共享数据时，需要加锁的同时还要禁止中断；当数据被两个不同种类的tasklet共享或软中断共享时，没有必要禁止下半部。
 
@@ -1967,7 +1985,7 @@ smp_mb( )	在SMP上提供mb( )功能，在UP上提供barrier( )功能
 barrier( )	阻止编译器跨屏障对载入或存储操作进行优化
 
 
-## 第十一章	定时器和时间管理
+## 11. 定时器和时间管理
 
 ### 1. 基本概念
 
@@ -2106,7 +2124,7 @@ jiffies回绕
 
 
 
-## 第十二章	内存管理
+## 12. 内存管理
 
 ### 1. 页
 MMU	内存管理单元	把虚拟地址转换为物理地址的硬件
@@ -2369,21 +2387,21 @@ slab接口
 ​        task_struct_cachep = kmem_cache_create("task_struct", sizeof(struct task_struct),
 ​                ARCH_MIN_TASKALIGN, SLAB_PANIC | SLAB_NOTRACK, NULL);
 ​        
-    fork()时创建新的进程描述符
-        do_fork()
-            --> dup_task_struct() 
-            struct task_struct *tsk;
-            tsk = alloc_task_struct();
-            if (!tsk)
-                return NULL;
-    
-    进程执行完成后释放
-        free_task_struct()
-        # define free_task_struct(tsk)	kmem_cache_free(task_struct_cachep, (tsk))	
-    
-    销毁进程高速缓存
-        int	err = kmem_cache_destory( task_struct_cachep ) ;
-        if ( err ) ...
+​    fork()时创建新的进程描述符
+​        do_fork()
+​            --> dup_task_struct() 
+​            struct task_struct *tsk;
+​            tsk = alloc_task_struct();
+​            if (!tsk)
+​                return NULL;
+​    
+​    进程执行完成后释放
+​        free_task_struct()
+​        # define free_task_struct(tsk)	kmem_cache_free(task_struct_cachep, (tsk))	
+​    
+​    销毁进程高速缓存
+​        int	err = kmem_cache_destory( task_struct_cachep ) ;
+​        if ( err ) ...
 
 
 ​	
@@ -2470,16 +2488,16 @@ b) 新的接口
 ​			
 ​            eg. get_cpu_var(name)++ ;
 ​    
-    操作完成
-        <include/linux/percpu.h>
-        #define put_cpu_var(var) do { \
-            (void)&(var); \
-            preempt_enable(); \		/* 激活内核抢占 */
-            } while (0)
+​    操作完成
+​        <include/linux/percpu.h>
+​        #define put_cpu_var(var) do { \
+​            (void)&(var); \
+​            preempt_enable(); \		/* 激活内核抢占 */
+​            } while (0)
 
 
 ​	
-## 第十三章 虚拟文件系统
+## 13. 虚拟文件系统
 
 ### 1. 文件系统抽象层
 
