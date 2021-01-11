@@ -225,20 +225,25 @@ struct thread_info {
 
 ##### 3.2.1.3 任务队列
 
-​    内核中用双向循环链表任务队列来管理所有的进程，其节点就是进程描述符。
-​    任务队列名称	task_list	<linux/wait.h>
+内核中用双向循环链表任务队列来管理所有的进程，其节点就是进程描述符。
 
+任务队列名称	`task_list	<linux/wait.h>`
 
-正在运行的进程的进程描述符
-    进程上下文	指“代表进程执行”的内核部分。即current.
-    宏current用于查找当前正在运行的进程的"进程描述符"。
-    current的查找速度尤为重要。依据硬件体系结构不同。有的处理器提供了专门的寄存器用于存储current值，而有的系统没有专门的寄存器，以内存指针代替,速度效率较低。
-        #define get_current() (current_thread_info()->task)
-        #define current get_current()
+**进程上下文**	指“代表进程执行”的内核部分。即current. 
 
-        current_thread_info()
-            对于专门寄存器存储的方式：直接获取相应寄存器的值，此值就是内存上当前进程task_struct结构体对象的首地址.
-            对于无专门寄存器存储方式：正在运行的当前这个进程的内核栈首地址是被存储在某个寄存器中的(x86_32是esp寄存器中), 因为内核栈跟thread_info共用空间，也就是说内核栈首地址就是thread_info首地址. 因此thread_info->task就是要查找的进程描述符。
+宏current用于查找当前正在运行的进程的"进程描述符"。
+
+ current的查找速度尤为重要。依据硬件体系结构不同。有的处理器提供了专门的寄存器用于存储current值，而有的系统没有专门的寄存器，以内存指针代替,速度效率较低。
+
+```c
+#define get_current() (current_thread_info()->task)
+#define current get_current()
+```
+
+**current_thread_info()**
+
+- 对于专门寄存器存储的方式：直接获取相应寄存器的值，此值就是内存上当前进程task_struct结构体对象的首地址.
+- 对于无专门寄存器存储方式：正在运行的当前这个进程的内核栈首地址是被存储在某个寄存器中的(x86_32是esp寄存器中), 因为内核栈跟thread_info共用空间，也就是说内核栈首地址就是thread_info首地址. 因此thread_info->task就是要查找的进程描述符。
 
 ##### 3.2.1.4 进程家族树
 
