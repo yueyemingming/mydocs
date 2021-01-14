@@ -7,4 +7,10 @@
 - [命令使用](cmd.md)
 - [rippled api —— http://cw.hubwiz.com/card/c/rippled-api-manual/](http://cw.hubwiz.com/card/c/rippled-api-manual/)
 - [瑞波服务器安装(官方文档)](xrp.install.md)
+- [CentOS/Ubuntu XRP节点搭建](xrp.node/readme.md)
 - [独立模式.双节点.搭建](alonemode.two.nodes/readme.md)
+- [账户管理系统](account.manage.md)
+- [瑞波币交易](exchange.md)
+- [validator-keys-tool配置验证器](validator-keys-tool.md)
+- [节点配置文件(rippled.cfg)配置详解](rippled.cfg.md)
+

@@ -274,5 +274,143 @@ eSI6IkMyQzg5NTU2ODQ5QjYxNjNGRjFFQTcwMkQwQ0JDRTgwNjg5QUI1MTM0NjdGOEMyNEVC
 RThGMEU0NEExNkFENzEifQ==
 ```
 
+## 启动节点
 
+```bash
+rippled --start --conf=/root/ripple/alonemode.two.nodes/node1.cfg
+rippled --start --conf=/root/ripple/alonemode.two.nodes/node2.cfg
+```
+
+## 查看服务器状态
+
+```bash
+rippled  --conf=/root/ripple/alonemode.two.nodes/node2.cfg server_info
+
+```
+
+显示如下：
+
+```json
+Loading: "/root/ripple/alonemode.two.nodes/node2.cfg"
+2021-Jan-14 10:16:58.995027390 UTC HTTPClient:NFO Connecting to 127.0.0.1:6002
+
+{
+   "result" : {
+      "info" : {
+         "build_version" : "1.6.0",
+         "closed_ledger" : {
+            "age" : 5,
+            "base_fee_xrp" : 1e-05,
+            "hash" : "0E2FF12B65551F107B8862DFAD72A6A59F8003E36749F7996BA1C6BFDAD28243",
+            "reserve_base_xrp" : 200,
+            "reserve_inc_xrp" : 50,
+            "seq" : 673
+         },
+         "complete_ledgers" : "empty",
+         "hostid" : "develop",
+         "io_latency_ms" : 1,
+         "jq_trans_overflow" : "0",
+         "last_close" : {
+            "converge_time_s" : 2,
+            "proposers" : 0
+         },
+         "load" : {
+            "job_types" : [
+               {
+                  "in_progress" : 1,
+                  "job_type" : "clientCommand"
+               },
+               {
+                  "job_type" : "peerCommand",
+                  "per_second" : 1
+               }
+            ],
+            "threads" : 6
+         },
+         "load_factor" : 1,
+         "peer_disconnects" : "0",
+         "peer_disconnects_resources" : "0",
+         "peers" : 1,
+         "pubkey_node" : "n9KtAhiNf7TYbfTvMDt1BWjzpGmQMRQAPwDBxHBrwJVQmcbMqDYq",
+         "pubkey_validator" : "nHB1c9HgLVFD1sBTUGDRUWgUYZdYh3XYacnPXKTpSy87rRmqHuiG",
+         "published_ledger" : "none",
+         "server_state" : "proposing",
+         "server_state_duration_us" : "2551277",
+         "state_accounting" : {
+            "connected" : {
+               "duration_us" : "97385790",
+               "transitions" : 670
+            },
+            "disconnected" : {
+               "duration_us" : "2271225",
+               "transitions" : 1
+            },
+            "full" : {
+               "duration_us" : "2066581269",
+               "transitions" : 670
+            },
+            "syncing" : {
+               "duration_us" : "0",
+               "transitions" : 0
+            },
+            "tracking" : {
+               "duration_us" : "4209",
+               "transitions" : 670
+            }
+         },
+         "time" : "2021-Jan-14 10:16:58.995462 UTC",
+         "uptime" : 2166,
+         "validation_quorum" : 2,
+         "validator_list" : {
+            "count" : 1,
+            "expiration" : "never",
+            "status" : "active"
+         }
+      },
+      "status" : "success"
+   }
+}
+```
+
+
+
+## 查看peers链接情况
+
+```bash
+rippled  --conf=/root/ripple/alonemode.two.nodes/node1.cfg peers
+```
+
+显示如下：
+
+```json
+Loading: "/root/ripple/alonemode.two.nodes/node1.cfg"
+2021-Jan-14 10:14:08.090435163 UTC HTTPClient:NFO Connecting to 127.0.0.1:5002
+
+{
+   "result" : {
+      "cluster" : {},
+      "peers" : [
+         {
+            "address" : "10.254.1.150:42896",
+            "inbound" : true,
+            "latency" : 0,
+            "ledger" : "51A1C34CB4A64868CEB1042C7F0FEA9332D44BD60B07B1C99151FBA9E12D7AE7",
+            "load" : 51,
+            "metrics" : {
+               "avg_bps_recv" : "4533",
+               "avg_bps_sent" : "373",
+               "total_bytes_recv" : "4794804",
+               "total_bytes_sent" : "465266"
+            },
+            "protocol" : "XRPL/2.1",
+            "public_key" : "n9KtAhiNf7TYbfTvMDt1BWjzpGmQMRQAPwDBxHBrwJVQmcbMqDYq",
+            "sanity" : "unknown",
+            "uptime" : 1994,
+            "version" : "rippled-1.6.0"
+         }
+      ],
+      "status" : "success"
+   }
+}
+```
 
