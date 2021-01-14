@@ -224,15 +224,15 @@ XRP Ledger地址使用base58和Ripple字典进行编码：`rpshnaf39wBUDNEGHJKLM
 
 **Private Key(私钥)**
 
-`master_key`，`master_seed`和`master_seed_hex`是各种格式的私钥，所有这些都可用于交易签名 . 尽管以`master_`为前缀，但这些密钥不一定是帐户的主密钥。此响应中，`master_`前缀更多地指代 密钥作为`私钥的角色。 `master_seed`是主种子，从中可以派生有关此帐户的所有其他信息。
+`master_key`，`master_seed`和`master_seed_hex`是各种格式的私钥，所有这些都可用于交易签名 . 尽管以`master_`为前缀，但这些密钥不一定是帐户的主密钥。此响应中，`master_`前缀更多地指代 密钥作为`私钥的角色`。  `master_seed`是主种子，从中可以派生有关此帐户的所有其他信息。
 
 **Public Key(公钥)**
 
-`public_key`和`public_key_hex`是公钥的两种不同格式，`public_key_hex`是与交易签名的私钥对应的公钥。`public_key`和`public_key_hex`都直接从`master_seed`推导出来。此外，account_id在收到资金并`创建帐户`的`交易`之后才能发送其他交易。
+`public_key`和`public_key_hex`是公钥的两种不同格式，`public_key_hex`是与交易签名的私钥对应的公钥。`public_key`和`public_key_hex`都直接从`master_seed`推导出来。此外，`account_id`在收到资金并`创建帐户`的`交易`之后才能发送其他交易。
 
-但是，account_id（无资金帐户）可以用作常规密钥或签名者列表的成员，以授权存在的另一个帐户的交易。
+但是，`account_id（无资金帐户）`可以用作常规密钥或签名者列表的成员，以授权存在的另一个帐户的交易。
 
-要创建存储在分账本中的资金帐户，account_id必须接收支付交易，该交易需提供足够的XRP以满足保留要求。
+要创建存储在分账本中的资金帐户，`account_id` 必须接收支付交易，该交易需提供足够的XRP以满足保留要求。
 
 **account_id(用户ID)**
 
@@ -256,9 +256,9 @@ XRP Ledger地址使用base58和Ripple字典进行编码：`rpshnaf39wBUDNEGHJKLM
 
 #### 常规密钥对
 
-XRP Ledger允许帐户授权一个二级密钥对，称为常规密钥对，用于签署未来的交易，同时保持主密钥对脱机。如果常规密钥对的私钥被泄露，可以删除或替换它，而无需更改帐户的其余部分并重新建立与其他帐户的关系。还可以主动轮换常规密钥对(对于帐户的主密钥对，这两种情况都不可能，这与帐户的地址有内在联系。）
+XRP Ledger允许帐户授权一个二级密钥对，称为**常规密钥对**，用于签署未来的交易，同时保持主密钥对脱机。如果常规密钥对的私钥被泄露，可以删除或替换它，而无需更改帐户的其余部分并重新建立与其他帐户的关系。还可以主动轮换常规密钥对(对于帐户的主密钥对，这两种情况都不可能，这与帐户的地址有内在联系。）
 
-使用`wallet_propose`方法生成密钥对以用作常规密钥对。但是，与主密钥对不同，主密钥对与其支持的帐户的account_id并行生成, 必须明确创建常规密钥对与您希望其为其签名交易的帐户之间的关系。使用`SetRegularKey`方法为帐户分配常规密钥对。
+使用`wallet_propose`方法生成密钥对以用作常规密钥对。但是，与主密钥对不同，主密钥对与其支持的帐户的`account_id`并行生成, 必须明确创建常规密钥对与您希望其为其签名交易的帐户之间的关系。使用`SetRegularKey`方法为帐户分配常规密钥对。
 
 查看 [Assign a Regular Key Pair](https://developers.ripple.com/assign-a-regular-key-pair.html) 为账户分配常规密钥对教程.
 
