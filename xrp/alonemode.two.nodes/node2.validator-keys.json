@@ -1,0 +1,7 @@
+{
+   "key_type" : "ed25519",
+   "public_key" : "nHBoSFY7MTDdDPL3GDduGnkCj89vtgF4cZyhciCCPaMeYijFbJnR",
+   "revoked" : false,
+   "secret_key" : "paaSjLUDeTENkNcJu71KmVPkKpTavb8b5BySNjXYRY2LeiMsqzi",
+   "token_sequence" : 0
+}
