@@ -5,59 +5,11 @@
 
 ------
 
-目录
-
-- 交易系统基础
-  - 账户
-    - [创建账户](https://www.cnblogs.com/failymao/p/10261402.html#创建账户)
-    - [Addresses](https://www.cnblogs.com/failymao/p/10261402.html#addresses)
-    - [特殊地址](https://www.cnblogs.com/failymao/p/10261402.html#特殊地址)
-    - [账户的持久性](https://www.cnblogs.com/failymao/p/10261402.html#账户的持久性)
-    - [交易历史](https://www.cnblogs.com/failymao/p/10261402.html#交易历史)
-    - [地址编码](https://www.cnblogs.com/failymao/p/10261402.html#地址编码)
-  - 加密密钥
-    - [生成密钥对](https://www.cnblogs.com/failymao/p/10261402.html#生成密钥对)
-    - [主密钥对](https://www.cnblogs.com/failymao/p/10261402.html#主密钥对)
-    - [常规密钥对](https://www.cnblogs.com/failymao/p/10261402.html#常规密钥对)
-  - 账户资金储备
-    - [基本和私人备用金](https://www.cnblogs.com/failymao/p/10261402.html#基本和私人备用金)
-    - [私人备用金](https://www.cnblogs.com/failymao/p/10261402.html#私人备用金)
-  - 交易费用
-    - [当前交易成本](https://www.cnblogs.com/failymao/p/10261402.html#当前交易成本)
-    - [特殊交易成本](https://www.cnblogs.com/failymao/p/10261402.html#特殊交易成本)
-    - [用户交易产生的交易成本的归谁所有](https://www.cnblogs.com/failymao/p/10261402.html#用户交易产生的交易成本的归谁所有)
-    - [加载成本和打开账本成本](https://www.cnblogs.com/failymao/p/10261402.html#加载成本和打开账本成本)
-    - [本地加载成本](https://www.cnblogs.com/failymao/p/10261402.html#本地加载成本)
-    - [创建新账本的成本](https://www.cnblogs.com/failymao/p/10261402.html#创建新账本的成本)
-    - [交易排队](https://www.cnblogs.com/failymao/p/10261402.html#交易排队)
-    - 查询交易成本
-      - [1. Server_info方法](https://www.cnblogs.com/failymao/p/10261402.html#1-server_info方法)
-      - [2. Server_state方法](https://www.cnblogs.com/failymao/p/10261402.html#2-server_state方法)
-    - [指定交易成本](https://www.cnblogs.com/failymao/p/10261402.html#指定交易成本)
-    - [自动指定交易成本](https://www.cnblogs.com/failymao/p/10261402.html#自动指定交易成本)
-  - 提交可靠的交易
-    - [背书](https://www.cnblogs.com/failymao/p/10261402.html#背书)
-    - [交易时间表](https://www.cnblogs.com/failymao/p/10261402.html#交易时间表)
-    - 交易
-      - [1.提交](https://www.cnblogs.com/failymao/p/10261402.html#1提交)
-      - [2.验证](https://www.cnblogs.com/failymao/p/10261402.html#2验证)
-      - [3.Ledger 缺失账本](https://www.cnblogs.com/failymao/p/10261402.html#3ledger-缺失账本)
-    - [开发相关](https://www.cnblogs.com/failymao/p/10261402.html#开发相关)
-    - rippled - 提交和验证交易
-      - [1. 确认账户序列号](https://www.cnblogs.com/failymao/p/10261402.html#1-确认账户序列号)
-      - [2. 确定最后验证的账本](https://www.cnblogs.com/failymao/p/10261402.html#2-确定最后验证的账本)
-      - [3. 构建交易](https://www.cnblogs.com/failymao/p/10261402.html#3-构建交易)
-      - [4. 提交交易](https://www.cnblogs.com/failymao/p/10261402.html#4-提交交易)
-      - [5.验证交易](https://www.cnblogs.com/failymao/p/10261402.html#5验证交易)
-      - [6.验证缺失的交易](https://www.cnblogs.com/failymao/p/10261402.html#6验证缺失的交易)
-  - [取消或忽略一笔交易](https://www.cnblogs.com/failymao/p/10261402.html#取消或忽略一笔交易)
-  - [查找交易结果](https://www.cnblogs.com/failymao/p/10261402.html#查找交易结果)
+[TOC]
 
 
 
-## 交易系统基础
-
-### 账户
+## 1. 账户
 
 XRP Ledger中的`“帐户”`代表XRP的持有者和交易的发送者的地址。帐户的核心要素是：
 
@@ -72,7 +24,7 @@ XRP Ledger中的`“帐户”`代表XRP的持有者和交易的发送者的地�
 
 在账本的数据树(Milkre tire)中，帐户的核心数据存储在`AccountRoot`账本对象类型中。帐户也可以是其他几种类型数据的所有者（或部分所有者）
 
-#### 创建账户
+### 1.1 创建账户
 
 没有专门的`创建帐户`交易。 如果付款将XRP等于或大于帐户备用金发送到不存在的账户，则付款交易会自动创建新帐户。这称为资金帐户，并在账本中创建`AccountRoot`对象。没有其他交易可以创建帐户.
 
@@ -88,7 +40,7 @@ XRP Ledger中的`“帐户”`代表XRP的持有者和交易的发送者的地�
 
      第一次在自己的XRP Ledger地址收到XRP时，必须支付账户储备金（目前为20 XRP）-- 这部分资金会无期限锁定 , 相比之下，交易所通常将所有客户的XRP保存在`企业XRP Ledger账户`中，因此客户无需为交易所的个人账户支付准备金。
 
-#### Addresses
+### 1.2 Addresses
 
 XRP分类帐中的Addresses由base58 XRP账本地址标识。该地址来自帐户的主公钥(master [public key](https://en.wikipedia.org/wiki/Public-key_cryptography))，该公钥又来自密钥。`An Addresses`在JSON中表示为字符串，具有以下特征：
 
@@ -98,7 +50,7 @@ XRP分类帐中的Addresses由base58 XRP账本地址标识。该地址来自帐�
 - 区分大小写
 - 包括一个4字节的校验和，以便从随机字符(概率约为2 ^ 32)生成有效地址
 
-#### 特殊地址
+### 1.3 特殊地址
 
 某些地址在XRP Ledger中具有特殊含义或历史用途。在许多情况下，这些是“黑洞”地址，意味着地址不是从已知的密钥导出的, 由于实际上不可能从地址推导出密钥，因此黑洞地址所拥有的任何XRP都将永远丢失。
 
@@ -110,13 +62,13 @@ XRP分类帐中的Addresses由base58 XRP账本地址标识。该地址来自帐�
 | rrrrrrrrrrrrrrrrrNAMEtxvNvQ        | RippleName预留 | Ripple要求用户将XRP发送到此帐户以保留Ripple Names。          | 是       |
 | rrrrrrrrrrrrrrrrrrrn5RM1rHd        | NaN地址        | 当base58编码值NaN时，先前版本的ripple-lib会生成此地址。      | 是       |
 
-#### 账户的持久性
+### 1.4 账户的持久性
 
 账户一旦创建后，XRP Ledger的数据树(默克尔树)中将永远存在一个帐户。这是因为这个账户必须永久跟踪该账户当前交易的序列号，以便不能再次处理旧交易。
 
 与比特币和许多其他加密货币不同，`XRP Ledger`公共账本的链的每个新账本都包含账本的完整状态，每个新账户的大小都会增加。因此，除非完全有必要，否则Ripple不鼓励创建新帐户。代表许多用户发送和接收价值的机构(交易所或者其他商业机构 )可以使用源标签和目标标签( [**Source Tags** and **Destination Tags**](https://developers.ripple.com/become-an-xrp-ledger-gateway.html#source-and-destination-tags) )来区分与客户的付款，同时仅使用XRP Ledger中的一个（或少数）帐户
 
-#### 交易历史
+### 1.5 交易历史
 
 在XRP Ledger中，交易历史记录由交易的标识hash值和账本索引(`ledger index`)链接的交易的“线程”跟踪。`AccountRoot`账本对象具有最近修改它的交易的标记Hash值账本; 该交易的元数据包括AccountRoot节点的先前状态，因此可以通过这种方式迭代单个帐户的历史记录。此交易历史记录包括直接修改AccountRoot节点的所有交易，包括：
 
@@ -134,7 +86,7 @@ XRP分类帐中的Addresses由base58 XRP账本地址标识。该地址来自帐�
 - `Escrow`(托管)对象，表示按时间或加密条件锁定的帐户持有的付款。
 - `SignerList`对象，表示可以通过多重签名授权帐户交易的的地址列表。
 
-#### 地址编码
+### 1.6 地址编码
 
 XRP Ledger地址使用base58和Ripple字典进行编码：`rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz` 由于XRP Ledger使用base58对几种类型的密钥进行编码，因此它使用一个字节的“类型前缀”（也称为“版本前缀”）为编码数据添加前缀以区分它们. 类型前缀导致地址通常以base58格式的不同字母开头。
 
@@ -194,13 +146,13 @@ XRP Ledger地址使用base58和Ripple字典进行编码：`rpshnaf39wBUDNEGHJKLM
    // rDTXLQ7ZKZVKz33zJbHjgVShjsBnqMBhmN
    ```
 
-### 加密密钥
+## 2. 加密密钥
 
 在XRP Ledger中，数字签名证明交易被授权执行一组特定的操作。只有已签名的交易才能提交到网络并记录进经过验证的账本.
 
 每个数字签名都是 由与交易发送帐户关联的加密密钥对生成。 可以使用任何XRP Ledger支持的加密签名算法生成密钥对。无论使用何种算法生成密钥对，密钥对都可以用作主密钥对，常规密钥对或签名者列表的成员
 
-#### 生成密钥对
+### 2.1 生成密钥对
 
 您使用`wallet_propose`方法生成密钥对 , 以下是一个成功生成密钥对的响应
 
@@ -222,11 +174,11 @@ XRP Ledger地址使用base58和Ripple字典进行编码：`rpshnaf39wBUDNEGHJKLM
 
 响应包含`密钥对`（私钥和公钥，各种格式）, `account_id`, `key_type(加密算法类型)`。
 
-**Private Key(私钥)**
+#### 2.1.1 Private Key(私钥)
 
 `master_key`，`master_seed`和`master_seed_hex`是各种格式的私钥，所有这些都可用于交易签名 . 尽管以`master_`为前缀，但这些密钥不一定是帐户的主密钥。此响应中，`master_`前缀更多地指代 密钥作为`私钥的角色`。  `master_seed`是主种子，从中可以派生有关此帐户的所有其他信息。
 
-**Public Key(公钥)**
+#### 2.1.2 Public Key(公钥)
 
 `public_key`和`public_key_hex`是公钥的两种不同格式，`public_key_hex`是与交易签名的私钥对应的公钥。`public_key`和`public_key_hex`都直接从`master_seed`推导出来。此外，`account_id`在收到资金并`创建帐户`的`交易`之后才能发送其他交易。
 
@@ -234,17 +186,17 @@ XRP Ledger地址使用base58和Ripple字典进行编码：`rpshnaf39wBUDNEGHJKLM
 
 要创建存储在分账本中的资金帐户，`account_id` 必须接收支付交易，该交易需提供足够的XRP以满足保留要求。
 
-**account_id(用户ID)**
+#### 2.1.3 account_id(用户ID)
 
 `account_id`由公钥推导而来，并指定在XRP Ledger中创建帐户的可能性。重要的是，虽然存在account_id，但在account_id收到其`首次XRP付款`之前，XRP Ledger中不存在实际帐户。
 
 生成的`密钥对`可以在以下三种情况下使用 : `主密钥对`, `常规密钥对`, `签名组成员`
 
-**Key Type(加密算法类型)**
+#### 2.1.4 Key Type(加密算法类型)
 
 字段key_type指示使用哪种加密签名算法来生成此密钥对。当您使用wallet_propose方法生成密钥对的请求时，可以指定key_type.
 
-#### 主密钥对
+### 2.2 主密钥对
 
 主密钥对由私钥和公钥组成。
 
@@ -254,7 +206,7 @@ XRP Ledger地址使用base58和Ripple字典进行编码：`rpshnaf39wBUDNEGHJKLM
 - 永久放弃冻结的能力。
 - 发送 0 手续费的 `密钥重置交易(常规密钥)`
 
-#### 常规密钥对
+### 2.3 常规密钥对
 
 XRP Ledger允许帐户授权一个二级密钥对，称为**常规密钥对**，用于签署未来的交易，同时保持主密钥对脱机。如果常规密钥对的私钥被泄露，可以删除或替换它，而无需更改帐户的其余部分并重新建立与其他帐户的关系。还可以主动轮换常规密钥对(对于帐户的主密钥对，这两种情况都不可能，这与帐户的地址有内在联系。）
 
@@ -271,20 +223,20 @@ XRP Ledger允许帐户授权一个二级密钥对，称为**常规密钥对**，
 
 可以随时删除或更改常规密钥对。这意味着如果常规私钥被泄露（但主私钥不被破坏），您只需删除或更改常规密钥对即可重新获得对帐户的控制权。
 
-### 账户资金储备
+## 3. 账户资金储备
 
 要提交交易，账户地址必须在共享全局账本中保留最小量的XRP, 意味着无法将此XRP发送到其他地址。要为新地址提供资金，您必须发送足够的XRP以满足保留要求。
 
 目前的最低储备要求是20 XRP。 （这是账本中在不拥有其他 账本对象的最低成本)
 
-#### 基本和私人备用金
+### 3.1 基本和私人备用金
 
 储备金要求分为两部分：
 
 - 基本储备是分类帐中每个地址所需的最小XRP数量。目前，这是20 XRP（20000000 drops）
 - 私人储备是为了满足地址拥有足够的空间来存储不同的账本对象。目前，每一个账本对象需要5 XRP（5000000 drops)
 
-#### 私人备用金
+### 3.2 私人备用金
 
 从分类帐中删除对象时，它们不再计入其所有者的保留要求。
 
@@ -296,17 +248,17 @@ XRP Ledger允许帐户授权一个二级密钥对，称为**常规密钥对**，
 - [Owner directories](https://developers.ripple.com/directorynode.html) 列出了有助于地址所有者保留的所有分类帐对象。但是，所有者目录本身不计入保留。
 - [Checks](https://developers.ripple.com/checks.html) 由创建它们的地址（发件人，而不是目的地）拥有。
 
-### 交易费用
+## 4. 交易费用
 
 为保护XRP Ledger免受垃圾邮件和拒绝服务攻击的干扰，每个事务必须消耗少量的XRP。该交易成本旨在维护整个网络的健康发展.
 
-#### 当前交易成本
+### 4.1 当前交易成本
 
 目前，标准交易需要花费的最低交易成本为0.00001 XRP（10drops）会因网络负载而增加。
 
 查询交易成本: [query `rippled` for the current transaction cost](https://developers.ripple.com/transaction-cost.html#querying-the-transaction-cost).
 
-#### 特殊交易成本
+### 4.2 特殊交易成本
 
 不同类型的交易由不同的交易成本
 
@@ -317,11 +269,11 @@ XRP Ledger允许帐户授权一个二级密钥对，称为**常规密钥对**，
 | 多签名交易(Multi-sigled Transaction) | 10 drops * (1 + 签名人数)                |
 | EscrowFinish交易                     | 10 drops * (33 + (文本大小(字节) ÷ 16 )) |
 
-#### 用户交易产生的交易成本的归谁所有
+### 4.3 用户交易产生的交易成本的归谁所有
 
 交易手续费不会归任何人所有: 不像类似BItcoin及其他的数字货币, 手续费是奖励给打包者, XRP 产生的交易费直接被销毁掉. 由于不会有新的XRP产生, 这会使得现有的XRP更加稀缺，并使XRP更有价值，从而使持有XRP的用户受益。
 
-#### 加载成本和打开账本成本
+### 4.4 加载成本和打开账本成本
 
 启用`FeeEscalation amendment` 后，交易成本有两个阈值
 
@@ -334,27 +286,27 @@ XRP Ledger允许帐户授权一个二级密钥对，称为**常规密钥对**，
 - 指定交易成本高到足以包含在当前未结分类帐中的交易。
 - 中间的交易，排队等待后来的分类帐版本
 
-#### 本地加载成本
+### 4.5 本地加载成本
 
 每个rippled 节点根据其当前网络的负载维护一个成本阈值 , 如果提交的交易的费用值低于rippled server的当前基于负载的交易成本 , 该服务将无效 . (注意: 如果通过管理员连接提交交易，只要交易符合未按比例的最低交易成本，服务器就会应用并转发交易) . 除非其费用值满足大多数服务器的要求，否则交易不太可能在共识流程中存活
 
-#### 创建新账本的成本
+### 4.6 创建新账本的成本
 
 rippled 具有用于强制执行交易成本的第二种机制，称为开放式分类帐成本。如果交易符合XRP中的开放式分类帐成本要求，则该交易只能包含在开放式分类帐中。不符合新建账本成本的交易可能会排队等待下一个账本。
 
 对于每个新的账本，服务器根据前一个账本中的交易数量选择要包含在open ledger 中的交易数量的限制。之后，open ledger中包含的每个交易的开放式分类帐成本呈指数级增长。对于下一个账本，如果当前账本包含的交易数多于软限制，则服务器(节点)会增加限制，如果共识过程需要超过5秒，则会降低软限制。
 
-#### 交易排队
+### 4.7 交易排队
 
 当rippled 收到满足服务器本地负载成本而非 `open ledger`的交易时，服务器会预估该交易是否“可能包含在后续账本中”。 大多数交易的成本与 `reference Transaction`成本相同, 某些交易（例如`multi-signed`交易）需要此费用的倍数。当open ledger成本上升时，需求与交易的基本成本成比例
 
-#### 查询交易成本
+### 4.8 查询交易成本
 
 rippled APIs 有两种方法来查询 `local load-based`交易成本: 使用`server_info`和`server_state`命令
 
 如果启用了 `FeeEscalation amendment` , 可以使用`fee` 方法查询`open ledger`的交易手续费.
 
-##### 1. Server_info方法
+#### 4.8.1 Server_info方法
 
 `server_info`方法 返回的响应中位于`validated_ledger.base_fee_xrp`字段。通过将`base_fee_xrp`值乘以响应(response)中`load_factor`参数来缩放中继交易所需的实际成本，该响应表示服务器的当前负载级别 .
 
@@ -362,7 +314,7 @@ rippled APIs 有两种方法来查询 `local load-based`交易成本: 使用`ser
 Current Transaction Cost in XRP = base_fee_xrp × load_factor
 ```
 
-##### 2. Server_state方法
+#### 4.8.2 Server_state方法
 
 server_state方法返回rippled内部负载计算的直接表示。在这种情况下，有效负载率是当前load_factor与load_base的比率。
 
@@ -372,34 +324,41 @@ Current Transaction Cost in Drops = (base_fee × load_factor) ÷ load_base
 
 通常，XRP Ledger完全按照签名执行交易。
 
-#### 指定交易成本
+### 4.9 指定交易成本
 
 每个签过名的交易必须在`Fee `字段中包含交易成本。与已签名交易的所有字段一样，如果签名有效，则无法更改此字段。因此，每笔交易的手续费用都会被销毁，即使自定义的的手续飞数量远远超过网络中可执行的最低易交成本。
 
 在交易进行签名之前, 建议先查询`查询当前交易手续费`. 如果不打算立即提交交易，建议您设定稍高的交易成本，因为可能在未来由于网络负载增加导致交易成本上升, 使当前的交易无法成功提交。
 
-#### 自动指定交易成本
+### 4.10 自动指定交易成本
 
 在在正式rippled 网络上发起交易时，可以省略`Fee`字段。在这种情况下，rippled或RippleAPI会自动检查p2p的状态以获取当前可提交交易的成本，并在交易签名之前添加Fee字段值, 但是这种方式有几点限制和不足:
 
 - 如果在签名和构建交易的过程中网络的交易成本上升，则可能无法确认交易。
-  - 最坏的情况是，交易可能会陷入既未明确确认或拒绝的状态，除非它包含`LastLedgerSequence`参数或直到您使用相同序列号的新的交易取消这笔交易。
+
+  最坏的情况是，交易可能会陷入既未明确确认或拒绝的状态，除非它包含`LastLedgerSequence`参数或直到您使用相同序列号的新的交易取消这笔交易。
 - 事先并不知道此笔交易的手续费
-  - 如果使用的是 rippled，还可以使用`sign`方法的`fee_mult_max`和`fee_div_max`参数来设置交易手续费的最大值。
+
+  如果使用的是 rippled，还可以使用`sign`方法的`fee_mult_max`和`fee_div_max`参数来设置交易手续费的最大值。
 - 无法从离线的节点中查找当前交易的手续费。
 - `multi-signed`交易 , 无法使用自动指定交易成本XRP简单的交易
 
-### 提交可靠的交易
+## 5. 提交可靠的交易
 
-#### 背书
+### 5.1 背书
 
 XRP Ledger协议提供了在网络中所有服务器之间共享的分类帐本(分布式账本) 。通过共识和验证的过程，网络同意将交易应用于（或省略）分类账的顺序。
 
-提交给可信任的XRP Ledger 服务器的格式良好的交易通常在几秒钟内就会得到验证或者拒绝, 然而有些情况下 , 即使是格式良好的交易既没有得到验证也没有被迅速拒绝!如果 程序发送交易后, 全局的交易成本增加, 则可能会法政这种特殊的情况. 如果 交易的成本高于交易中指定的 成本 (手续费), 则该交易无法被打包到新的账本中(区块中) . 如果稍晚日期的全局交易成本降低, 则该笔交易可以被打包进新的账本中, 如果交易未指定过期时间, 则此后该笔交易发生的时间没有限制.
+提交给可信任的XRP Ledger 服务器的格式良好的交易通常在几秒钟内就会得到验证或者拒绝, 然而有些情况下 , 即使是格式良好的交易既没有得到验证也没有被迅速拒绝!
 
-如果发生电源或网络中断, 应用程序将面临更多的挑战, 以查找提交交易的状态. 应用程序( 钱包等)必须注意正确的提交交易, 然后才能正确的获取可信的结果
+- 如果 程序发送交易后, 全局的交易成本增加, 则可能会法政这种特殊的情况.
+- 如果 交易的成本高于交易中指定的 成本 (手续费), 则该交易无法被打包到新的账本中(区块中) . 
+- 如果稍晚日期的全局交易成本降低, 则该笔交易可以被打包进新的账本中.
+- 如果交易未指定过期时间, 则此后该笔交易发生的时间没有限制.
 
-#### 交易时间表
+如果发生电源或网络中断, 应用程序将面临更多的挑战, 以查找提交交易的状态. 应用程序( 钱包等)必须注意正确的提交交易, 然后才能正确的获取可信的结果.
+
+### 5.2 交易时间表
 
 XRP Ledger 为提交交易提供了几个API , 包含`rippled API, and RippleAPI. `无论使用何种API，交易都应用于ledger，如下所示。
 
@@ -410,17 +369,16 @@ XRP Ledger 为提交交易提供了几个API , 包含`rippled API, and RippleAPI
    - 格式良好的交易可能暂时失败, 但是随后成功
    - 格式良好的交易可能暂时成功了, 随后以稍微不同的方式取得成功(如通过消费不同的报价并实现比临时执行更好或更差的汇率)
 3. 通过共识和验证,交易将应用与 ledger, 甚至应用了一些失败的交易, 以强制通过网络传播
-4. 经过验证的账本包括交易 , 其影响反映在分类帐状态中,'
-   - 交易结果不再是临时的, 结果不管是成功还是失败都无法改变
+4. 经过验证的账本包括交易 , 其影响反映在分类帐状态中,交易结果不再是临时的, 结果不管是成功还是失败都无法改变.
 
-#### 交易
+### 5.3 交易
 
 提交和验证是两个单独的程序，可以使用本文档中描述的逻辑来实现。
 
 1. 提交 - 将交易提交到网络, 并返回临时结果
 2. 验证 - 可信任的结果的通过经过验证的账本被得以确认
 
-##### 1.提交
+#### 5.3.1 提交
 
 如果在提交完成之前出现电源故障或网络故障，请在提交前保留交易的详细信息。重新启动时，持久值可以验证交易的状态。
 
@@ -434,11 +392,9 @@ XRP Ledger 为提交交易提供了几个API , 包含`rippled API, and RippleAPI
 - `LastLedgerSequence`
 - 发送者地址和序号
 - 提交时的最新验证 Ledger 索引
-- 特定于应用程序的数据, 根据需要
+- 特定于应用程序的数据, 根据需要提交 交易
 
-1. 提交 交易
-
-##### 2.验证
+#### 5.3.2 验证
 
 在正常操作期间，应用程序可以通过交易哈希检查提交的交易的状态;或者，根据所使用的API，在验证（或失败）交易时接收通知。 正常的操作可能由于网络错误或者电源故障中断, 在这种中断的情况下，应用程序需要可靠地验证在中断之前可能已经或可能未提交给网络的交易的状态。
 
@@ -474,42 +430,52 @@ For each persisted transaction without validated result:
             Wait to acquire continuous ledger history
 ```
 
-##### 3.Ledger 缺失账本
+#### 5.3.3 Ledger 缺失账本
 
 rippled节点应该在有备用资源（CPU / RAM /磁盘IO）的情况下自动获取缺少的分类帐本，除非分类帐的存储历史记录量超过其配置的历史记录量。根据差额的大小和服务器的资源使用情况，获取丢失的分类帐应该需要几分钟时间。还可以使用ledger_request方法手动请求服务器获取历史分类帐版本。
 
 或者，还可以使用已具有所需账本历史记录的不同rippled 节点查找交易的状态，例如`s2.ripple.com`节点(拥有完整的账本历史) , 恶意的节点可以被编程为 提供关于交易的状态和结果的错误信息。
 
-#### 开发相关
+### 5.4 开发相关
+
+#### 5.4.1 交易提交和验证流程
 
 要实现交易提交和验证最佳方式，应用程序需要执行以下操作：
 
-1. 确定 签名账户的下一个序列号
+##### 5.4.1.1 确定 签名账户的下一个序列号
 
-a. 每笔交易都有一个`特定于账户的序列号`。这保证了帐户签署的交易的执行顺序，并且可以安全地重新提交交易，而不会有多次将同一笔交易记录在账本中。
+每笔交易都有一个`特定于账户的序列号`。这保证了帐户签署的交易的执行顺序，并且可以安全地重新提交交易，而不会有多次将同一笔交易记录在账本中。
 
-1. 决定一个 `LastLedgerSequence`
-   - 交易的`LastLedgerSequence`是根据上次验证的分类账本序列号计算而得。
-2. 构建并签名交易
-   - 在提交之前保留已签名交易的详细信息.
-3. 签名此交易
-   - 初始的结果是临时的，可能会有变化。
-4. 确认一笔交易的最终结果
-   - 最终结果将被记录进账本中, 不可修改
+##### 5.4.1.2 决定一个 `LastLedgerSequence`
+
+交易的`LastLedgerSequence`是根据上次验证的分类账本序列号计算而得。
+
+##### 5.4.1.3 构建并签名交易
+
+在提交之前保留已签名交易的详细信息。
+
+##### 5.4.1.4 签名此交易
+
+初始的结果是临时的，可能会有变化。
+
+##### 5.4.1.5 确认一笔交易的最终结果
+
+最终结果将被记录进账本中, 不可修改。
+
+#### 5.4.2 提交相关的API
 
 应用程序如何实现这些操作, 取决于程序使用的API。应用程序可以使用以下任何接口：
 
 1. The [`rippled` API](https://developers.ripple.com/rippled-api.html)
-2. [RippleAPI](https://developers.ripple.com/rippleapi-reference.html)
 3. 其他构建与rippled 分层之上的API
 
-#### rippled - 提交和验证交易
+### 5.5 rippled - 提交和验证交易
 
-##### 1. 确认账户序列号
+#### 5.5.1 确认账户序列号
 
 rippled 提供 `account_info` 方法获得在最后经验证过账本中帐户的序列号.
 
-```
+```json
 JSON-RPC请求格式
 {
   "method": "account_info",   #JSON-RPC method
@@ -545,7 +511,7 @@ JSON-RPC请求格式
 
 如果程序提交由此帐户签名的三笔交易 , 这三笔交易将会使用序号为4,5,6 . 提交多个交易而无需等待每个交易的验证, 一个程序应该保留正在运行的账户序列号.
 
-##### 2. 确定最后验证的账本
+#### 5.5.2 确定最后验证的账本
 
 使用`server_state`方法将返回上次 已经验证过的账本索引, 示例如下
 
@@ -590,7 +556,7 @@ JSON-RPC 请求
 
 此例中表明 ,上一个已经验证的账本序列号为: `10268596` . 另请注意，此示例表示分类帐历史记录中的间隙 (`complete_ledgers`字段)。此节点无法提供账本索引从10256383到10256411中的交易信息. 如果配置如此，节点最终将检索分类帐历史记录的这一部分
 
-##### 3. 构建交易
+#### 5.5.3 构建交易
 
 rippled 为准备提交一笔交易提供了`sign`方法 , 此方法需要一个账户的密钥, 该密钥只能传递给受信任的rippled 节点(实例)。 如下实例展示了 10个法币到另一个XRP账户地址
 
@@ -653,7 +619,7 @@ JSON-RPC请求
 
 程序应该在提交交易之前之前。保存`tx_json`哈希值
 
-##### 4. 提交交易
+#### 5.5.4 提交交易
 
 rippled 提供 `submit`方法, 允许我们提交`已经签名过的交易`, 添加`tx_blob`(用sign方法返回的值)参数请求服务器.
 
@@ -698,7 +664,7 @@ JSON-RPC请求
 
 **注意**: 这只是一个初始的结果. 最终的结果只能从 `经验证过的账本(区块)`中获得 . 返回的结果 缺少 `validated: true`的字段说明这不是一个不可更改的结果.
 
-##### 5.验证交易
+#### 5.5.5 验证交易
 
 交易的哈希是在交易签名(`sign`方法)时生成的，它被传递给`tx`方法以检索交易的结果.
 
@@ -749,7 +715,7 @@ JSON-RPC请求
 
 如果结果中没有`validator:ture`的字段 , 说明结果是临时的, 结果可能会变 . 要检查交易最终结果，程序必须再次调用`tx`方法，以便网络有足够的时间验证更多的账本。可能需要等待`LastLedgerSequence`中指定的账本被验证，尽管如果交易包含在更早的验证分类账中，说明此交易已经是不可变的.
 
-##### 6.验证缺失的交易
+#### 5.5.6 验证缺失的交易
 
 程序必须处理调用`tx`方法返回`txnNotFound`错误的情况。
 
@@ -812,7 +778,7 @@ JSON-RPC请求
 
 最后，节点服务器可以在交易历史中显示一个或多个间隙(Ledger Caps) . 上面响应中显示的`completed_ledgers`字段表示此rippled 实例中缺少从10256383到10256411的账本。以上示例交易只能出现在分类帐10268597 - 10268600中（基于提交时间和`LastLedgerSequence`），因此此处显示的差距不相关。但是，如果间隙指示该范围内的账本丢失，则程序需要查询另一个ripple服务器（或等待此服务器检索丢失的账本）以确定`txnNotFound`结果是不可变的.
 
-### 取消或忽略一笔交易
+## 6. 取消或忽略一笔交易
 
 `XRP Ledger`的一个重要且有意的特征是，一旦交易被打包进到经过验证的账本中，交易就是最终的(不可更改)。
 
@@ -824,7 +790,7 @@ JSON-RPC请求
 
 通过这种方式，没有选项的`AccountSet`交易是规范的“no-op”交易。
 
-### 查找交易结果
+## 7. 查找交易结果
 
 使用`tx`和`account_tx`方法来查看交易的最终结果. 或者通过其他方法 的响应中 查找如果存在`“validated”：true`字段则表示此响应已经通过共识算法记录进 账本中(节点)
 
@@ -838,180 +804,3 @@ JSON-RPC请求
 "validated": true
 ```
 
-分类: [XRP瑞波币](https://www.cnblogs.com/failymao/category/1382015.html)
-
-标签: [XRP](https://www.cnblogs.com/failymao/tag/XRP/), [账户](https://www.cnblogs.com/failymao/tag/账户/), [XRP交易费用](https://www.cnblogs.com/failymao/tag/XRP交易费用/)
-
-[好文要顶](javascript:void(0);) [关注我](javascript:void(0);) [收藏该文](javascript:void(0);) [![img](https://common.cnblogs.com/images/icon_weibo_24.png)](javascript:void(0);) [![img](https://common.cnblogs.com/images/wechat.png)](javascript:void(0);)
-
-[![img](https://pic.cnblogs.com/face/sample_face.gif)](https://home.cnblogs.com/u/failymao/)
-
-[failymao](https://home.cnblogs.com/u/failymao/)
-[关注 - 3](https://home.cnblogs.com/u/failymao/followees/)
-[粉丝 - 9](https://home.cnblogs.com/u/failymao/followers/)
-
-[+加关注](javascript:void(0);)
-
-0
-
-0
-
-[« ](https://www.cnblogs.com/failymao/p/9814032.html)上一篇： [Bitcoin区块验证](https://www.cnblogs.com/failymao/p/9814032.html)
-[» ](https://www.cnblogs.com/failymao/p/10261412.html)下一篇： [XRP共识算法](https://www.cnblogs.com/failymao/p/10261412.html)
-
-posted @ 2019-01-12 22:58 [failymao](https://www.cnblogs.com/failymao/) 阅读(766) 评论(0) [编辑](https://i.cnblogs.com/EditPosts.aspx?postid=10261402) [收藏](javascript:void(0))
-
-
-
-
-
-[刷新评论](javascript:void(0);)[刷新页面](https://www.cnblogs.com/failymao/p/10261402.html#)[返回顶部](https://www.cnblogs.com/failymao/p/10261402.html#top)
-
-登录后才能发表评论，立即 [登录](javascript:void(0);) 或 [注册](javascript:void(0);)， [访问](https://www.cnblogs.com/) 网站首页
-
-[【推荐】阿里出品，对标P7！限时免费七天玩转 PostgreSQL 创新营报名开启](https://developer.aliyun.com/learning/trainingcamp/mysql/1?utm_content=g_1000228441)
-[【推荐】变强吧2021！零门槛速抢阿里云开发者新年加油包，最高6000元](https://developer.aliyun.com/topic/2021act?utm_content=g_1000227941)
-[【推荐】与开发者在一起，云计算领导者AWS入驻博客园品牌专区](https://brands.cnblogs.com/aws)
-[【推荐】大型组态、工控、仿真、CADGIS 50万行VC++源码免费下载](http://www.softbam.com/index.htm)
-[【推荐】第一个NoSQL数据库，在大规模和一致性之间找到了平衡](https://brands.cnblogs.com/aerospike)
-[【推荐】了不起的开发者，挡不住的华为，园子里的品牌专区](https://brands.cnblogs.com/huawei)
-[【推荐】未知数的距离，毫秒间的传递，声网与你实时互动](https://brands.cnblogs.com/agora)
-
-<iframe id="google_ads_iframe_/1090369/C1_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C1_0" width="300" height="250" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" srcdoc="" data-google-container-id="1" data-load-complete="true" style="margin: 0px; padding: 0px; border: 0px; vertical-align: bottom;"></iframe>
-
-**相关博文：**
-· [凑硬币](https://www.cnblogs.com/zbr162/p/11822676.html)
-· [UVA11300分金币](https://www.cnblogs.com/csnd/p/12062678.html)
-· [UVA11300分金币](https://www.cnblogs.com/csnd/p/12062679.html)
-· [白话比特币](https://www.cnblogs.com/stack010/p/12068307.html)
-· [门罗币_挖矿](https://www.cnblogs.com/x-hong/p/12083611.html)
-» [更多推荐...](https://recomm.cnblogs.com/blogpost/10261402)
-
-<iframe id="google_ads_iframe_/1090369/C2_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C2_0" width="468" height="60" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" srcdoc="" data-google-container-id="2" data-load-complete="true" style="margin: 0px; padding: 0px; border: 0px; vertical-align: bottom;"></iframe>
-
-**最新 IT 新闻**:
-· [抢夺UP主、围剿B站 谁是最有力的竞争对手？](https://news.cnblogs.com/n/685292/)
-· [视频号要往哪里去？一场全新热战才刚刚开始](https://news.cnblogs.com/n/685291/)
-· [一键查询！春节临近：各地返乡规定看这里](https://news.cnblogs.com/n/685290/)
-· [进化后的小鹏NGP变“稳”了 似人般稳重](https://news.cnblogs.com/n/685289/)
-· [Windows 10X即将向OEM渠道推送：微软引入防盗功能](https://news.cnblogs.com/n/685288/)
-» [更多新闻...](https://news.cnblogs.com/)
-
-### 公告
-
-昵称： [failymao](https://home.cnblogs.com/u/failymao/)
-园龄： [4年1个月](https://home.cnblogs.com/u/failymao/)
-粉丝： [9](https://home.cnblogs.com/u/failymao/followers/)
-关注： [3](https://home.cnblogs.com/u/failymao/followees/)
-
-[+加关注](javascript:void(0))
-
-| [<](javascript:void(0);)2021年1月[>](javascript:void(0);) |      |      |      |      |      |      |
-| --------------------------------------------------------- | ---- | ---- | ---- | ---- | ---- | ---- |
-| 日                                                        | 一   | 二   | 三   | 四   | 五   | 六   |
-| 27                                                        | 28   | 29   | 30   | 31   | 1    | 2    |
-| 3                                                         | 4    | 5    | 6    | 7    | 8    | 9    |
-| 10                                                        | 11   | 12   | 13   | 14   | 15   | 16   |
-| 17                                                        | 18   | 19   | 20   | 21   | 22   | 23   |
-| 24                                                        | 25   | 26   | 27   | 28   | 29   | 30   |
-| 31                                                        | 1    | 2    | 3    | 4    | 5    | 6    |
-
-### 搜索
-
- 
-
- 
-
-### 我的标签
-
-- [golang基础(12)](https://www.cnblogs.com/failymao/tag/golang基础/)
-- [Pow(4)](https://www.cnblogs.com/failymao/tag/Pow/)
-- [比特币(4)](https://www.cnblogs.com/failymao/tag/比特币/)
-- [python装饰器(3)](https://www.cnblogs.com/failymao/tag/python装饰器/)
-- [go闭包(2)](https://www.cnblogs.com/failymao/tag/go闭包/)
-- [python(2)](https://www.cnblogs.com/failymao/tag/python/)
-- [go函数(2)](https://www.cnblogs.com/failymao/tag/go函数/)
-- [interface(2)](https://www.cnblogs.com/failymao/tag/interface/)
-- [python算法(2)](https://www.cnblogs.com/failymao/tag/python算法/)
-- [go(2)](https://www.cnblogs.com/failymao/tag/go/)
-- [更多](https://www.cnblogs.com/failymao/tag/)
-
-### 随笔分类 (46)
-
-- [django restful 知识点(1)](https://www.cnblogs.com/failymao/category/1608200.html)
-- [Golang基础知识系列(13)](https://www.cnblogs.com/failymao/category/1241442.html)
-- [Js前端(1)](https://www.cnblogs.com/failymao/category/1607719.html)
-- [python 小脚本(3)](https://www.cnblogs.com/failymao/category/1762973.html)
-- [python精耕细作(5)](https://www.cnblogs.com/failymao/category/1408647.html)
-- [python算法(4)](https://www.cnblogs.com/failymao/category/1405104.html)
-- [XRP瑞波币(5)](https://www.cnblogs.com/failymao/category/1382015.html)
-- [开发规范(1)](https://www.cnblogs.com/failymao/category/1464148.html)
-- [区块链底层(1)](https://www.cnblogs.com/failymao/category/1269404.html)
-- [设计模式(2)](https://www.cnblogs.com/failymao/category/1664419.html)
-- [深入浅出区块链(8)](https://www.cnblogs.com/failymao/category/1202641.html)
-- [细说Linux(1)](https://www.cnblogs.com/failymao/category/1192379.html)
-- [一个程序员的花花世界(1)](https://www.cnblogs.com/failymao/category/1416311.html)
-
-### 随笔档案 (47)
-
-- [2020年5月(4)](https://www.cnblogs.com/failymao/archive/2020/05.html)
-- [2020年3月(3)](https://www.cnblogs.com/failymao/archive/2020/03.html)
-- [2019年12月(2)](https://www.cnblogs.com/failymao/archive/2019/12.html)
-- [2019年5月(1)](https://www.cnblogs.com/failymao/archive/2019/05.html)
-- [2019年3月(6)](https://www.cnblogs.com/failymao/archive/2019/03.html)
-- [2019年2月(2)](https://www.cnblogs.com/failymao/archive/2019/02.html)
-- [2019年1月(5)](https://www.cnblogs.com/failymao/archive/2019/01.html)
-- [2018年10月(6)](https://www.cnblogs.com/failymao/archive/2018/10.html)
-- [2018年8月(1)](https://www.cnblogs.com/failymao/archive/2018/08.html)
-- [2018年7月(12)](https://www.cnblogs.com/failymao/archive/2018/07.html)
-- [2018年6月(2)](https://www.cnblogs.com/failymao/archive/2018/06.html)
-- [2018年5月(1)](https://www.cnblogs.com/failymao/archive/2018/05.html)
-- [2018年4月(2)](https://www.cnblogs.com/failymao/archive/2018/04.html)
-
-### 文章分类 (3)
-
-- [Golang基础知识系列(1)](https://www.cnblogs.com/failymao/category/1241441.html)
-- [Python高能知识点(1)](https://www.cnblogs.com/failymao/category/1192039.html)
-- [区块链技术(1)](https://www.cnblogs.com/failymao/category/1249651.html)
-
-### 最新评论
-
-- [1. Re:不管人生怎么走，都需要实时回头看看](https://www.cnblogs.com/failymao/p/8699180.html)
-- @ Firelin嗯嗯, 一定会坚持下去的!...
-- --failymao
-- [2. Re:不管人生怎么走，都需要实时回头看看](https://www.cnblogs.com/failymao/p/8699180.html)
-- 一定要坚持下去哦
-- --Firelin
-- [3. Re:python线程入门](https://www.cnblogs.com/failymao/p/10505911.html)
-- @ super_cj谢谢点赞......
-- --failymao
-- [4. Re:python线程入门](https://www.cnblogs.com/failymao/p/10505911.html)
-- 讲的很清楚，通俗易懂 点个赞
-- --super_cj
-- [5. Re:golang基础--strcut结构体](https://www.cnblogs.com/failymao/p/9310107.html)
-- @ 牛腩谢谢 谢谢...
-- --failymao
-
-### 阅读排行榜
-
-- [1. python之首字母大写(4474)](https://www.cnblogs.com/failymao/p/10476161.html)
-- [2. XRP(瑞波币)账户管理系统(1629)](https://www.cnblogs.com/failymao/p/10261421.html)
-- [3. 不管人生怎么走，都需要实时回头看看(1180)](https://www.cnblogs.com/failymao/p/8699180.html)
-- [4. 区块链之工作量证明(1097)](https://www.cnblogs.com/failymao/p/8975934.html)
-- [5. python字典列表过滤器(1045)](https://www.cnblogs.com/failymao/p/12874623.html)
-
-### 评论排行榜
-
-- [1. 不管人生怎么走，都需要实时回头看看(39)](https://www.cnblogs.com/failymao/p/8699180.html)
-- [2. python线程入门(2)](https://www.cnblogs.com/failymao/p/10505911.html)
-- [3. golang基础--strcut结构体(2)](https://www.cnblogs.com/failymao/p/9310107.html)
-- [4. golang基础--map字典(2)](https://www.cnblogs.com/failymao/p/9286858.html)
-
-### 推荐排行榜
-
-- [1. 不管人生怎么走，都需要实时回头看看(13)](https://www.cnblogs.com/failymao/p/8699180.html)
-- [2. python重试次数装饰器(1)](https://www.cnblogs.com/failymao/p/12874250.html)
-- [3. python线程入门(1)](https://www.cnblogs.com/failymao/p/10505911.html)
-
-Copyright © 2021 failymao
-Powered by .NET 5.0 on Kubernetes
