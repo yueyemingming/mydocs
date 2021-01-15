@@ -515,7 +515,7 @@ JSON-RPC请求格式
 
 使用`server_state`方法将返回上次 已经验证过的账本索引, 示例如下
 
-```
+```json
 JSON-RPC 请求
 {
   "id": "client id 1",
