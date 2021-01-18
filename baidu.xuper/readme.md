@@ -7,5 +7,7 @@
 ---
 
 - [链启动](start.md)
+- [创建普通账户](account.md)
+- [创建合约账户](contract.account.md)
 - [hello智能合约](hello.md)
 - [counter智能合约](counter/readme.md)
