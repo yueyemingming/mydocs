@@ -9,5 +9,9 @@
 - [链启动](start.md)
 - [创建普通账户](account.md)
 - [创建合约账户](contract.account.md)
-- [hello智能合约](hello.md)
-- [counter智能合约](counter/readme.md)
+- [转账查额]](transfer.md)
+- [单签——hello智能合约](hello.md)
+- [多签——counter智能合约](counter.md)
+- [设置合约方面acl——counter智能合约](counter.md#设置合约方法的ACL)
+
+- [table智能合约](table.md)
