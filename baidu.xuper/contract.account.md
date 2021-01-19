@@ -27,8 +27,14 @@ xchain-cli account new --desc account.1234567890111111.des --fee 1000
 ```bash
 #直接创建账户，默认acl为 data/keys
 xchain-cli account new --account 1234567890111111 --fee 1000
+```
 
-#通过调用合约方式修改acl
+### 修改账户acl
+
+由于通过此方式创建的合约账户acl默认就是 data/keys ，因此需要修改账户acl
+
+```bash
+vim acl_new.json
 {
     "module_name": "xkernel",
     "method_name": "SetAccountAcl",  # 这里的方法有了变更

@@ -27,8 +27,9 @@ xchain-cli wasm query --method set mytable -a '{"id": "2", "name":"myname2", "de
 xchain-cli wasm query --method set mytable -a '{"id": "1", "name":"myname", "desc":"mydesc"}'
 xchain-cli wasm query --method del mytable -a '{"id": "1", "name":"myname", "desc":"mydesc"}'
 
+xchain-cli wasm upgrade --account XC1234567890111111@xuper --cname mytable --fee 5000000 ../example/mytable/mytable.wasm
 
-xchain-cli wasm query crossQueryNaming --method Resolve -a '{"name":"mainnet.xuper"}'
+xchain-cli wasm invoke --method get -a '{"address":"myaddress"}' --fee 11000 mytable
+xchain-cli wasm invoke --method add -a '{"id": "1", "address":"myaddress"}' --fee 11000 mytable
 
-xchain-cli wasm upgrade --account XC1234567890111111@xuper --cname mytable -a '{"id": "2", "name":"myname2", "desc":"mydesc2"}' --fee 5000000 --runtime c ../example/mytable/mytable.wasm
 ```
