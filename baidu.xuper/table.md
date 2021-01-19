@@ -13,19 +13,23 @@ xdev build
 
 xchain-cli wasm deploy --account XC1234567890111111@xuper --cname mytable -a '{"id": "1", "name":"myname", "desc":"mydesc"}' --fee 5000000 --runtime c ../example/mytable/mytable.wasm
 
-xchain-cli wasm invoke --method set -a '{"id": "1", "name":"myname", "desc":"mydesc"}' --fee 11000 mytable
+xchain-cli wasm invoke --fee 11000 mytable --method get -a '{"name":"myname"}'
+xchain-cli wasm invoke --fee 11000 mytable --method scan -a '{"id": "1", "name":"myname"}'
+xchain-cli wasm invoke --fee 11000 mytable --method set -a '{"id": "1", "name":"myname", "desc":"mydesc"}'
+xchain-cli wasm invoke --fee 11000 mytable --method set -a '{"id": "2", "name":"myname2", "desc":"mydesc2"}'
+xchain-cli wasm invoke --fee 11000 mytable --method del -a '{"id": "1", "name":"myname", "desc":"mydesc"}'
+xchain-cli wasm invoke --fee 11000 mytable --method del -a '{"id": "2", "name":"myname2", "desc":"mydesc2"}'
 
-xchain-cli wasm invoke --method get -a '{"key":"myname"}' --fee 11000 mytable
-xchain-cli wasm invoke --method scan -a '{"id": "1", "name":"myname"}' --fee 11000 mytable
-xchain-cli wasm invoke --method set -a '{"id": "2", "name":"myname2", "desc":"mydesc2"}' --fee 11000 mytable
-xchain-cli wasm invoke --method del -a '{"id": "1", "name":"myname", "desc":"mydesc"}' --fee 11000 mytable
-xchain-cli wasm invoke --method del -a '{"id": "2", "name":"myname2", "desc":"mydesc2"}' --fee 11000 mytable
+xchain-cli wasm invoke --fee 11000 mytable --method size
+xchain-cli wasm invoke --fee 11000 mytable --method clear
 
-xchain-cli wasm query --method get mytable -a '{"key":"myname"}'
-xchain-cli wasm query --method scan mytable -a '{"id": "1", "name":"myname"}'
-xchain-cli wasm query --method set mytable -a '{"id": "2", "name":"myname2", "desc":"mydesc2"}'
-xchain-cli wasm query --method set mytable -a '{"id": "1", "name":"myname", "desc":"mydesc"}'
-xchain-cli wasm query --method del mytable -a '{"id": "1", "name":"myname", "desc":"mydesc"}'
+
+
+xchain-cli wasm query mytable --method get  -a '{"name":"myname"}'
+xchain-cli wasm query mytable --method scan -a '{"id": "1", "name":"myname"}'
+xchain-cli wasm query mytable --method set -a '{"id": "2", "name":"myname2", "desc":"mydesc2"}'
+xchain-cli wasm query mytable --method set -a '{"id": "1", "name":"myname", "desc":"mydesc"}'
+xchain-cli wasm query mytable --method del -a '{"id": "1", "name":"myname", "desc":"mydesc"}'
 
 xchain-cli wasm upgrade --account XC1234567890111111@xuper --cname mytable --fee 5000000 ../example/mytable/mytable.wasm
 
