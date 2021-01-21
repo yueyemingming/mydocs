@@ -8,7 +8,7 @@
 
 ```bash
 apt -y install python-pip
-pip install shadowsocks -i http://mirrors.aliyun.com/pypi/simple/
+pip install shadowsocks -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
 ```
 
 > pip错误 ImportError: No module named _internal
