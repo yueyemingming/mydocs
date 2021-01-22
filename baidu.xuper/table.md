@@ -1,5 +1,9 @@
 # table智能合约
 
+- [代码 —— https://github.com/myxchain/mytable](https://github.com/myxchain/mytable)
+  - 分支3.cols是3个字段
+  - 分支2.cols是2个字段
+
 > protobuf 版本注意只能使用 3.7.1， fuck， 坑。
 
 ```bash

@@ -2,7 +2,7 @@
 
 ```bash
 xchain-cli transfer --to czojZcZ6cHSiDVJ4jFoZMB1PjKnfUiuFQ --amount 10 --keys data/keys
-xchain-cli transfer --to XC1234567890111111@xuper --amount 100000000 --keys data/keys
+xchain-cli transfer --to XC1234567890111111@xuper --amount 10000000000 --keys data/keys
 ```
 
 ## 查询余额
