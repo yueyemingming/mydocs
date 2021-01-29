@@ -6,3 +6,4 @@
 - [nginx配置](config.md)
 - [nginx监控](status.md)
 - [nginx高并发配置](nginx.high.concurrency.md)
+- [nginx负载均衡](nginx.upstream.md)
