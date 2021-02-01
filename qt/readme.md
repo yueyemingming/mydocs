@@ -9,4 +9,4 @@
 * [QMake的 .pro 文件 转成CMake的 CMakeLists.txt 文件](../../compile/cmake/eg/readme.md)
 
 * [创建库及使用](qt.shared.md)
-
+* [Qt延时汇总](sleep.md)
