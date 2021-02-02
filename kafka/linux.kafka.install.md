@@ -9,12 +9,12 @@ wget https://mirror.bit.edu.cn/apache/kafka/2.4.1/kafka_2.13-2.4.1.tgz
 tar xzvf kafka_2.13-2.4.1.tgz 
 cd kafka_2.13-2.4.1
 
-#起一个终端
+#起一个终端, 启动 zookeeper
 bin/zookeeper-server-start.sh -daemon config/zookeeper.properties
 #开始监听2181端口
 [2020-03-23 10:22:06,165] INFO binding to port 0.0.0.0/0.0.0.0:2181 (org.apache.zookeeper.server.NIOServerCnxnFactory)
 
-#起一个终端
+#起一个终端, 启动 kafka broker
 vim config/server.properties
  listeners=PLAINTEXT://0.0.0.0:9092    #将31行的注释去掉,//后面也可以填入ip地址
  advertised.listeners=PLAINTEXT://192.168.1.181:9092
