@@ -13,6 +13,8 @@
 - [安装Cinnamon](ubuntu/ubuntu.cinnamon.md)
 - [调整cpu使用](ubuntu/cpu.md)
 - [安装Sublime Text 3](ubuntu/sublimetext.md)
+- [任务栏调整](ubuntu/taskbar.md)
+
 
 ### redhat
 
