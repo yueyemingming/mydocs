@@ -14,6 +14,9 @@
 - [调整cpu使用](ubuntu/cpu.md)
 - [安装Sublime Text 3](ubuntu/sublimetext.md)
 - [任务栏调整](ubuntu/taskbar.md)
+- [安装google-chrome](ubuntu/google-chrome.md)
+- [安装搜狗收入法](ubuntu/sogou.md)
+- [安装wine稳定版](ubuntu/wine.md)
 
 
 ### redhat
