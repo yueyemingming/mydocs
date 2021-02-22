@@ -10,5 +10,5 @@ apt update
 apt -y install vim git net-tools wget unzip automake curl bzip2 make build-essential openssl libreadline-dev autoconf libtool doxygen libc++-dev cmake g++ libssl-dev pkg-config
 apt -y mysql-server libmysqlclient-dev
 
-apt install gnome-control-center
+apt -y install gnome-control-center
 ```
