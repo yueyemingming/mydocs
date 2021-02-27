@@ -7,6 +7,8 @@
   - [ubuntu安装clang](clang/install.md)
   - [结构化编译器前端 Clang 介绍](clang/introduce.md)
 
+- [ubuntu16.04 安装 gcc8](gcc8.md)
+
 - [automake](automake/readme.md)
 
 - [pkg-config](pkg-config.md)
