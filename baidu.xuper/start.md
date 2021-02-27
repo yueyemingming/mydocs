@@ -2,9 +2,11 @@
 
 ## 下载编译
 
+```bash
 $ cd $HOME
 $ git clone https://github.com/xuperchain/xuperchain.git  xuperchain
 $ cd xuperchain && make
+```
 
 ## 配置环境变量
 
