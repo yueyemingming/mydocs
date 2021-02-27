@@ -10,7 +10,7 @@ apt update
 apt install --allow-unauthenticated --install-recommends winehq-stable
 
 #安装winetricks
-apt install winetricks
+apt -y install winetricks
 
 #安装wine-mono
 wine start /i wine-mono-6.0.0-x86.msi
