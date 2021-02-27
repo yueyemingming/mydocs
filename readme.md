@@ -4,6 +4,11 @@
 
 ```bash
 apt -y install git
+
+git config --global user.email yueyemingming@163.com
+git config --global user.name liruigang
+
+git config --global credential.helper store
 ```
 
 ## 使用
