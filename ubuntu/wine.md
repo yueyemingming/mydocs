@@ -12,10 +12,5 @@ apt install --allow-unauthenticated --install-recommends winehq-stable
 #安装winetricks
 apt -y install winetricks
 
-#安装wine-mono
-wine start /i wine-mono-6.0.0-x86.msi
-
-#安装wine-gecko
-wine start /i wine-gecko-2.47.2-x86.msi 
-wine start /i wine-gecko-2.47.2-x86_64.msi 
+#安装wine-mono,wine-gecko时，翻墙后，按照默认的自动下载安装即可。
 ```
