@@ -14,11 +14,11 @@ XRP Ledger对等网络的核心服务器是[`rippled`](https://ripple.com/build/
 
 该`rippled`服务器软件可以在多种模式下根据其配置上运行，其中包括：
 
-- 库存服务器 - 使用本地分类帐副本跟随网络。
-- 验证服务器或简称*验证器* - 参与达成共识。
-- `rippled`服务器处于独立模式 - 用于测试。不与其他`rippled`服务器通信。
+- **库存服务器** - 使用本地分类帐副本跟随网络。
+- **验证服务器**或简称*验证器* - 参与达成共识。
+- **独立模式** - 用于测试。不与其他`rippled`服务器通信。
 
-您也可以将该`rippled`可执行文件作为客户端应用程序运行以在本地访问[`rippled`API](https://ripple.com/build/rippled-apis/)。（在这种情况下，相同二进制文件的两个实例可以并排运行;一个作为服务器，另一个作为客户端短暂运行，然后终止。）
+您也可以将该`rippled`可执行文件作为客户端应用程序运行以在本地访问[`rippled`API](https://ripple.com/build/rippled-apis/)。（在这种情况下，相同二进制文件的两个实例可以并排运行;一个作为服务器，另一个作为客户端。）
 
 ## 2.1 运行库存服务器的原因
 
@@ -103,7 +103,7 @@ Ripple建议您始终使用可用内存可支持的最大数据库缓存。有�
 
 `node_db`字段，可以将该值设置为`rocksdb`或`nudb`。
 
-`rippled`提供历史分割功能，允许您将随机范围的分类账本存储在单独的分仓库中。您可能希望将分片存储配置为使用与分类帐存储不同类型的键值存储。有关如何使用此功能的更多信息，请参阅[历史记录分片](https://ripple.com/build/history-sharding/#shard-store-configuration)。
+`rippled`提供历史分割功能，允许您将随机范围的分类账本存储在**单独的分仓库**中。您可能希望将分片存储配置为使用与分类帐存储不同类型的键值存储。有关如何使用此功能的更多信息，请参阅[历史记录分片](https://ripple.com/build/history-sharding/#shard-store-configuration)。
 
 #### 3.1.2.1 RocksDB与NuDB
 
