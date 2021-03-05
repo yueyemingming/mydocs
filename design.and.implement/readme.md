@@ -105,15 +105,11 @@ http://www.kernel.org
 | make oldconfig  | 使用老配置文件 |
 
 以上几种方式任选其一，最终在内核源码根目录下生成  .config 文件，这就是最终的配置文件。
-- CONFIG_SMP —— 对称多处理器支持
-- CONFIG_PREEMPT —— 内核抢占功能支持
-
 #### 2.3.2 编译
 
 | 操作                 | 说明                                                         |
 | -------------------- | ------------------------------------------------------------ |
 | make	[-jn]        | n个线程同时编译                                              |
-| make dep             | 不再需要                                                     |
 | make bzImage         | 也不再需要，arch/<arch>/boot/bzImage就是最终编译出的内核文件 |
 | make modules_install | 模块编译安装，编译后的模块文件为*.ko文件，它们会自动被安装到正确的目录下/lib/modules/linux-x.y.z/ |
 | System.map           | 内核符号与内存地址的对照表                                   |
@@ -269,108 +265,125 @@ struct thread_info {
 
 ##### 3.2.1.5 进程描述符各种访问方式
 
-​    直接队列访问方式
-​        相邻后一个节点
-​            struct task_struct*	the_next = list_entry( some_task->tasks.next. struct task_struct, tasks ) ;
-​            内核中已提供next_task宏
-​                #define next_task(p) \
-​                list_entry_rcu((p)->tasks.next, struct task_struct, tasks)
-
-        相邻前一个节点
-            struct task_struct*	the_prev = list_entry( some_task->tasks.prev. struct task_struct, tasks ) ;
-            内核中已提供prev_task宏
-                #define prev_task(p) \
-                list_entry_rcu((p)->tasks.prev, struct task_struct, tasks)
-    
-        遍历所有节点
-            内核中已提供for_each_process(p)宏
-            #define for_each_process(p) \
-            for (p = &init_task ; (p = next_task(p)) != &init_task ; )
-    
-    兄弟访问方式
-        struct task_struct* the_sibling = list_entry( some_task->sibling.next, struct task_struct, sibling ) ;
-    
-    父子访问方式
-        访问父进程
-            struct task_struct*	my_parent = current->parent ;
-        
-        上溯直到祖先
-            struct task_struct*	task ;
-            for( task = current ; task != &init_task ; task = task->parent ) ;
-    
-    所有子进程访问方式
-        struct task_struct*	task ;
-        struct list_head*	list = ... ; // 任务队列的某个节点
-        list_for_each( list, ¤t->children ) {
-        // for ( list = current->children->next; 	list != current->children; 	list = list->next )	{
-            task = list_entry( list, struct task_struct, sibling ) ;
-            /* 此时task指向某个子进程描述符 */
-        }
+- 直接队列访问方式
+  - 相邻后一个节点
+  ```c
+  struct task_struct*	the_next = list_entry( some_task->tasks.next. struct task_struct, tasks ) ;
+  内核中已提供next_task宏
+  #define next_task(p)  list_entry_rcu((p)->tasks.next, struct task_struct, tasks)
+  ```
+  - 相邻前一个节点
+  ```c
+  struct task_struct*	the_prev = list_entry( some_task->tasks.prev. struct task_struct, tasks ) ;
+  内核中已提供prev_task宏
+  #define prev_task(p) list_entry_rcu((p)->tasks.prev, struct task_struct, tasks)
+  ```
+  - 遍历所有节点
+  ```c
+  内核中已提供for_each_process(p)宏
+  #define for_each_process(p) \
+  for (p = &init_task ; (p = next_task(p)) != &init_task ; )
+  ```
+- 兄弟访问方式
+```c
+struct task_struct* the_sibling = list_entry( some_task->sibling.next, struct task_struct, sibling ) ;
+```
+- 父子访问方式
+  - 访问父进程
+  ```c
+  struct task_struct*	my_parent = current->parent ;
+  ```
+  - 上溯直到祖先
+  ```c
+  struct task_struct*	task ;
+  for( task = current ; task != &init_task ; task = task->parent ) ;
+  ```
+- 所有子进程访问方式
+```c
+struct task_struct*	task ;
+struct list_head* list = ... ; // 任务队列的某个节点
+list_for_each( list, ¤t->children ) {
+    for( list = current->children->next; list != current->children; list = list->next )	{
+        task = list_entry( list, struct task_struct, sibling ) ;
+    /* 此时task指向某个子进程描述符 */
+    }
+}
+```
 
 #### 3.2.2 进程创建
 
-unix进程创建方式与众不同
-    其他系统	首先在新的地址空间里创建进程，读入可执行文件，最后开始执行。
-    unix系统	分解为两个单独的函数去执行：fork()和exec()
-                fork()拷贝当前进程创建出一个新子进程。父子之间的区别仅在于pid/ppid以及某些其他资源。
-                exec()负责读取可执行文件，将其载入子进程的地址空间中开始执行。
+##### 3.2.2.1 unix进程创建方式与众不同
+- 其他系统	首先在新的地址空间里创建进程，读入可执行文件，最后开始执行。
+- unix系统	分解为两个单独的函数去执行：fork()和exec()
+  - fork()拷贝当前进程创建出一个新子进程。父子之间的区别仅在于pid/ppid以及某些其他资源。 
+  - exec()负责读取可执行文件，将其载入子进程的地址空间中开始执行。
 
-写时拷贝
-    linux的fork()应用了写时拷贝技术。fork()创建子进程时，并没有完全拷贝父进程所有内容。对于子进程，只有需要写入资源的时刻，才从父进程复制过来。而对于读的资源来说，子进程完全没有复制父进程的资源。
-    这种优化可以避免拷贝大量根本就不会被使用到的数据所带来的时间及空间的开销.
+##### 3.2.2.2 写时拷贝
+linux的fork()应用了写时拷贝技术。
 
+fork()创建子进程时，并没有完全拷贝父进程所有内容。对于子进程，只有需要写入资源的时刻，才从父进程复制过来。而对于读的资源来说，子进程完全没有复制父进程的资源。
 
-​	
-​	线程
-​		内核中没有线程概念。线程仅仅被视为与其他进程共享某些资源的进程。线程有自己独立的task_struct。
-​		对于linux来说，线程只是进程间共享资源的手段。因此linux中没有"轻量级进程"的说法。
+这种优化可以避免拷贝大量根本就不会被使用到的数据所带来的时间及空间的开销.
 
+##### 3.2.2.3 线程
 
-fork()
-    fork(),vfork(),__clone(),线程都可以创建新的进程，行为以及底层各自的参数标志不同。
+内核中没有线程概念。线程仅仅被视为与其他进程共享某些资源的进程。线程有自己独立的task_struct。
 
-    调用过程
-        fork(),vfork(),__clone(),线程  库函数
-            -->  clone()  系统调用
-                -->  do_fork()  内核函数<kernel/fork.c>
-                    -->  copy_process()  内核函数<kernel/fork.c>
-    
-    copy_process()实际完成子进程的创建工作.
-    
-    参数传递
-        fork()		clone( SIGCHLD, 0 ) 
-        vfork()	clone( CLONE_VFORK | CLONE_VM | SIGCHLD, 0 )
-        线程		clone( CLONE_VM | CLONE_FS | CLONE_FILES | CLONE_SIGHAND, 0 )
-    
-    参数
-        CLONE_FILES		共享打开的文件
-        CLONE_FS		共享文件系统信息
-        CLONE_IDLETASK		将pid设置为0(只供idle进程使用)
-        CSIGNAL			0x000000ff	/* signal mask to be sent at exit */
-        CLONE_VM		共享地址空间
-        CLONE_SIGHAND		父子进程共享信号处理函数及被阻断的信号
-        CLONE_PTRACE		继续调试子进程
-        CLONE_VFORK		vfork调用，即父进程准备睡眠等待子进程将其唤醒
-        CLONE_PARENT		指定父子进程拥有同一个父进程
-        CLONE_THREAD		父子进程放入相同的线程组
-        CLONE_NEWNS		为子进程创建新的命名空间
-        CLONE_SYSVSEM		共享system v SEM_UNDO语义
-        CLONE_SETTLS		为子进程创建新的TLS
-        CLONE_PARENT_SETTID	设置父进程TID
-        CLONE_CHILD_CLEARTID	清除子进程TID
-        CLONE_DETACHED		未使用
-        CLONE_UNTRACED		防止跟踪进程在子进程上强制执行CLONE_PTRACE
-        CLONE_CHILD_SETTID	设置子进程TID
-        CLONE_STOPPED		以TASK_STOPPED状态开始进程
-        CLONE_NEWUTS		0x04000000	/* New utsname group? */
-        CLONE_NEWIPC		0x08000000	/* New ipcs */
-        CLONE_NEWUSER		0x10000000	/* New user namespace */
-        CLONE_NEWPID		0x20000000	/* New pid namespace */
-        CLONE_NEWNET		0x40000000	/* New network namespace */
-        CLONE_IO		拷贝IO上下文
+对于linux来说，线程只是进程间共享资源的手段。因此linux中没有"轻量级进程"的说法。
+
+##### 3.2.2.4 fork()
+
+fork(),vfork(),__clone(),线程都可以创建新的进程，行为以及底层各自的参数标志不同。
+
+- 调用过程
+```c
+fork(),vfork(),__clone(),线程  库函数
+  -->  clone()  系统调用
+    -->  do_fork()  内核函数<kernel/fork.c>
+      -->  copy_process()  内核函数<kernel/fork.c>
+```
+- copy_process()实际完成子进程的创建工作.
+
+- 参数传递
+
+| 函数 | 方法 |
+| ------- | ------------------- |
+| fork()  | clone( SIGCHLD, 0 ) |
+| vfork() |clone( CLONE_VFORK \| CLONE_VM \| SIGCHLD, 0 )|
+| 线程|clone( CLONE_VM \| CLONE_FS \| CLONE_FILES \| CLONE_SIGHAND, 0 )|
 
 
-​		
+
+| 参数                 | 说明                                               |
+| -------------------- | -------------------------------------------------- |
+| CLONE_FILES          | 共享打开的文件                                     |
+| CLONE_FS             | 共享文件系统信息                                   |
+| CLONE_IDLETASK       | 将pid设置为0(只供idle进程使用)                     |
+| CSIGNAL              | 0x000000ff	/* signal mask to be sent at exit */ |
+| CLONE_VM             | 共享地址空间                                       |
+| CLONE_SIGHAND        | 父子进程共享信号处理函数及被阻断的信号             |
+| CLONE_PTRACE         | 继续调试子进程                                     |
+| CLONE_VFORK          | vfork调用，即父进程准备睡眠等待子进程将其唤醒      |
+| CLONE_PARENT         | 指定父子进程拥有同一个父进程                       |
+| CLONE_THREAD         | 父子进程放入相同的线程组                           |
+| CLONE_NEWNS          | 为子进程创建新的命名空间                           |
+| CLONE_SYSVSEM        | 共享system v SEM_UNDO语义                          |
+| CLONE_SETTLS         | 为子进程创建新的TLS                                |
+| CLONE_PARENT_SETTID  | 设置父进程TID                                      |
+| CLONE_CHILD_CLEARTID | 清除子进程TID                                      |
+| CLONE_DETACHED       | 未使用                                             |
+| CLONE_UNTRACED       | 防止跟踪进程在子进程上强制执行CLONE_PTRACE         |
+| CLONE_CHILD_SETTID   | 设置子进程TID                                      |
+| CLONE_STOPPED        | 以TASK_STOPPED状态开始进程                         |
+| CLONE_NEWUTS         | 0x04000000	/* New utsname group? */             |
+| CLONE_NEWIPC         | 0x08000000	/* New ipcs */                       |
+| CLONE_NEWUSER        | 0x10000000	/* New user namespace */             |
+| CLONE_NEWPID         | 0x20000000	/* New pid namespace */              |
+| CLONE_NEWNET         | 0x40000000	/* New network namespace */          |
+| CLONE_IO             | 拷贝IO上下文                                       |
+
+
+
 ​	内核线程
 ​		它运行于内核中，用于执行某写后台操作。跟普通进程一样，可以被调度和抢占。
 ​		ps -ef	可以看到内核线程,[]代表内核线程
