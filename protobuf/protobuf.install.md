@@ -12,7 +12,7 @@ dos2unix autogen.sh
 ./autogen.sh
 ./configure --prefix=/usr/local/protobuf
 make -j4
-make check  # 时间很长
+# make check  # 时间很长
 make install
 
 echo '' >> /etc/profile
