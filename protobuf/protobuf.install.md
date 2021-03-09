@@ -15,9 +15,9 @@ make -j4
 make check  # 时间很长
 make install
 
-echo "" >> /etc/profile
-echo "export PATH=$PATH:/usr/local/protobuf/bin/" >> /etc/profile
-echo "export PKG_CONFIG_PATH=/usr/local/protobuf/lib/pkgconfig/" >> /etc/profile
+echo '' >> /etc/profile
+echo 'export PATH=$PATH:/usr/local/protobuf/bin/' >> /etc/profile
+echo 'export PKG_CONFIG_PATH=/usr/local/protobuf/lib/pkgconfig/' >> /etc/profile
 source /etc/profile
 ```
 
@@ -34,6 +34,6 @@ libprotoc 3.5.0
 ## 3. 配置动态链接库路径
 
 ```bash
-echo "/usr/local/protobuf/lib" >> /etc/ld.so.conf.d/libprotobuf.conf
+echo '/usr/local/protobuf/lib' >> /etc/ld.so.conf.d/libprotobuf.conf
 ldconfig
 ```
