@@ -384,43 +384,58 @@ fork(),vfork(),__clone(),线程  库函数
 
 
 
-​	内核线程
-​		它运行于内核中，用于执行某写后台操作。跟普通进程一样，可以被调度和抢占。
-​		ps -ef	可以看到内核线程,[]代表内核线程
-​			$ ps -ef
-​			UID        PID  PPID  C STIME TTY          TIME CMD
-​			root         2     0  0 Oct31 ?        00:00:00 [kthreadd]	
-​			root         3     2  0 Oct31 ?        00:00:02 [migration/0]
-​			root         4     2  0 Oct31 ?        00:00:07 [ksoftirqd/0]
-​			... ...
-​			root     10906     2  0 08:41 ?        00:00:00 [flush-8:48]
-​			... ...
-​		第一个内核线程为 kthreadd, 它创建其他的内核线程。
-​	
-​		创建但不运行
-​			struct task_struct *kthread_create(int (*threadfn)(void *data),
-​							   void *data,
-​							   const char namefmt[], ...) ;
-​			threadfn执行路径
-​		
-​    唤醒使其运行
-​        wake_up_process()
-​        内核线程创建后不会自主运行，需要唤醒.
+##### 3.2.2.5	内核线程
 
+它运行于内核中，用于执行某写后台操作。跟普通进程一样，可以被调度和抢占。
 
-​			
-​		创建同时运行
-​			#define kthread_run(threadfn, data, namefmt, ...)			   \
-​			({									   \
-​				struct task_struct *__k						   \
-​					= kthread_create(threadfn, data, namefmt, ## __VA_ARGS__); \
-​				if (!IS_ERR(__k))						   \
-​					wake_up_process(__k);					   \
-​				__k;								   \
-​			})
-​	
-​		终止
-​			int kthread_stop(struct task_struct *k);  或 do_exit() ;
+ps -ef	可以看到内核线程,[]代表内核线程
+
+```bash
+$ ps -ef
+UID        PID  PPID  C STIME TTY          TIME CMD
+root         2     0  0 Oct31 ?        00:00:00 [kthreadd]	
+root         3     2  0 Oct31 ?        00:00:02 [migration/0]
+root         4     2  0 Oct31 ?        00:00:07 [ksoftirqd/0]
+... ...
+root     10906     2  0 08:41 ?        00:00:00 [flush-8:48]
+... ...
+```
+
+第一个内核线程为 kthreadd, 它创建其他的内核线程。
+​
+
+- 创建但不运行  
+
+  ```c
+  struct task_struct *kthread_create(int (*threadfn)(void *data),   //threadfn执行路径
+                                     void *data,
+                                     const char namefmt[], ...) ;
+  ```
+
+- 唤醒使其运行
+
+  ```c
+  wake_up_process()   //内核线程创建后不会自主运行，需要唤醒.
+  ```
+
+- 创建同时运行
+
+  ```c
+  #define kthread_run(threadfn, data, namefmt, ...)			   \
+      ({									   \
+          struct task_struct *__k						   \
+  	        = kthread_create(threadfn, data, namefmt, ## __VA_ARGS__); \
+          if (!IS_ERR(__k))						   \
+            wake_up_process(__k);					   \
+           __k;								   \
+      })
+  ```
+
+- 终止
+
+  ```c
+  int kthread_stop(struct task_struct *k);  或 do_exit() ;
+  ```
 
 #### 3.2.3 进程终结
 
